@@ -14,7 +14,9 @@ github-repo: svallejovera/cpa_uwo
 
 # "Computational Text Analysis"{.unnumbered}
 
-This is the dedicated site for the course PS9594A:"Computational Text Analysis" at Western University, taught by Sebastián Vallejo Vera. In each week, you will find the code, exercises, and slides for corresponding topic. 
+&nbsp;
+
+This is the dedicated site for the course PS9594A: "Computational Text Analysis" at Western University, taught by Sebastián Vallejo Vera. In each week, you will find the code, exercises, and slides for corresponding topic. 
 
 Before you start, check the required software and packages below. Also, don't forget to read the [Syllabus](https://svallejovera.github.io/files/9594A__Computational_Text_Analysis.pdf) and the Perusall with the readings for the course. This site will be corrected/updated throughout the semester.
 
