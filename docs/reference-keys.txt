@@ -1,6 +1,10 @@
-usage
-render-book
-preview-book
+fig:nice-fig
+tab:nice-tab
+eq:binom
+thm:tri
+software-and-packages
+datasets
+acknowledgments
 hello-bookdown
 a-section
 cross
@@ -18,7 +22,3 @@ sharing-your-book
 publishing
 pages
 metadata-for-sharing
-software-and-packages
-datasets
-acknowledgments
-url-your-book-url-like-httpsbookdown.orgyihuibookdown
