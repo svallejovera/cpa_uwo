@@ -9,6 +9,10 @@
 
 For this first example, we will replicate (and extend) Mendenhall's (1887) and Mendenhall's (1901) studies of word-length distribution. 
 
+```{r curve, echo=FALSE,fig.align = 'center', out.width = "65%", fig.cap = "From Mendenhall (1987) - The Characteristic Curves of Composition."}
+knitr::include_graphics("images/curve.png")
+```
+
 First we load the packages that we'll be using:
 
 ```{r, warning = F, message = F}

@@ -96,6 +96,12 @@
 <span class="header-section-number">1.1</span> Setup<a class="anchor" aria-label="anchor" href="#setup"><i class="fas fa-link"></i></a>
 </h2>
 <p>For this first example, we will replicate (and extend) Mendenhall’s (1887) and Mendenhall’s (1901) studies of word-length distribution.</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:curve"></span>
+<img src="images/curve.png" alt="From Mendenhall (1987) - The Characteristic Curves of Composition." width="65%"><p class="caption">
+Figure 1.1: From Mendenhall (1987) - The Characteristic Curves of Composition.
+</p>
+</div>
 <p>First we load the packages that we’ll be using:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span> <span class="co"># for wrangling data</span></span>
@@ -287,7 +293,7 @@ year during his productive,” and that one of these characteristics was the len
 <pre><code>## mutate (grouped): new variable 'word_length' (integer) with 16 unique values and 0% NA</code></pre>
 <pre><code>##                   new variable 'median_word_length' (double) with one unique value and 0% NA</code></pre>
 <pre><code>## group_by: 2 grouping variables (word_length, title)</code></pre>
-<pre><code>## mutate (grouped): new variable 'total_word_length' (integer) with 55 unique values and 0% NA</code></pre>
+<pre><code>## mutate (grouped): new variable 'total_word_length' (integer) with 53 unique values and 0% NA</code></pre>
 <pre><code>## distinct (grouped): removed 39,941 rows (&gt;99%), 59 rows remaining</code></pre>
 <pre><code>## select: dropped 2 variables (gutenberg_id, word)</code></pre>
 <div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-8-1.png" width="672"></div>
@@ -370,7 +376,7 @@ year during his productive,” and that one of these characteristics was the len
 <pre><code>##                   new variable 'median_word_length' (double) with one unique value and 0% NA</code></pre>
 <pre><code>## group_by: 3 grouping variables (word_length, title, author)</code></pre>
 <pre><code>## mutate (grouped): new variable 'total_word_length' (integer) with 99 unique values and 0% NA</code></pre>
-<pre><code>## distinct (grouped): removed 79,880 rows (&gt;99%), 120 rows remaining</code></pre>
+<pre><code>## distinct (grouped): removed 79,879 rows (&gt;99%), 121 rows remaining</code></pre>
 <pre><code>## select: dropped 2 variables (gutenberg_id, word)</code></pre>
 <div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-10-1.png" width="672"></div>
 <p>Are there any differences? What can we conclude from the evidence? What are the limitations of this approach? Are there alternative approaches to study what Mendenhall was getting at?</p>
