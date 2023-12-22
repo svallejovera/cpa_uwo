@@ -46,7 +46,7 @@ wilde <- gutenberg_download(c(790,844, 854, 885),
 print(n=25,wilde[c(51:75),])
 ```
 
-The unit of analysis is something like a line. We are interested in each word---also known as token---and their lengths. We will clean some of the unwanted text---text that will only add noise to our analysis---and then count the number of words.
+The unit of analysis is something like a line. We are interested in each word---also known as token---and their lengths *in each play*. We will clean some of the unwanted text---text that will only add noise to our analysis---and then count the number of words.
 
 ```{r}
 wilde <- wilde %>%
