@@ -22,7 +22,7 @@ Before you start, check the required software and packages below. Also, don't fo
 
 ## Software and Packages
 
-For the first part of this course (Weeks 1 - 5), we will be mainly using R. For the second part of the this course (Weeks 6 - 11), we will use a combination of R and Python. I will assume that you are familiar with R language, RStudio, and R packages. If you are not, please come to office hours and I can help you out[^1]. In R the main packages, we you will need to have the following packages installed:
+For the first part of this course (Weeks 1 - 5), we will be mainly using R. For the second part of the this course (Weeks 6 - 11), we will use a combination of R and Python. I will assume that you are familiar with R language, RStudio, and R packages. If you are not, please come to office hours and I can help you out[^1]. In R, these are the main packages you will need to have installed:
 
 - tidyverse (we will be piping)
 - tidylog (helps keep track of what your are pipins)

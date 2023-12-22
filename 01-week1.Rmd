@@ -29,7 +29,7 @@ gutenberg_metadata %>%
 
 ## Word Length in Wilde's Corpus
 
-That's a lot of Wilde! Let's focus on four plays: "The Importance of Being Earnest", "A Woman of No Importance", "Lady Windermere's Fan", and "An Ideal Husband". We can download both of these plays using their ID number:
+That's a lot of Wilde! Let's focus on four plays: "The Importance of Being Earnest", "A Woman of No Importance", "Lady Windermere's Fan", and "An Ideal Husband". We can download all of these plays using their ID number:
 
 ```{r, warning = F, message = F}
 wilde <- gutenberg_download(c(790,844, 854, 885), 
@@ -37,7 +37,7 @@ wilde <- gutenberg_download(c(790,844, 854, 885),
 print(n=25,wilde[c(51:75),])
 ```
 
-The unit of analysis is something like a line. We are interested in each word--also known as tokens--and their lengths. We will clean some of the unwanted text--text that will only add noise to our analysis--and then count the number of words.
+The unit of analysis is something like a line. We are interested in each word---also known as token---and their lengths. We will clean some of the unwanted text---text that will only add noise to our analysis---and then count the number of words.
 
 ```{r}
 wilde <- wilde %>%
@@ -117,7 +117,7 @@ wilde_words %>%
 
 ```
 
-Would you look at that. Mendenhall was into something: an author has a mark in terms of word length distribution. For Wilde, there is no observable change across time (each play was published in different years). But, what happens when we compare Wilde's mark with Shakespeare's? Let's choose four plays plays (at random) by Shakespeare: A Midsummer Night's Dream, The Merchant of Venice, Much Ado about Nothing, and The Tempest.
+Would you look at that. Mendenhall was into something: an author has a mark in terms of word length distribution. For Wilde, there is no observable change across time (each play was published in different years). But, what happens when we compare Wilde's mark with Shakespeare's? Let's choose four plays (at random) by Shakespeare: A Midsummer Night's Dream, The Merchant of Venice, Much Ado about Nothing, and The Tempest.
 
 ## Comparing Shakespeare and Wilde
 
@@ -161,7 +161,7 @@ words %>%
   theme_minimal() +
   theme(legend.position = "bottom") +
   labs(x="Length", y = "Total Number of Words", color = "", linetype = "",
-       caption = "Note: Median word length is 4 for both.")
+       caption = "Note: Median word length is 4 for both authors.")
 ```
 
 Are there any differences? What can we conclude from the evidence? What are the limitations of this approach? Are there alternative approaches to study what Mendenhall was getting at? 
