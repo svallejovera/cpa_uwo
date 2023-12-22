@@ -1,0 +1,167 @@
+# Week 1: A Primer on Using Text as Data
+
+## Setup
+
+For this first example, we will replicate (and extend) Mendenhall's (1887) and Mendenhall's (1901) studies of word-length distribution. 
+
+First we load the packages that we'll be using:
+
+```{r, warning = F, message = F}
+library(tidyverse) # for wrangling data
+library(tidylog) # to know what we are wrangling
+library(tidytext) # for 'tidy' manipulation of text data
+library(wesanderson) # to prettify
+library(gutenbergr) # to get some books
+library(kableExtra) # for displaying data in html format (relevant for formatting this worksheet mainly)
+```
+
+## Get Data
+
+Mendenhall (1887) argued that "every writer makes use of a vocabulary which is peculiar to himself, and the character of which does not materially change from year to
+year during his productive," and that one of these characteristics was the length of words. Mendenhall (1901) takes this further, and suggests that, given this assumption, Shakespeare and Bacon were *not* the same person[^1].
+
+Let's get a corpus--a collection of documents--that we can analyze. We can search the Gutenberg repository and create a corpus with some selected work. 
+
+```{r, warning = F, message = F}
+gutenberg_metadata %>%
+  filter(author == "Wilde, Oscar")
+```
+
+That's a lot of Wilde! Let's focus on four plays: "The Importance of Being Earnest", "A Woman of No Importance", "Lady Windermere's Fan", and "An Ideal Husband". We can download both of these plays using their ID number:
+
+```{r, warning = F, message = F}
+wilde <- gutenberg_download(c(790,844, 854, 885), 
+                            meta_fields = c("title","author"))
+print(n=25,wilde[c(51:75),])
+```
+
+The unit of analysis is something like a line. We are interested in each word--also known as tokens--and their lengths. We will clean some of the unwanted text--text that will only add noise to our analysis--and then count the number of words.
+
+```{r}
+wilde <- wilde %>%
+  # Some housekeeping 
+  mutate(title = ifelse(str_detect(title,"Importance of Being"),"The Importance of Being Earnest", title)) %>%
+  # Filter out all empty rows
+  filter(text != "") %>%
+  # This is a play. The name of each character before they speak 
+  filter(str_detect(text,"[A-Z]{3,}")==FALSE)
+
+print(n=25,wilde[c(51:75),])
+```
+
+Now, we can change our unit of analysis to the **token**:
+
+```{r}
+wilde_words <- wilde %>%
+  # take the column text and divide it by words
+  unnest_tokens(word, text) %>%
+  # Remove some characters that add noise
+  mutate(word = str_remove_all(word, "\\_")) 
+
+wilde_words
+```
+
+That's a lot of words! We will know create a column for word length, and then count the number of words by length (by play!). 
+
+```{r}
+wilde_words_ct <- wilde_words %>%
+  # Length of each word
+  mutate(word_length = str_length(word)) %>%
+  # Group by word_length and count how many 
+  group_by(word_length,title) %>%
+  mutate(total_word_length = n()) %>%
+  # Keep relevant
+  distinct(word_length,title,.keep_all=T) %>%
+  select(word_length,title,author,total_word_length)
+```
+
+Let's see the distribution by play:
+
+```{r}
+wilde_words_ct %>%
+  ggplot(aes(y=total_word_length,x=word_length,color=title)) +
+  geom_point(alpha=0.8) +
+  geom_line(alpha=0.8) +
+  scale_color_manual(values = wes_palette("Royal2")) +
+  theme_minimal() +
+  theme(legend.position = "right") +
+  labs(x="Length", y = "Total Number of Words", color = "")
+
+```
+
+This is a problem. *Why?*
+
+Here is a solution (proposed by Mendenhall):
+
+```{r}
+wilde_words %>%
+  group_by(title) %>%
+  slice_sample(n=10000) %>%
+  mutate(word_length = str_length(word),
+         median_word_length = median(word_length)) %>%
+  group_by(word_length,title) %>%
+  mutate(total_word_length = n()) %>%
+  distinct(word_length,title,.keep_all=T) %>%
+  select(word_length,title,author,total_word_length,median_word_length) %>%
+  ggplot(aes(y=total_word_length,x=word_length,color=title)) +
+  geom_point(alpha=0.8) +
+  geom_line(alpha=0.8) +
+  geom_vline(aes(xintercept = median_word_length,color=title,linetype = title))+
+  scale_color_manual(values = wes_palette("Royal2")) +
+  theme_minimal() +
+  theme(legend.position = "right") +
+  labs(x="Length", y = "Total Number of Words", color = "", linetype = "",
+       caption = "Note: Line type shows median word length.")
+
+```
+
+Would you look at that. Mendenhall was into something: an author has a mark in terms of word length distribution. For Wilde, there is no observable change across time (each play was published in different years). But, what happens when we compare Wilde's mark with Shakespeare's? Let's choose four plays plays (at random) by Shakespeare: A Midsummer Night's Dream, The Merchant of Venice, Much Ado about Nothing, and The Tempest.
+
+```{r}
+shakes <- gutenberg_download(c(1520,2242,2243,2235),
+                             meta_fields = c("title","author"))
+print(n=25,shakes[c(51:75),])
+```
+
+This text is cleaner than Wilde's corpus, so we will leave it as is. Also, it is harder to systematically remove the name of the person speaking. **Is this a problem? Why? Why not?** 
+
+We can put together both corpora and see differences in the distributions of word length. 
+
+```{r}
+shakes_words <- shakes %>%
+  # Filter out all empty rows
+  filter(text != "") %>%
+  # This is a play. The name of each character before they speak 
+  filter(str_detect(text,"[A-Z]{3,}")==FALSE) %>%
+  # take the column text and divide it by words
+  unnest_tokens(word, text) 
+
+# Bind both word dfs
+words <- rbind.data.frame(shakes_words,wilde_words)
+
+# Count words etc.
+words %>%
+  group_by(title,author) %>%
+  slice_sample(n=10000) %>%
+  mutate(word_length = str_length(word),
+         median_word_length = median(word_length)) %>%
+  group_by(word_length,title,author) %>%
+  mutate(total_word_length = n()) %>%
+  distinct(word_length,title,.keep_all=T) %>%
+  select(word_length,title,author,total_word_length,median_word_length) %>%
+  ggplot(aes(y=total_word_length,x=word_length,color=author,group=title)) +
+  geom_point(alpha=0.8) +
+  geom_line(alpha=0.8) +
+  scale_color_viridis_d(option="E",alpha = 0.8) +
+  # facet_wrap(~author, ncol = 2)+
+  theme_minimal() +
+  theme(legend.position = "bottom") +
+  labs(x="Length", y = "Total Number of Words", color = "", linetype = "",
+       caption = "Note: Median word length is 4 for both.")
+```
+
+Are there any differences? What can we conclude from the evidence? What are the limitations of this approach? Are there alternative approaches to study what Mendenhall was getting at? 
+
+[^1] These studies were published in Science and Popular Science Monthly!
+
+

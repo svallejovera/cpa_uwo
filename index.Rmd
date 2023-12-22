@@ -28,6 +28,7 @@ For the first part of this course (Weeks 1 - 5), we will be mainly using R. For 
 - tidylog (helps keep track of what your are pipins)
 - tidytext (great for working with text)
 - quanteda (stands for "Quantitative Analysis of Textual Data")
+- gutenbergr (to download texts from [Project Gutenberg](https://www.gutenberg.org/))
 
 ## Datasets
 
