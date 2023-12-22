@@ -6,14 +6,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Chapter 2 Week 1: A Primer on Using Text as Data | PS9594A: Computational Text Analysis</title>
 <meta name="author" content="Dr. Sebastián Vallejo Vera | Western University">
-<meta name="description" content="2.1 Setup For this first example, we will replicate (and extend) Mendenhall’s (1887) and Mendenhall’s (1901) studies of word-length distribution. First we load the packages that we’ll be using:...">
+<meta name="description" content="Slides 1 Introduction to CTA (link or in Perusall) 2 Why Computational Text Analysis (link or in Perusall)  2.1 Setup For this first example, we will replicate (and extend) Mendenhall’s (1887) and...">
 <meta name="generator" content="bookdown 0.37 with bs4_book()">
 <meta property="og:title" content="Chapter 2 Week 1: A Primer on Using Text as Data | PS9594A: Computational Text Analysis">
 <meta property="og:type" content="book">
-<meta property="og:description" content="2.1 Setup For this first example, we will replicate (and extend) Mendenhall’s (1887) and Mendenhall’s (1901) studies of word-length distribution. First we load the packages that we’ll be using:...">
+<meta property="og:description" content="Slides 1 Introduction to CTA (link or in Perusall) 2 Why Computational Text Analysis (link or in Perusall)  2.1 Setup For this first example, we will replicate (and extend) Mendenhall’s (1887) and...">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Chapter 2 Week 1: A Primer on Using Text as Data | PS9594A: Computational Text Analysis">
-<meta name="twitter:description" content="2.1 Setup For this first example, we will replicate (and extend) Mendenhall’s (1887) and Mendenhall’s (1901) studies of word-length distribution. First we load the packages that we’ll be using:...">
+<meta name="twitter:description" content="Slides 1 Introduction to CTA (link or in Perusall) 2 Why Computational Text Analysis (link or in Perusall)  2.1 Setup For this first example, we will replicate (and extend) Mendenhall’s (1887) and...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.1/transition.js"></script><script src="libs/bs3compat-0.5.1/tabs.js"></script><script src="libs/bs3compat-0.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
@@ -74,6 +74,14 @@
 <h1>
 <span class="header-section-number">2</span> Week 1: A Primer on Using Text as Data<a class="anchor" aria-label="anchor" href="#week-1-a-primer-on-using-text-as-data"><i class="fas fa-link"></i></a>
 </h1>
+<div id="slides" class="section level2 unnumbered">
+<h2>Slides<a class="anchor" aria-label="anchor" href="#slides"><i class="fas fa-link"></i></a>
+</h2>
+<ul>
+<li>1 Introduction to CTA (<a href="https://github.com/svallejovera/cpa_uwo/blob/main/slides/1%20Introduction%20to%20CTA.pptx">link</a> or in Perusall)</li>
+<li>2 Why Computational Text Analysis (<a href="https://github.com/svallejovera/cpa_uwo/blob/main/slides/2%20Why%20Computational%20Text%20Analysis.pptx">link</a> or in Perusall)</li>
+</ul>
+</div>
 <div id="setup" class="section level2" number="2.1">
 <h2>
 <span class="header-section-number">2.1</span> Setup<a class="anchor" aria-label="anchor" href="#setup"><i class="fas fa-link"></i></a>
@@ -270,8 +278,8 @@ year during his productive,” and that one of these characteristics was the len
 <pre><code>## mutate (grouped): new variable 'word_length' (integer) with 17 unique values and 0% NA</code></pre>
 <pre><code>##                   new variable 'median_word_length' (double) with one unique value and 0% NA</code></pre>
 <pre><code>## group_by: 2 grouping variables (word_length, title)</code></pre>
-<pre><code>## mutate (grouped): new variable 'total_word_length' (integer) with 53 unique values and 0% NA</code></pre>
-<pre><code>## distinct (grouped): removed 39,940 rows (&gt;99%), 60 rows remaining</code></pre>
+<pre><code>## mutate (grouped): new variable 'total_word_length' (integer) with 57 unique values and 0% NA</code></pre>
+<pre><code>## distinct (grouped): removed 39,938 rows (&gt;99%), 62 rows remaining</code></pre>
 <pre><code>## select: dropped 2 variables (gutenberg_id, word)</code></pre>
 <div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-8-1.png" width="672"></div>
 <p>Would you look at that. Mendenhall was into something: an author has a mark in terms of word length distribution. For Wilde, there is no observable change across time (each play was published in different years). But, what happens when we compare Wilde’s mark with Shakespeare’s? Let’s choose four plays (at random) by Shakespeare: A Midsummer Night’s Dream, The Merchant of Venice, Much Ado about Nothing, and The Tempest.</p>
@@ -352,8 +360,8 @@ year during his productive,” and that one of these characteristics was the len
 <pre><code>## mutate (grouped): new variable 'word_length' (integer) with 17 unique values and 0% NA</code></pre>
 <pre><code>##                   new variable 'median_word_length' (double) with one unique value and 0% NA</code></pre>
 <pre><code>## group_by: 3 grouping variables (word_length, title, author)</code></pre>
-<pre><code>## mutate (grouped): new variable 'total_word_length' (integer) with 101 unique values and 0% NA</code></pre>
-<pre><code>## distinct (grouped): removed 79,881 rows (&gt;99%), 119 rows remaining</code></pre>
+<pre><code>## mutate (grouped): new variable 'total_word_length' (integer) with 99 unique values and 0% NA</code></pre>
+<pre><code>## distinct (grouped): removed 79,880 rows (&gt;99%), 120 rows remaining</code></pre>
 <pre><code>## select: dropped 2 variables (gutenberg_id, word)</code></pre>
 <div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-10-1.png" width="672"></div>
 <p>Are there any differences? What can we conclude from the evidence? What are the limitations of this approach? Are there alternative approaches to study what Mendenhall was getting at?</p>
