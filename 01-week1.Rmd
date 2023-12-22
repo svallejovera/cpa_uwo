@@ -1,5 +1,9 @@
 # Week 1: A Primer on Using Text as Data
 
+## Slides{.unnumbered}
+
+- 
+
 ## Setup
 
 For this first example, we will replicate (and extend) Mendenhall's (1887) and Mendenhall's (1901) studies of word-length distribution. 
@@ -165,6 +169,11 @@ words %>%
 ```
 
 Are there any differences? What can we conclude from the evidence? What are the limitations of this approach? Are there alternative approaches to study what Mendenhall was getting at? 
+
+## Exercise (Optional)
+
+1. Extend the current analysis to other authors or to more works from the same author.
+2. Are there better ways to compare the distribution of word length? Are there changes across time? Are there differences between different types of works (e.g., fiction vs. non-fiction, prose vs. poetry)?
 
 [^2]: These studies were published in Science and Popular Science Monthly!
 
