@@ -8,6 +8,8 @@ acknowledgments
 week-1-a-primer-on-using-text-as-data
 setup
 get-data
+word-length-in-wildes-corpus
+comparing-shakespeare-and-wilde
 cross
 chapters-and-sub-chapters
 captioned-figures-and-tables

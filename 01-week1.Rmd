@@ -27,6 +27,8 @@ gutenberg_metadata %>%
   filter(author == "Wilde, Oscar")
 ```
 
+## Word Length in Wilde's Corpus
+
 That's a lot of Wilde! Let's focus on four plays: "The Importance of Being Earnest", "A Woman of No Importance", "Lady Windermere's Fan", and "An Ideal Husband". We can download both of these plays using their ID number:
 
 ```{r, warning = F, message = F}
@@ -116,6 +118,8 @@ wilde_words %>%
 ```
 
 Would you look at that. Mendenhall was into something: an author has a mark in terms of word length distribution. For Wilde, there is no observable change across time (each play was published in different years). But, what happens when we compare Wilde's mark with Shakespeare's? Let's choose four plays plays (at random) by Shakespeare: A Midsummer Night's Dream, The Merchant of Venice, Much Ado about Nothing, and The Tempest.
+
+## Comparing Shakespeare and Wilde
 
 ```{r}
 shakes <- gutenberg_download(c(1520,2242,2243,2235),
