@@ -16,7 +16,7 @@
 <meta name="twitter:description" content="Cross-references make it easier for your readers to find and link to elements in your book.  2.1 Chapters and sub-chapters There are two steps to cross-reference any heading: Label the heading: #...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.0/transition.js"></script><script src="libs/bs3compat-0.5.0/tabs.js"></script><script src="libs/bs3compat-0.5.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.1/transition.js"></script><script src="libs/bs3compat-0.5.1/tabs.js"></script><script src="libs/bs3compat-0.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
@@ -65,7 +65,7 @@
       <nav aria-label="Table of contents"><h2>Table of contents</h2>
         <ul class="book-toc list-unstyled">
 <li><a class="" href="index.html">“Computational Text Analysis”</a></li>
-<li><a class="" href="hello-bookdown.html"><span class="header-section-number">1</span> Hello bookdown</a></li>
+<li><a class="" href="week-1-a-primer-on-using-text-as-data.html"><span class="header-section-number">1</span> Week 1: A Primer on Using Text as Data</a></li>
 <li><a class="active" href="cross.html"><span class="header-section-number">2</span> Cross-references</a></li>
 <li><a class="" href="parts.html"><span class="header-section-number">3</span> Parts</a></li>
 <li><a class="" href="footnotes-and-citations.html"><span class="header-section-number">4</span> Footnotes and citations</a></li>
@@ -109,7 +109,7 @@
 </h2>
 <p>Figures and tables <em>with captions</em> can also be cross-referenced from elsewhere in your book using <code>\@ref(fig:chunk-label)</code> and <code>\@ref(tab:chunk-label)</code>, respectively.</p>
 <p>See Figure <a href="cross.html#fig:nice-fig">2.1</a>.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">4</span>, <span class="fl">.1</span>, <span class="fl">.1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">pressure</span>, type <span class="op">=</span> <span class="st">'b'</span>, pch <span class="op">=</span> <span class="fl">19</span><span class="op">)</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
@@ -119,65 +119,110 @@ Figure 2.1: Here is a nice figure!
 </p>
 </div>
 <p>Don’t miss Table <a href="cross.html#tab:nice-tab">2.1</a>.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">pressure</span>, <span class="fl">10</span><span class="op">)</span>, caption <span class="op">=</span> <span class="st">'Here is a nice table!'</span>,</span>
 <span>  booktabs <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <div class="inline-table"><table class="table table-sm">
 <caption>
-<span id="tab:nice-tab">Table 2.1: </span>Here is a nice table!</caption>
-<thead><tr class="header">
-<th align="right">temperature</th>
-<th align="right">pressure</th>
+<span id="tab:nice-tab">Table 2.1: </span>Here is a nice table!
+</caption>
+<thead><tr>
+<th style="text-align:right;">
+temperature
+</th>
+<th style="text-align:right;">
+pressure
+</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
-<td align="right">0</td>
-<td align="right">0.0002</td>
+<tr>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.0002
+</td>
 </tr>
-<tr class="even">
-<td align="right">20</td>
-<td align="right">0.0012</td>
+<tr>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:right;">
+0.0012
+</td>
 </tr>
-<tr class="odd">
-<td align="right">40</td>
-<td align="right">0.0060</td>
+<tr>
+<td style="text-align:right;">
+40
+</td>
+<td style="text-align:right;">
+0.0060
+</td>
 </tr>
-<tr class="even">
-<td align="right">60</td>
-<td align="right">0.0300</td>
+<tr>
+<td style="text-align:right;">
+60
+</td>
+<td style="text-align:right;">
+0.0300
+</td>
 </tr>
-<tr class="odd">
-<td align="right">80</td>
-<td align="right">0.0900</td>
+<tr>
+<td style="text-align:right;">
+80
+</td>
+<td style="text-align:right;">
+0.0900
+</td>
 </tr>
-<tr class="even">
-<td align="right">100</td>
-<td align="right">0.2700</td>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:right;">
+0.2700
+</td>
 </tr>
-<tr class="odd">
-<td align="right">120</td>
-<td align="right">0.7500</td>
+<tr>
+<td style="text-align:right;">
+120
+</td>
+<td style="text-align:right;">
+0.7500
+</td>
 </tr>
-<tr class="even">
-<td align="right">140</td>
-<td align="right">1.8500</td>
+<tr>
+<td style="text-align:right;">
+140
+</td>
+<td style="text-align:right;">
+1.8500
+</td>
 </tr>
-<tr class="odd">
-<td align="right">160</td>
-<td align="right">4.2000</td>
+<tr>
+<td style="text-align:right;">
+160
+</td>
+<td style="text-align:right;">
+4.2000
+</td>
 </tr>
-<tr class="even">
-<td align="right">180</td>
-<td align="right">8.8000</td>
+<tr>
+<td style="text-align:right;">
+180
+</td>
+<td style="text-align:right;">
+8.8000
+</td>
 </tr>
 </tbody>
 </table></div>
 </div>
 </div>
   <div class="chapter-nav">
-<div class="prev"><a href="hello-bookdown.html"><span class="header-section-number">1</span> Hello bookdown</a></div>
+<div class="prev"><a href="week-1-a-primer-on-using-text-as-data.html"><span class="header-section-number">1</span> Week 1: A Primer on Using Text as Data</a></div>
 <div class="next"><a href="parts.html"><span class="header-section-number">3</span> Parts</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>

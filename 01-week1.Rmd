@@ -18,7 +18,7 @@ library(kableExtra) # for displaying data in html format (relevant for formattin
 ## Get Data
 
 Mendenhall (1887) argued that "every writer makes use of a vocabulary which is peculiar to himself, and the character of which does not materially change from year to
-year during his productive," and that one of these characteristics was the length of words. Mendenhall (1901) takes this further, and suggests that, given this assumption, Shakespeare and Bacon were *not* the same person[^1].
+year during his productive," and that one of these characteristics was the length of words. Mendenhall (1901) takes this further, and suggests that, given this assumption, Shakespeare and Bacon were *not* the same person[^2].
 
 Let's get a corpus--a collection of documents--that we can analyze. We can search the Gutenberg repository and create a corpus with some selected work. 
 
@@ -152,7 +152,7 @@ words %>%
   ggplot(aes(y=total_word_length,x=word_length,color=author,group=title)) +
   geom_point(alpha=0.8) +
   geom_line(alpha=0.8) +
-  scale_color_viridis_d(option="E",alpha = 0.8) +
+  scale_color_manual(values = wes_palette("Royal2")) +
   # facet_wrap(~author, ncol = 2)+
   theme_minimal() +
   theme(legend.position = "bottom") +
@@ -162,6 +162,6 @@ words %>%
 
 Are there any differences? What can we conclude from the evidence? What are the limitations of this approach? Are there alternative approaches to study what Mendenhall was getting at? 
 
-[^1] These studies were published in Science and Popular Science Monthly!
+[^2]: These studies were published in Science and Popular Science Monthly!
 
 
