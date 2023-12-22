@@ -2,7 +2,8 @@
 
 ## Slides{.unnumbered}
 
-- 
+- 1 Introduction to CTA ([link](https://github.com/svallejovera/cpa_uwo/blob/main/slides/1%20Introduction%20to%20CTA.pptx) or in Perusall) 
+- 2 Why Computational Text Analysis ([link](https://github.com/svallejovera/cpa_uwo/blob/main/slides/2%20Why%20Computational%20Text%20Analysis.pptx) or in Perusall)
 
 ## Setup
 
