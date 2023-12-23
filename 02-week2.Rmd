@@ -1,44 +1,262 @@
-# Week 1: A Primer on Using Text as Data
+# Week 2: Tokenization and Word Frequency
 
 ## Slides{.unnumbered}
 
-- 1 Introduction to CTA ([link](https://github.com/svallejovera/cpa_uwo/blob/main/slides/1%20Introduction%20to%20CTA.pptx) or in Perusall) 
-- 2 Why Computational Text Analysis ([link](https://github.com/svallejovera/cpa_uwo/blob/main/slides/2%20Why%20Computational%20Text%20Analysis.pptx) or in Perusall)
+- 3 Tokenization and Word Frequency ([link](https://github.com/svallejovera/cpa_uwo/blob/main/slides/3%20Tokenization%20and%20Word%20Frequency.pptx) or in Perusall) 
 
 ## Setup
 
+As always, we first load the packages that we'll be using:
 
-# Cross-references {#cross}
-
-Cross-references make it easier for your readers to find and link to elements in your book.
-
-## Chapters and sub-chapters
-
-There are two steps to cross-reference any heading:
-
-1. Label the heading: `# Hello world {#nice-label}`. 
-    - Leave the label off if you like the automated heading generated based on your heading title: for example, `# Hello world` = `# Hello world {#hello-world}`.
-    - To label an un-numbered heading, use: `# Hello world {-#nice-label}` or `{# Hello world .unnumbered}`.
-
-1. Next, reference the labeled heading anywhere in the text using `\@ref(nice-label)`; for example, please see Chapter \@ref(cross). 
-    - If you prefer text as the link instead of a numbered reference use: [any text you want can go here](#cross).
-
-## Captioned figures and tables
-
-Figures and tables *with captions* can also be cross-referenced from elsewhere in your book using `\@ref(fig:chunk-label)` and `\@ref(tab:chunk-label)`, respectively.
-
-See Figure \@ref(fig:nice-fig).
-
-```{r nice-fig, fig.cap='Here is a nice figure!', out.width='80%', fig.asp=.75, fig.align='center', fig.alt='Plot with connected points showing that vapor pressure of mercury increases exponentially as temperature increases.'}
-par(mar = c(4, 4, .1, .1))
-plot(pressure, type = 'b', pch = 19)
+```{r, warning = F, message = F}
+library(tidyverse) # for wrangling data
+library(tidylog) # to know what we are wrangling
+library(tidytext) # for 'tidy' manipulation of text data
+library(quanteda) # tokenization power house
+library(quanteda.textstats)
+library(quanteda.textplots)
+library(wesanderson) # to prettify
+library(readxl) # to read excel
+library(kableExtra) # for displaying data in html format (relevant for formatting this worksheet mainly)
 ```
 
-Don't miss Table \@ref(tab:nice-tab).
+## Get Data:
 
-```{r nice-tab, tidy=FALSE}
-knitr::kable(
-  head(pressure, 10), caption = 'Here is a nice table!',
-  booktabs = TRUE
-)
+For this example, we will be using small corpus of song lyrics. 
+
+```{r}
+sample_lyrics <- read_excel("data/lyrics_sample.xlsx")
+head(sample_lyrics)
 ```
+
+Ok, so we have different artists, from different genres and year...
+
+```{r, echo=FALSE}
+table(sample_lyrics$artist)
+```
+
+And we have the lyrics in the following form:
+
+```{r, echo=FALSE}
+sample_lyrics$lyrics[4]
+```
+
+## Cleaning the Text
+
+Much like music, text comes in different forms and qualities. From the Regex workshop, you might remember that there are special characters that can signal, for example, a new line (`\n`), or carriage return (`\r`). For this example, we can get rid of them [^3]. Before working with text, always check the state of your documents once loaded into your program of choice. 
+
+```{r}
+sample_lyrics <- sample_lyrics %>%
+  mutate(lyrics_clean = str_replace_all(lyrics,"\\n", "\\."),
+         lyrics_clean = str_replace_all(lyrics_clean,"\\r", "\\.")) %>%
+  select(-lyrics)
+
+sample_lyrics$lyrics_clean[4]
+```
+
+## Tokenization
+
+Our goal is to create a document-feature matrix, from which we will later extract information about word frequency. To do that, we start by crating a `corpus` object, from the `quanteda` package. 
+
+```{r}
+corpus_lyrics <- corpus(sample_lyrics,
+                     # docid_field = "texto_id",
+                     text_field = "lyrics_clean",
+                     unique_docnames = TRUE)
+
+summary(corpus_lyrics)
+```
+
+Looks good. Now we can tokenize our corpus (and reduce complexity). One benefit of creating a corpus object first is that we maintain all the metadata for every document when we tokenize. This will come in handy in the future. 
+
+```{r}
+lyrics_toks <- tokens(corpus_lyrics,
+                   remove_numbers = TRUE, # Thinks about this
+                   remove_punct = TRUE, # Remove punctuation!
+                   remove_url = TRUE) # Might be helpful
+lyrics_toks[c(4,14)]
+```
+
+We got rid of the punctuation. Now let's remove stop words, high and low frequency words, and stem the remaining tokens. Here I am cheating, though. I know that high and low frequency words because I checked my `dfm` (see next code chunk). 
+
+```{r}
+lyrics_toks <- tokens_remove(lyrics_toks,
+                          # you can change or add stopwords depending on the 
+                          # language(s) of the documents
+                          c(stopwords(language = "en"),
+                            # Now is high frequency... there are many low
+                            # frequency tokens. We will check these later
+                            "now"),
+                          padding = F)
+
+lyrics_toks_stem <- tokens_wordstem(lyrics_toks, language = "en")
+
+lyrics_toks[c(4,14)]
+lyrics_toks_stem[c(4,14)]
+```
+
+We can compare the stemmed output and the non-stemmed output. Why did 'future' become 'futur'? Because we are assuming that, for *our* purposes, 'future=futuristic'. This is for the researcher to decide. And finally, we can create our document-feature matrix (`dfm`). 
+
+```{r}
+lyrics_dfm <- dfm(lyrics_toks)
+lyrics_dfm_stem <- dfm(lyrics_toks_stem)
+
+head(lyrics_dfm_stem)
+```
+
+Note that once we create the `dfm` object, all the tokens become lowercase. Now we can check what are the 15 most frequent tokens. 
+
+```{r}
+lyrics_dfm_stem %>%
+  textstat_frequency(n=30) %>%
+  ggplot(aes(x = reorder(feature,frequency),y=frequency,fill = (frequency), color = (frequency))) +
+  geom_col(alpha=0.5) +
+  coord_flip() +
+  scale_x_reordered() +
+  scale_color_distiller(palette = "PuOr") +
+  scale_fill_distiller(palette = "PuOr") +
+  theme_minimal() + 
+  labs(x="",y="Frequency",color = "", fill = "") +
+  theme(legend.position="none") 
+```
+
+Does not tell us much, but I used the previous code to check for low-information tokens that I might want to remove from my analysis. We can also see how many tokens appear only once:
+
+```{r}
+only_once <- lyrics_dfm_stem %>%
+  textstat_frequency() %>%
+  filter(frequency == 1)
+length(only_once$feature)
+```
+
+More interesting for text analysis is to count words over time/space. In this case, our 'space' can be the artist. 
+
+```{r}
+lyrics_dfm_stem %>%
+  textstat_frequency(n=15, groups = c(artist)) %>%
+  ggplot(aes(x = reorder_within(feature,frequency,group),y=frequency,fill = group, color = group)) +
+  geom_col(alpha = 0.5) +
+  coord_flip() +
+  facet_wrap(~group, scales = "free") +
+  scale_x_reordered() +
+  scale_color_brewer(palette = "PuOr") +
+  scale_fill_brewer(palette = "PuOr") +
+  theme_minimal() + 
+  labs(x="",y="",color = "", fill = "") +
+  theme(legend.position="none") 
+
+```
+
+Interesting. Not a lot of overlap (apart from a token from Megan Thee Stallion and Rage Against the Machine). However, it would be great if we could measure the importance of a word relative to how much it appears across documents (one way to denominate). Enter TF-IDF: "Term-Frequency / Inverse-Document-frequency". TF-IDF weighting up-weights relatively rare words that do not appear in all documents. Using term frequency and inverse document frequency allows us to find words that are characteristic for one document within a collection of documents.  
+
+```{r}
+lyrics_dfm_tfidf <- dfm_tfidf(lyrics_dfm_stem)
+
+lyrics_dfm_tfidf %>%
+  textstat_frequency(n=15, groups = c(artist), force=T) %>%
+  ggplot(aes(x = reorder_within(feature,frequency,group),y=frequency,fill = group, color = group)) +
+  geom_col(alpha = 0.5) +
+  coord_flip() +
+  facet_wrap(~group, scales = "free") +
+  scale_x_reordered() +
+  scale_color_brewer(palette = "PuOr") +
+  scale_fill_brewer(palette = "PuOr") +
+  theme_minimal() + 
+  labs(x="",y="TF-IDF",color = "", fill = "") +
+  theme(legend.position="none") 
+
+```
+
+If we are building a dictionary, for example, we might want to include words with high TF-IDF values. Another way to think about TF-IDF is in terms of predictive power. Words that are common to all documents do not have any predictive power and receive a TD-IDF value of 0. Words that appear, but only in relatively few document, have greater predictive power and receive a TD-IDF > 0. 
+
+Another useful tool (and concept) is keyness. Keyness is a two-by-two association score for features that occur differentially across different categories. We can estimate which features are associated more with one category (in this case, one artist), compared to the other. Let's compare Megan Thee Stallion and Taylor Swift.
+
+```{r}
+lyrics_dfm_ts_mts <- dfm_subset(lyrics_dfm_stem, year > 2006)
+
+lyrics_key <- textstat_keyness(lyrics_dfm_ts_mts, 
+                              target = lyrics_dfm_ts_mts$artist == "Taylor Swift")
+textplot_keyness(lyrics_key)
+```
+
+Similar to what we would have implied from the TF-IDF graphs. Notice that stemming does not always works are expected. Taylor Swift sings about "shake, shake, shake" and Megan Thee Stallion sings about "shaking". However, both words appear as distinct features from both artists. 
+
+## Word Frequency Across Artist
+
+We can do something similar to what we did last week to look at word frequencies. Rather than creating a `dfm`, we can use the dataset as is, and get some information. For example, the average number of tokens by artist.
+
+```{r}
+sample_lyrics %>%
+  # take the column lyrics_clean and divide it by words
+  # this uses a similar tokenizer to quanteda
+  unnest_tokens(word, lyrics_clean) %>%
+  group_by(song) %>%
+  mutate(total_tk_song = n()) %>%
+  distinct(song,.keep_all=T) %>% 
+  group_by(artist) %>%
+  mutate(mean_tokens = mean(total_tk_song)) %>%
+  ggplot(aes(x=song,y=total_tk_song,fill=artist,color=artist)) +
+  geom_col(alpha=.8) +
+  geom_hline(aes(yintercept = mean_tokens, color = artist), linetype = "dashed")+
+  scale_color_manual(values = wes_palette("Royal2")) +
+  scale_fill_manual(values = wes_palette("Royal2")) +
+  facet_wrap(~artist, scales = "free_x", nrow = 1) + 
+  theme_minimal() +
+  theme(legend.position="none",
+        axis.text.x = element_text(angle = 90, size = 5,vjust = 0.5, hjust=1)) +
+  labs(x="", y = "Total Tokens", color = "", fill = "",
+       caption = "Note: Mean token length in dashed line.")
+
+
+```
+
+Alternatively, we can estimate the frequency of a token by song. 
+
+```{r}
+lyrics_totals <- sample_lyrics %>%
+  # take the column lyrics_clean and divide it by words
+  # this uses a similar tokenizer to quanteda
+  unnest_tokens(word, lyrics_clean) %>%
+  group_by(song) %>%
+  mutate(total_tk_song = n()) %>%
+  distinct(song,.keep_all=T) 
+```
+
+```{r}
+# let's look for "like"
+lyrics_like <- sample_lyrics %>%
+  # take the column lyrics_clean and divide it by words
+  # this uses a similar tokenizer to quanteda
+  unnest_tokens(word, lyrics_clean) %>%
+  filter(word=="like") %>%
+  group_by(song) %>%
+  mutate(total_like_song = n()) %>%
+  distinct(song,total_like_song) 
+```
+
+We can now join these two data frames together with the `left_join()` function and join by the “song” column. We can then pipe the joined data into a plot.
+
+```{r, warning=FALSE}
+lyrics_totals %>%
+  left_join(lyrics_like, by = "song") %>%
+  ungroup() %>%
+  mutate(like_prop = total_like_song/total_tk_song) %>%
+  ggplot(aes(x=song,y=like_prop,fill=artist,color=artist)) +
+  geom_col(alpha=.8) +
+  scale_color_manual(values = wes_palette("Royal2")) +
+  scale_fill_manual(values = wes_palette("Royal2")) +
+  facet_wrap(~artist, scales = "free_x", nrow = 1) + 
+  theme_minimal() +
+  theme(legend.position="none",
+        axis.text.x = element_text(angle = 90, size = 5,vjust = 0.5, hjust=1)) +
+  labs(x="", y = "Prop. of \'Like\'", color = "", fill = "")
+
+```
+
+## Final Words
+
+As will be often the case, we won't be able to cover every single feature that the different packages have to offer, or how some objects that we create look like, or what else we can do with them. My advise is that you go home and explore the code in detail. Try applying the code to a different corpus and come next class with questions (or just show off what you were able to do). 
+
+[^3]: This is not always the case. Sometimes, we can use this characters to change our unit of analysis. For example, is we want our unit of analysis to be the paragraph, rather than the whole text, then these markers can aid when separating the text. 
+
+

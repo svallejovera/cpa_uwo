@@ -1,6 +1,4 @@
 fig:curve
-fig:nice-fig
-tab:nice-tab
 eq:binom
 thm:tri
 software-and-packages
@@ -12,9 +10,14 @@ get-data
 word-length-in-wildes-corpus
 comparing-shakespeare-and-wilde
 exercise-optional
-cross
-chapters-and-sub-chapters
-captioned-figures-and-tables
+final-words
+week-2-tokenization-and-word-frequency
+setup-1
+get-data-1
+cleaning-the-text
+tokenization
+word-frequency-across-artist
+final-words-1
 parts
 footnotes-and-citations
 footnotes

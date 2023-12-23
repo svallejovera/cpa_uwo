@@ -72,7 +72,7 @@ wilde_words <- wilde %>%
 wilde_words
 ```
 
-That's a lot of words! We will know create a column for word length, and then count the number of words by length (by play!). 
+That's a lot of words! We will now create a column for word length, and then count the number of words by length (by play!). 
 
 ```{r}
 wilde_words_ct <- wilde_words %>%
@@ -179,6 +179,10 @@ Are there any differences? What can we conclude from the evidence? What are the 
 
 1. Extend the current analysis to other authors or to more works from the same author.
 2. Are there better ways to compare the distribution of word length? Are there changes across time? Are there differences between different types of works (e.g., fiction vs. non-fiction, prose vs. poetry)?
+
+## Final Words
+
+As will be often the case, we won't be able to cover every single feature that the different packages have to offer, or how some objects that we create look like, or what else we can do with them. My advise is that you go home and explore the code in detail. Try applying the code to a different corpus and come next class with questions (or just show off what you were able to do). 
 
 [^2]: These studies were published in Science and Popular Science Monthly!
 
