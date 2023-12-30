@@ -210,7 +210,7 @@ sample_lyrics %>%
 
 ```
 
-Alternatively, we can estimate the frequency of a token by song. 
+Alternatively, we can estimate the frequency of a specific token by song. 
 
 ```{r}
 lyrics_totals <- sample_lyrics %>%

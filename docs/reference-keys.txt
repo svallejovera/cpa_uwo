@@ -18,7 +18,15 @@ cleaning-the-text
 tokenization
 word-frequency-across-artist
 final-words-1
-parts
+week-3-dictionary-based-approaches
+setup-2
+get-data-2
+tokenization-etc.
+keywords
+dictionary-approaches
+sentiment-analysis
+domain-specific-dictionaries
+homework
 footnotes-and-citations
 footnotes
 citations
