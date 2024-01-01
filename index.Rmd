@@ -30,6 +30,7 @@ For the first part of this course (Weeks 1 - 5), we will be mainly using R. For 
 - quanteda (stands for "Quantitative Analysis of Textual Data")
   - quanteda.textstats (to obtain stats from our dfm)
   - quanteda.textplots (to obtain plots from our dfm stats)
+  - quanteda.dictionaries (to use dictionaries with quanteda)
 - gutenbergr (to download texts from [Project Gutenberg](https://www.gutenberg.org/))
 - wesanderson (to make things pretty)
 

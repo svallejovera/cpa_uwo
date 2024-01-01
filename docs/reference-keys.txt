@@ -1,4 +1,5 @@
 fig:curve
+tab:unnamed-chunk-50
 eq:binom
 thm:tri
 software-and-packages
@@ -26,6 +27,7 @@ keywords
 dictionary-approaches
 sentiment-analysis
 domain-specific-dictionaries
+using-pre-built-dictionaries
 homework
 footnotes-and-citations
 footnotes
