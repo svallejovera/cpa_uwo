@@ -4,16 +4,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Chapter 6 Sharing your book | PS9594A: Computational Text Analysis</title>
+<title>Chapter 4 Week 4: Complexity and Similarity | PS9594A: Computational Text Analysis</title>
 <meta name="author" content="Dr. Sebastián Vallejo Vera | Western University">
-<meta name="description" content="6.1 Publishing HTML books can be published online, see: https://bookdown.org/yihui/bookdown/publishing.html  6.2 404 pages By default, users will be directed to a 404 page if they try to access a...">
+<meta name="description" content="Slides 5 Complexity and Similarity (link or in Perusall)  4.1 Setup As always, we first load the packages that we’ll be using: library(tidyverse) # for wrangling data library(tidylog) # to know...">
 <meta name="generator" content="bookdown 0.37 with bs4_book()">
-<meta property="og:title" content="Chapter 6 Sharing your book | PS9594A: Computational Text Analysis">
+<meta property="og:title" content="Chapter 4 Week 4: Complexity and Similarity | PS9594A: Computational Text Analysis">
 <meta property="og:type" content="book">
-<meta property="og:description" content="6.1 Publishing HTML books can be published online, see: https://bookdown.org/yihui/bookdown/publishing.html  6.2 404 pages By default, users will be directed to a 404 page if they try to access a...">
+<meta property="og:description" content="Slides 5 Complexity and Similarity (link or in Perusall)  4.1 Setup As always, we first load the packages that we’ll be using: library(tidyverse) # for wrangling data library(tidylog) # to know...">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Chapter 6 Sharing your book | PS9594A: Computational Text Analysis">
-<meta name="twitter:description" content="6.1 Publishing HTML books can be published online, see: https://bookdown.org/yihui/bookdown/publishing.html  6.2 404 pages By default, users will be directed to a 404 page if they try to access a...">
+<meta name="twitter:title" content="Chapter 4 Week 4: Complexity and Similarity | PS9594A: Computational Text Analysis">
+<meta name="twitter:description" content="Slides 5 Complexity and Similarity (link or in Perusall)  4.1 Setup As always, we first load the packages that we’ll be using: library(tidyverse) # for wrangling data library(tidylog) # to know...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.0/transition.js"></script><script src="libs/bs3compat-0.5.0/tabs.js"></script><script src="libs/bs3compat-0.5.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
@@ -46,9 +46,9 @@
 <li><a class="" href="week-1-a-primer-on-using-text-as-data.html"><span class="header-section-number">1</span> Week 1: A Primer on Using Text as Data</a></li>
 <li><a class="" href="week-2-tokenization-and-word-frequency.html"><span class="header-section-number">2</span> Week 2: Tokenization and Word Frequency</a></li>
 <li><a class="" href="week-3-dictionary-based-approaches.html"><span class="header-section-number">3</span> Week 3: Dictionary-Based Approaches</a></li>
-<li><a class="" href="week-4-complexity-and-similarity.html"><span class="header-section-number">4</span> Week 4: Complexity and Similarity</a></li>
+<li><a class="active" href="week-4-complexity-and-similarity.html"><span class="header-section-number">4</span> Week 4: Complexity and Similarity</a></li>
 <li><a class="" href="blocks.html"><span class="header-section-number">5</span> Blocks</a></li>
-<li><a class="active" href="sharing-your-book.html"><span class="header-section-number">6</span> Sharing your book</a></li>
+<li><a class="" href="sharing-your-book.html"><span class="header-section-number">6</span> Sharing your book</a></li>
 <li><a class="" href="references.html">References</a></li>
 </ul>
 
@@ -57,53 +57,56 @@
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="sharing-your-book" class="section level1" number="6">
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="week-4-complexity-and-similarity" class="section level1" number="4">
 <h1>
-<span class="header-section-number">6</span> Sharing your book<a class="anchor" aria-label="anchor" href="#sharing-your-book"><i class="fas fa-link"></i></a>
+<span class="header-section-number">4</span> Week 4: Complexity and Similarity<a class="anchor" aria-label="anchor" href="#week-4-complexity-and-similarity"><i class="fas fa-link"></i></a>
 </h1>
-<div id="publishing" class="section level2" number="6.1">
-<h2>
-<span class="header-section-number">6.1</span> Publishing<a class="anchor" aria-label="anchor" href="#publishing"><i class="fas fa-link"></i></a>
+<div id="slides-3" class="section level2 unnumbered">
+<h2>Slides<a class="anchor" aria-label="anchor" href="#slides-3"><i class="fas fa-link"></i></a>
 </h2>
-<p>HTML books can be published online, see: <a href="https://bookdown.org/yihui/bookdown/publishing.html" class="uri">https://bookdown.org/yihui/bookdown/publishing.html</a></p>
+<ul>
+<li>5 Complexity and Similarity (<a href="https://github.com/svallejovera/cpa_uwo/blob/main/slides/5%20Complexity%20and%20Similarity.pptx">link</a> or in Perusall)</li>
+</ul>
 </div>
-<div id="pages" class="section level2" number="6.2">
+<div id="setup-3" class="section level2" number="4.1">
 <h2>
-<span class="header-section-number">6.2</span> 404 pages<a class="anchor" aria-label="anchor" href="#pages"><i class="fas fa-link"></i></a>
+<span class="header-section-number">4.1</span> Setup<a class="anchor" aria-label="anchor" href="#setup-3"><i class="fas fa-link"></i></a>
 </h2>
-<p>By default, users will be directed to a 404 page if they try to access a webpage that cannot be found. If you’d like to customize your 404 page instead of using the default, you may add either a <code>_404.Rmd</code> or <code>_404.md</code> file to your project root and use code and/or Markdown syntax.</p>
+<p>As always, we first load the packages that we’ll be using:</p>
+<div class="sourceCode" id="cb224"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span> <span class="co"># for wrangling data</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/elbersb/tidylog/">tidylog</a></span><span class="op">)</span> <span class="co"># to know what we are wrangling</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/juliasilge/tidytext">tidytext</a></span><span class="op">)</span> <span class="co"># for 'tidy' manipulation of text data</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/EmilHvitfeldt/textdata">textdata</a></span><span class="op">)</span> <span class="co"># text datasets</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://quanteda.io">quanteda</a></span><span class="op">)</span> <span class="co"># tokenization power house</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://quanteda.io">quanteda.textstats</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">quanteda.textplots</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/karthik/wesanderson">wesanderson</a></span><span class="op">)</span> <span class="co"># to prettify</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/markvanderloo/stringdist">stringdist</a></span><span class="op">)</span> <span class="co"># for displaying data in html format (relevant for formatting this worksheet mainly)</span></span></code></pre></div>
 </div>
-<div id="metadata-for-sharing" class="section level2" number="6.3">
+<div id="get-data-3" class="section level2" number="4.2">
 <h2>
-<span class="header-section-number">6.3</span> Metadata for sharing<a class="anchor" aria-label="anchor" href="#metadata-for-sharing"><i class="fas fa-link"></i></a>
+<span class="header-section-number">4.2</span> Get Data:<a class="anchor" aria-label="anchor" href="#get-data-3"><i class="fas fa-link"></i></a>
 </h2>
-<p>Bookdown HTML books will provide HTML metadata for social sharing on platforms like Twitter, Facebook, and LinkedIn, using information you provide in the <code>index.Rmd</code> YAML. To setup, set the <code>url</code> for your book and the path to your <code>cover-image</code> file. Your book’s <code>title</code> and <code>description</code> are also used.</p>
-<p>This <code>gitbook</code> uses the same social sharing data across all chapters in your book- all links shared will look the same.</p>
-<p>Specify your book’s source repository on GitHub using the <code>edit</code> key under the configuration options in the <code>_output.yml</code> file, which allows users to suggest an edit by linking to a chapter’s source file.</p>
-<p>Read more about the features of this output format here:</p>
-<p><a href="https://pkgs.rstudio.com/bookdown/reference/gitbook.html" class="uri">https://pkgs.rstudio.com/bookdown/reference/gitbook.html</a></p>
-<p>Or use:</p>
-<div class="sourceCode" id="cb225"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="op">?</span><span class="fu">bookdown</span><span class="fu">::</span><span class="va"><a href="https://pkgs.rstudio.com/bookdown/reference/gitbook.html">gitbook</a></span></span></code></pre></div>
 
 </div>
 </div>
   <div class="chapter-nav">
-<div class="prev"><a href="blocks.html"><span class="header-section-number">5</span> Blocks</a></div>
-<div class="next"><a href="references.html">References</a></div>
+<div class="prev"><a href="week-3-dictionary-based-approaches.html"><span class="header-section-number">3</span> Week 3: Dictionary-Based Approaches</a></div>
+<div class="next"><a href="blocks.html"><span class="header-section-number">5</span> Blocks</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#sharing-your-book"><span class="header-section-number">6</span> Sharing your book</a></li>
-<li><a class="nav-link" href="#publishing"><span class="header-section-number">6.1</span> Publishing</a></li>
-<li><a class="nav-link" href="#pages"><span class="header-section-number">6.2</span> 404 pages</a></li>
-<li><a class="nav-link" href="#metadata-for-sharing"><span class="header-section-number">6.3</span> Metadata for sharing</a></li>
+<li><a class="nav-link" href="#week-4-complexity-and-similarity"><span class="header-section-number">4</span> Week 4: Complexity and Similarity</a></li>
+<li><a class="nav-link" href="#slides-3">Slides</a></li>
+<li><a class="nav-link" href="#setup-3"><span class="header-section-number">4.1</span> Setup</a></li>
+<li><a class="nav-link" href="#get-data-3"><span class="header-section-number">4.2</span> Get Data:</a></li>
 </ul>
 
       <div class="book-extra">
         <ul class="list-unstyled">
-<li><a id="book-source" href="https://github.com/svallejovera/cpa_uwo/blob/master/06-share.Rmd">View source <i class="fab fa-github"></i></a></li>
-          <li><a id="book-edit" href="https://github.com/svallejovera/cpa_uwo/edit/master/06-share.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+<li><a id="book-source" href="https://github.com/svallejovera/cpa_uwo/blob/master/04-week4.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/svallejovera/cpa_uwo/edit/master/04-week4.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
         </ul>
 </div>
     </nav>

@@ -1,0 +1,443 @@
+# Week 3: Dictionary-Based Approaches
+
+## Slides{.unnumbered}
+
+- 4 Dictionary-Based Approaches ([link](https://github.com/svallejovera/cpa_uwo/blob/main/slides/4%20Dictionary%20Based%20Approaches.pptx) or in Perusall) 
+
+## Setup
+
+As always, we first load the packages that we'll be using:
+
+```{r, warning = F, message = F}
+library(tidyverse) # for wrangling data
+library(tidylog) # to know what we are wrangling
+library(tidytext) # for 'tidy' manipulation of text data
+library(textdata) # text datasets
+library(quanteda) # tokenization power house
+library(quanteda.textstats)
+library(quanteda.dictionaries)
+library(wesanderson) # to prettify
+library(knitr) # for displaying data in html format (relevant for formatting this worksheet mainly)
+```
+
+## Get Data:
+
+For this example, we will be using data from *Ventura et al. (2021) - Connective effervescence and streaming chat during political debates*.
+
+```{r}
+load("data/ventura_etal_df.Rdata")
+head(ventura_etal_df)
+```
+
+## Tokenization etc.
+
+The comments are mostly clean, but you can check (on your own) if they require more cleaning. In the previous code, I showed you how to lower, remove stopwords, etc., using quanteda. We can also do this using tidytext [^4]:
+
+```{r}
+tidy_ventura <- ventura_etal_df %>% 
+  # to lower:
+  mutate(comments = tolower(comments)) %>%
+  # tokenize
+  unnest_tokens(word, comments) %>%
+  # keep only words (check regex)
+  filter(str_detect(word, "[a-z]")) %>%
+  # remove stop words
+  filter(!word %in% stop_words$word)
+
+head(tidy_ventura, 20)
+```
+
+## Keywords
+
+We can detect the occurrence of the words **trump** and **biden** in each comment (`text_id`). 
+
+```{r}
+trump_biden <- tidy_ventura %>%
+  # create a dummy
+  mutate(trump_token = ifelse(word=="trump", 1, 0),
+         biden_token = ifelse(word=="biden", 1, 0)) %>%
+  # see which comments have the word trump / biden
+  group_by(text_id) %>%
+  mutate(trump_cmmnt = ifelse(sum(trump_token)>0, 1, 0),
+         biden_cmmnt = ifelse(sum(biden_token)>0, 1, 0)) %>%
+  # reduce to our unit of analysis (comment) 
+  distinct(text_id, .keep_all = T) %>%
+  select(text_id,trump_cmmnt,biden_cmmnt,likes,debate)
+
+head(trump_biden, 20)
+```
+
+Rather than replicating the results from Figure 3 in Ventura et al. (2021), we will  estimate the median number of likes a comment mentioning Trump, Biden, Both, and None get:
+
+```{r, warning=FALSE}
+trump_biden %>%
+  # Create categories
+  mutate(mentions_cat = ifelse(trump_cmmnt==0 & biden_cmmnt==0, "1. None", NA),
+         mentions_cat = ifelse(trump_cmmnt==1 & biden_cmmnt==0, "2. Trump", mentions_cat),
+         mentions_cat = ifelse(trump_cmmnt==0 & biden_cmmnt==1, "3. Biden", mentions_cat),
+         mentions_cat = ifelse(trump_cmmnt==1 & biden_cmmnt==1, "4. Both", mentions_cat)) %>%
+  group_by(mentions_cat) %>%
+  mutate(likes_mean = median(likes, na.rm = T)) %>%
+  ungroup() %>%
+  # Remove the ones people like too much
+  filter(likes < 26) %>%
+  # Plot
+  ggplot(aes(x=likes,fill = mentions_cat, color = mentions_cat)) +
+  geom_density(alpha = 0.3) +
+  scale_color_manual(values = wes_palette("BottleRocket2")) +
+  scale_fill_manual(values = wes_palette("BottleRocket2")) +
+  facet_wrap(~mentions_cat, ncol = 1) + 
+  theme_minimal() +
+  geom_vline(aes(xintercept = likes_mean, color = mentions_cat), linetype = "dashed")+
+  theme(legend.position="none") +
+  labs(x="", y = "Density", color = "", fill = "",
+       caption = "Note: Median likes in dashed lines.")
+
+```
+
+And we can also see if there are differences across news media:
+
+```{r}
+trump_biden %>%
+  # Create categories
+  mutate(mentions_cat = ifelse(trump_cmmnt==0 & biden_cmmnt==0, "1. None", NA),
+         mentions_cat = ifelse(trump_cmmnt==1 & biden_cmmnt==0, "2. Trump", mentions_cat),
+         mentions_cat = ifelse(trump_cmmnt==0 & biden_cmmnt==1, "3. Biden", mentions_cat),
+         mentions_cat = ifelse(trump_cmmnt==1 & biden_cmmnt==1, "4. Both", mentions_cat),
+         media = ifelse(str_detect(debate, "abc"), "ABC", NA),
+         media = ifelse(str_detect(debate, "nbc"), "NBC", media),
+         media = ifelse(str_detect(debate, "fox"), "FOX", media)) %>%
+  group_by(mentions_cat,media) %>%
+  mutate(median_like = median(likes,na.rm = T)) %>%
+  ungroup() %>%
+  # Remove the ones people like too much
+  filter(likes < 26) %>%
+  # Plot
+  ggplot(aes(x=likes,fill = mentions_cat, color = mentions_cat)) +
+  geom_density(alpha = 0.3) +
+  scale_color_manual(values = wes_palette("BottleRocket2")) +
+  scale_fill_manual(values = wes_palette("BottleRocket2")) +
+  facet_wrap(~media, ncol = 1) + 
+  geom_vline(aes(xintercept = median_like, color = mentions_cat), linetype = "dashed")+
+  theme_minimal() +
+  theme(legend.position="bottom") +
+  labs(x="", y = "Density", color = "", fill = "",
+       caption = "Note: Median likes in dashed lines.")
+
+```
+
+Similar to Young and Soroka (2012), we can also explore our keywords of interest in context. This is a good way to validate our proposed measure (e.g., Is mentioning *trump* a reflection of interest? Of relevance?). 
+
+```{r}
+corpus_ventura <- corpus(ventura_etal_df,
+                     text_field = "comments",
+                     unique_docnames = TRUE)
+
+toks_ventura <- tokens(corpus_ventura)
+kw_trump <- kwic(toks_ventura, pattern = "Trump")
+
+## The number determines the size of the window: how many tokens before and after
+head(kw_trump, 20)
+```
+
+We can also look for more than one word at the same time:
+
+```{r}
+kw_best <- kwic(toks_ventura, pattern = c("best","worst"))
+head(kw_best, 20)
+```
+
+Alternatively, we can see what are the most common words that happen together. These are called collocations (which is a similar concept to n-grams). We want to see the most common names mentioned (first and last name). 
+
+```{r}
+toks_ventura <- tokens(corpus_ventura, remove_punct = TRUE)
+col_ventura <- tokens_select(toks_ventura, 
+                                # Keep only tokens that start with a capital letter
+                                pattern = "^[A-Z]", 
+                                valuetype = "regex", 
+                                case_insensitive = FALSE, 
+                                padding = TRUE) %>% 
+                  textstat_collocations(min_count = 20) # Minimum number of collocations to be taken into account.
+head(col_ventura, 20)
+
+```
+
+(The $\lambda$ score is something like the likelihood of, for example, *chris* and *wallace* happening one next to the other. For a complete explanation, you can [read this paper](http://web.science.mq.edu.au/~mjohnson/papers/2001/dpb-colloc01.pdf).)
+
+We can also discover collocations longer than two words. In the example below we identify collocations consisting of three words.
+
+```{r}
+col_ventura <- tokens_select(toks_ventura, 
+                                case_insensitive = FALSE, 
+                                padding = TRUE) %>% 
+              textstat_collocations(min_count = 100, size = 3)
+head(col_ventura, 20)
+```
+
+## Dictionary Approaches 
+
+We can extend the previous analysis by using dictionaries. You can create you own, you can use previously validates dictionaries, or you can use previously validates dictionaries that are already included with `tidytext` or `quanteda` (for sentiment analysis).
+
+### Sentiment Analysis
+
+Let's look at some pre-loaded sentiment dictionaries in `tidytext`:
+
+- `AFFIN`: measures sentiment with a numeric score between -5 and 5, and were validated in [this paper](http://www2.imm.dtu.dk/pubdb/edoc/imm6006.pdf).
+
+```{r}
+get_sentiments("afinn")
+```
+
+- `bing`: sentiment words found in online forums. More information [here](https://www.cs.uic.edu/~liub/FBS/sentiment-analysis.html).
+
+```{r}
+get_sentiments("bing")
+```
+
+- `nrc`: underpaid workers from Amazon mechanical Turk coded the emotional valence of a long list of terms, which were validated in [this paper](https://arxiv.org/pdf/1308.6297.pdf).
+
+```{r}
+get_sentiments("nrc")
+```
+
+Each dictionary classifies and quantifies words in a different way. Let's use the `nrc` sentiment dictionary to analyze our comments dataset. `nrc` classifies words as whether having *positive* or *negative* sentiment. 
+
+Each dictionary classifies and quantifies words in a different way. Let's use the `nrc` sentiment dictionary to analyze our comments dataset. `nrc` classifies words as whether reflecting: 
+
+```{r}
+nrc <- get_sentiments("nrc") 
+table(nrc$sentiment)
+```
+
+We will focus solely on *positive* or *negative* sentiment:
+
+```{r}
+nrc_pos_neg <- get_sentiments("nrc") %>% 
+  filter(sentiment == "positive" | sentiment == "negative")
+
+ventura_pos_neg <- tidy_ventura %>%
+  left_join(nrc_pos_neg)
+```
+
+Let's check the top *positive* words and the top *negative* words:
+
+```{r}
+ventura_pos_neg %>%
+  group_by(sentiment) %>%
+  count(word, sort = TRUE)
+```
+
+Some make sense: 'love' is *positive*, 'bully' is *negative*. Some, not so much: 'talk' is positive? 'joke' is negative? Some are out of context: A 'vice' is negative, but THE 'vice'-president is not (especially since presidente is considered 'positive', which... really?). And then 'vote' is both positive and negative which... what? Let's turn a blind eye for now (but, once again, go back to Grimmer et al. Ch. 15 for best practices). 
+
+Are people watching different news media using different language? Let's see what the data tells us. As always, check the unit of analysis of your dataset. In this case, each observation is a word, but we have the grouping variable of the comment (`text_id`), so we can count how many *positive* and *negative* words per comment. We will calculate a net sentiment score by subtracting the number of negative words from positive word (in each comment).
+
+```{r}
+comment_pos_neg <- ventura_pos_neg %>%
+  # Create dummies of pos and neg for counting
+  mutate(pos_dum = ifelse(sentiment == "positive", 1, 0),
+         neg_dum = ifelse(sentiment == "negative", 1, 0)) %>%
+  # Estimate total number of tokens per comment, pos , and negs
+  group_by(text_id) %>%
+  mutate(total_words = n(),
+         total_pos = sum(pos_dum, na.rm = T),
+         total_neg = sum(neg_dum, na.rm = T)) %>%
+  # These values are aggregated at the text_id level so we can eliminate repeated text_id
+  distinct(text_id,.keep_all=TRUE) %>%
+  # Now we estimate the net sentiment score. You can change this and get a different way to measure the ratio of positive to negative
+  mutate(net_sent = total_pos - total_neg) %>%
+  ungroup() 
+  
+# Note that the `word` and `sentiment` columns are meaningless now
+head(comment_pos_neg, 10)
+```
+
+Ok, now we can plot the differences:
+
+```{r}
+comment_pos_neg %>%
+    # Create categories
+  mutate(media = ifelse(str_detect(debate, "abc"), "ABC", NA),
+         media = ifelse(str_detect(debate, "nbc"), "NBC", media),
+         media = ifelse(str_detect(debate, "fox"), "FOX", media)) %>%
+  group_by(media) %>%
+  mutate(median_sent = mean(net_sent)) %>%
+  ggplot(aes(x=net_sent,color=media,fill=media)) +
+  geom_histogram(alpha = 0.4,
+                 binwidth = 1) +
+  scale_color_manual(values = wes_palette("BottleRocket2")) +
+  scale_fill_manual(values = wes_palette("BottleRocket2")) +
+  facet_wrap(~media, ncol = 1) + 
+  geom_vline(aes(xintercept = median_sent, color = media), linetype = "dashed")+
+  theme_minimal() +
+  theme(legend.position="bottom") +
+  coord_cartesian(xlim = c(-5,5)) +
+  labs(x="", y = "Count", color = "", fill = "",
+       caption = "Note: Mean net sentiment in dashed lines.")
+  
+```
+
+### Domain-Specific Dictionaries
+
+Sentiment dictionaries are common. But you can make a dictionary of whatever concept you are interested in. After all, as long as you can create a lexicon (and validate it), then you can conduct an analysis similar to the one we just carried out. This time, rather than using an off-the-shelf (sentiment) dictionary, we will create our own. Let's try a dictionary for two topics: the economy and migration. 
+
+As long as the dictionary has the same shape as our `nrc_pos_neg` object, we can follow the same process that we followed for the sentiment dictionaries. 
+
+```{r}
+# First, we define the economy and migration as a concept, and then find words that signal that concept:
+economy <- cbind.data.frame(c("economy","taxes","inflation","debt","employment","jobs"),"economy")
+colnames(economy) <- c("word","topic")
+migration <- cbind.data.frame(c("immigrants","border","wall","alien","migrant","visa","daca","dreamer"),"migration") 
+colnames(migration) <- c("word","topic")
+
+dict <- rbind.data.frame(economy,migration)
+dict
+```
+
+Let's see if we find some of these words in our comments:
+
+```{r}
+ventura_topic <- tidy_ventura %>%
+  left_join(dict)
+
+ventura_topic %>%
+  filter(!is.na(topic)) %>%
+  group_by(topic) %>%
+  count(word, sort = TRUE)
+```
+
+Not that many. Note that we did not stem or lemmatized our corpus, so in order to get 'job' *and* 'jobs' we must have both in our dictionary. That means that the same pre-processing step that we carry our in our corpus, we must also carry our in our dictionary. 
+
+If you are a bit more versed in R language, you will notice that dictionaries are actually lists. `quanteda` understand dictionaries as lists so we can actually build them as such and use its function `likcalike()` to find words in text. The added benefit is that we can use [glob](https://linuxhint.com/bash_globbing_tutorial/) to find variations of the same word (e.g., `job*` will match 'job' and 'jobs' and 'jobless'). 
+
+```{r}
+dict <- dictionary(list(economy = c("econom*","tax*","inflation","debt*","employ*","job*"),
+                        immigration = c("immigrant*","border","wall","alien","migrant*","visa*","daca","dreamer*"))) 
+
+# liwcalike lowercases input text
+ventura_topics <- liwcalike(ventura_etal_df$comments,
+                               dictionary = dict)
+
+# liwcalike keeps the order so we can cbind them directly
+topics <- cbind.data.frame(ventura_etal_df,ventura_topics) 
+
+# Look only at the comments that mention the economy and immigration
+head(topics[topics$economy>0 & topics$immigration>0,])
+```
+
+The output provides some interesting information. First, `economy` and `immigration` gives us the *percentage* of words in the text that are about the economy or immigration. In general, we would not expect too many words in a sentence to mention, for example, 'jobs' to argue that the sentences talks about the economy. So, any number above 0% can be counted as mentioning the economy (unless you have some theoretical grounds where 3% of words mentioning the economy > 2% of words mentioning the economy). For the rest of variables:
+
+- `WPS`: Words per sentence. 
+- `WC`: Word count.
+- `Sixltr`: Six-letter words (%).
+- `Dic`: % of words in the dictionary.
+- `Allpunct`: % of all punctuation marks. 
+- `Period` to `OtherP`: % of specific punctuation marks. 
+
+With the information obtained, we can find which users were focused more on what topic:
+
+```{r echo=FALSE, results='asis'}
+topics_tbl <- topics %>%
+  mutate(media = ifelse(str_detect(debate, "abc"), "ABC", NA),
+         media = ifelse(str_detect(debate, "nbc"), "NBC", media),
+         media = ifelse(str_detect(debate, "fox"), "FOX", media),
+         economy_dum = ifelse(economy>0, 1, 0),
+         immigration_dum = ifelse(immigration>0, 1, 0)) %>%
+  group_by(media) %>%
+  mutate(pct_econ = sum(economy_dum)/n(),
+         pct_migr = sum(immigration_dum)/n()) %>%
+  distinct(media,pct_econ,pct_migr) 
+
+kable(topics_tbl, caption = "% of mentions by topic and media outlet.")
+  
+```
+
+### Using Pre-Built Dictionaries
+
+So far we have seen how to apply pre-loaded dictionaries (e.g., sentiment) and our own dictionaries. What if you have a pre-built dictionary that you want to apply to your corpus? As long as the pre-built dictionary has the correct shape, we can use the techniques we have applied so far. This also means that you will need to do some data-wrangling as pre-built dictionaries will come in different shapes. 
+
+Let's use the NRC Affect Intensity Lexicon (created by the same people who made the pre-loaded `nrc` sentiment dictionary). The NRC Affect Intensity Lexicon measure the intensity of an emotion in a scale of 0 (low) to 1 (high). For example, 'defiance' has an anger intensity of 0.51 and 'hate' an anger intensity of 0.83. 
+
+```{r}
+intense_lex <- read.table(file = "data/NRC-AffectIntensity-Lexicon.txt", fill = TRUE,
+                          header = TRUE)
+head(intense_lex)
+```
+
+This is more than a dictionary, and the best use of it to include the intensity of each word to obtain more variation in our analysis of the text (e.g., rather than showing anger-no anger, we can analyze a degree of anger). We will use the `tidytext` approach to analyze the degrees of 'joy' in our corpus.  
+
+```{r}
+joy_lex <- intense_lex %>%
+  filter(AffectDimension=="joy") %>%
+  mutate(word=term) %>%
+  select(word,AffectDimension,score)
+
+ventura_joy <- tidy_ventura %>%
+  left_join(joy_lex) %>%
+  ## Most of the comments have no joy words so we will change these NAs to 0 but this is an ad-hoc decision. This decision must be theoretically motivated and justified
+  mutate(score = ifelse(is.na(score),0,score))
+
+head(ventura_joy[ventura_joy$score>0,])
+```
+
+Now, we can see the relationship between `likes` and `joy`:
+
+```{r, warning=FALSE}
+library(MASS) # To add the negative binomial fitted line
+
+ventura_joy %>%
+  mutate(media = ifelse(str_detect(debate, "abc"), "ABC", NA),
+         media = ifelse(str_detect(debate, "nbc"), "NBC", media),
+         media = ifelse(str_detect(debate, "fox"), "FOX", media)) %>%
+  # Calculate mean joy in each comment
+  group_by(text_id) %>%
+  mutate(mean_joy = mean(score)) %>%
+  distinct(text_id,mean_joy,likes,media) %>%
+  ungroup() %>%
+  # Let's only look at comments that had SOME joy in them
+  filter(mean_joy > 0) %>%
+  # Remove the ones people like too much
+  filter(likes < 26) %>%
+  # Plot
+  ggplot(aes(x=mean_joy,y=likes,color=media,fill=media)) +
+  geom_point(alpha = 0.3) +
+  geom_smooth(method = "glm.nb") +
+  scale_color_manual(values = wes_palette("BottleRocket2")) +
+  scale_fill_manual(values = wes_palette("BottleRocket2")) +
+  facet_wrap(~media, ncol = 1) + 
+  theme_minimal() +
+  theme(legend.position="none") +
+  labs(x="Mean Joy", y = "Likes", color = "", fill = "")
+
+```
+
+Finally, for the sake of showing the process, I will write the code to load the dictionary using `quanteda`, but note that this approach loses all the intensity information.  
+
+```{r}
+affect_dict <- dictionary(list(anger = intense_lex$term[intense_lex$AffectDimension=="anger"],
+                        fear = intense_lex$term[intense_lex$AffectDimension=="fear"],
+                        joy = intense_lex$term[intense_lex$AffectDimension=="joy"],
+                        sadness = intense_lex$term[intense_lex$AffectDimension=="sadness"])) 
+
+ventura_affect <- liwcalike(ventura_etal_df$comments,
+                               dictionary = affect_dict)
+
+# liwcalike keeps the order so we can cbind them directly
+affect <- cbind.data.frame(ventura_etal_df,ventura_affect) 
+
+# Look only at the comments that have anger and fear
+head(affect[affect$anger>0 & affect$fear>0,])
+```
+
+## Homework
+
+1. Replicate the results from Figure 3 in Ventura et al. (2021)
+2. Look at the keywords in context for *Biden* in the `ventura_etal_df` dataset, and compare the results with the same data, but pre-processed (i.e., lower-case, remove stopwords, etc.). Which provides more information about the context in which *Biden* appears in the comments?
+3. Do a different collocation approach with the `ventura_etal_df` dataset, but pre-process the data (i.e., lower-case, remove stopwords, etc.). Which approach (pre-processed and not pre-processed) provides a better picture of the corpus or of the collocations you found?
+4. Compare the **positive** sentiments of comments mentioning *trump* and comments mentioning *biden* obtained using `bing` and `afinn`. Note that `afinn` gives a numeric value, so you will need to choose a threshold to determine **positive** sentiment.
+5. Using `bing`, compare the sentiment of comments mentioning *trump* and comments mentioning *biden* using different metrics (e.g., Young and Soroka 2012, Martins and Baumard 2020, Ventura et al. 2021). 
+6. Create your own domain-specific dictionary and apply it to the `ventura_etal_df` dataset. Show the limitation of your dictionary (e.g., false positives) and comment on how much of a problem this would be if you wanted to conduct an analysis of this corpus. 
+
+
+[^4]: This code is adapted from Christopher Barrie’s course on [Computational Text Analysis](https://cjbarrie.github.io/CTA-ED/exercise-2-dictionary-based-methods.html). 
+
+

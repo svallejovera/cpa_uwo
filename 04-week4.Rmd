@@ -1,0 +1,24 @@
+# Week 4: Complexity and Similarity
+
+## Slides{.unnumbered}
+
+- 5 Complexity and Similarity ([link](https://github.com/svallejovera/cpa_uwo/blob/main/slides/5%20Complexity%20and%20Similarity.pptx) or in Perusall) 
+
+## Setup
+
+As always, we first load the packages that we'll be using:
+
+```{r, warning = F, message = F}
+library(tidyverse) # for wrangling data
+library(tidylog) # to know what we are wrangling
+library(tidytext) # for 'tidy' manipulation of text data
+library(textdata) # text datasets
+library(quanteda) # tokenization power house
+library(quanteda.textstats)
+library(quanteda.textplots)
+library(wesanderson) # to prettify
+library(stringdist) # for displaying data in html format (relevant for formatting this worksheet mainly)
+```
+
+## Get Data:
+
