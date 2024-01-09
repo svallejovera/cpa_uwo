@@ -16,30 +16,26 @@ github-repo: svallejovera/cpa_uwo
 
 &nbsp;
 
-Welcome to the site for the course PS9594A: "Computational Text Analysis" at Western University, taught by Sebastián Vallejo Vera. In each week, you will find the code, exercises, and slides for the corresponding topic. 
+This is the dedicated site for the course PS9594A: "Computational Text Analysis" at Western University, taught by Sebastián Vallejo Vera. In each week, you will find the code, exercises, and slides for corresponding topic. 
 
-Before you start, check the required software and packages below. Also, don't forget to read the [Syllabus](https://svallejovera.github.io/files/9594A__Computational_Text_Analysis.pdf) and check Perusall for the readings for the course. This site will be corrected/updated throughout the semester.
+Before you start, check the required software and packages below. Also, don't forget to read the [Syllabus](https://svallejovera.github.io/files/9594A__Computational_Text_Analysis.pdf) and the Perusall with the readings for the course. This site will be corrected/updated throughout the semester.
 
 ## Software and Packages
 
-For the first part of this course (Weeks 1 - 5), we will be mainly using R. For the second part of the this course (Weeks 6 - 11), we will use a combination of R and Python. I will assume that you are familiar with R language, RStudio, and R packages. If you are not, please come to office hours and I can help you out[^1]. In R, these are the main packages you will need to have installed:
+For the first part of this course (Weeks 1 - 5), we will be mainly using R. For the second part of the this course (Weeks 6 - 11), we will use a combination of R and Python. I will assume that you are familiar with R language, RStudio, and R packages. If you are not, please come to office hours and I can help you out[^1]. In R the main packages, we you will need to have the following packages installed:
 
 - tidyverse (we will be piping)
 - tidylog (helps keep track of what your are pipins)
 - tidytext (great for working with text)
 - quanteda (stands for "Quantitative Analysis of Textual Data")
-  - quanteda.textstats (to obtain stats from our dfm)
-  - quanteda.textplots (to obtain plots from our dfm stats)
-  - quanteda.dictionaries (to use dictionaries with quanteda)
-- gutenbergr (to download texts from [Project Gutenberg](https://www.gutenberg.org/))
-- wesanderson (to make things pretty)
 
 ## Datasets
 
 Throughout the class, we will be using a number of sample datasets. Access to these datasets will be provided directly on the code. For your Final Essay, you can use one of the following datasets (or, even better, you can use your own):
 
-- Data from Ventura et al. (2021) - "Connective Effervescence and Streaming Chat During Political Debates": [LINK TO REPLICATION MATERIAL](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/EWEJZN)
-- Data from Project Gutenberg: `gutenbergr`
+- data 1 + link
+- data 2 + link 
+- data 3 + link
 
 ## Acknowledgments 
 
