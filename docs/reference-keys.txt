@@ -31,7 +31,11 @@ using-pre-built-dictionaries
 homework
 week-4-complexity-and-similarity
 setup-3
-get-data-3
+replicate-the-lecture
+comparing-text
+character-level-comparisons
+token-level-comparisons
+complexity
 blocks
 equations
 theorems-and-proofs

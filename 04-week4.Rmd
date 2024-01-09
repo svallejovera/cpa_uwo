@@ -17,8 +17,148 @@ library(quanteda) # tokenization power house
 library(quanteda.textstats)
 library(quanteda.textplots)
 library(wesanderson) # to prettify
-library(stringdist) # for displaying data in html format (relevant for formatting this worksheet mainly)
+library(stringdist) # measure string distance
+library(reshape2)
 ```
 
-## Get Data:
+## Replicate the Lecture:
+
+In this weeks [lecture](https://github.com/svallejovera/cpa_uwo/blob/main/slides/5%20Complexity%20and%20Similarity.pptx), we learned about similarity and complexity measures at the word- and document-level. We will follow the same order from the lecture slides.
+
+## Comparing Text:
+
+There are different ways to compare text, depending on the unit of analysis:
+- Character-level comparisons
+- Token-level comparison
+
+### Character-Level Comparisons:
+
+Let's start by using character-level comparisons tools to evaluate two documents (in this case, two statements made by me on any given Ontario winter day):
+
+```{r}
+doc_1 <- "By the professor’s standards, the weather in Ontario during the Winter term is miserable."
+doc_2 <- "By the professor’s high standards, the weather in London during the Winter term is depressive."
+```
+
+From `?stringdist`, we know that "the longest common substring distance is defined as the number of unpaired characters. The distance is equivalent to the edit distance allowing only deletions and insertions, each with weight one." We also learned about *Levenshtein* distance and *Jaro* distance. We can easily implement these using the `stringdist` function:
+
+```{r}
+stringdist(doc_1,doc_2,method = "lcs")
+```
+```{r}
+stringdist(doc_1,doc_2,method = "lv")
+```
+```{r}
+stringdist(doc_1,doc_2,method = "jw")
+```
+
+Each distance provides slightly different information about the relation between both documents. There are other distances that the `stringdist` function can compute. If this is something that interests you, there is more information about each measure in this [paper](https://www.dcc.uchile.cl/TR/1999/TR_DCC-1999-005.pdf_a). 
+
+Have *I* ever used these measure in my own work? Actually, yes. When combining a corpus of legislative speeches from the Ecuadorian Congress with a data set of Ecuadorian legislators, I matched the names of both data set using *fuzzy matching* or matching names that were closely related (even if they were not a perfect match). Here is an example of the code:
+
+```{r eval=FALSE}
+# I have a dataframe df_a and df_b. I want to match names from b to a. I run a loop that goes through all the names b and gives a Jaro distance score for a name in a. I assume that the names are a match when the Jaro distance score is highest AND it is above a threshold (0.4).
+for(i in 1:length(df_a$CANDIDATO_to_MATCH)){
+  score_temp <- stringdist(df_a$CANDIDATO_to_MATCH[i],df_b$CANDIDATO_MERGE,method = "jw") 
+  if(max(score_temp)>.4 & length(which(score_temp == max(score_temp)))<2){
+    df_a$CANDIDATO_MERGE[i] <- df_b$CANDIDATO_MERGE[which(score_temp == max(score_temp))]}
+  else{
+    df_a$CANDIDATO_MERGE[i] <- NA}
+}
+```
+
+It saved me a lot of time. I still needed to **validate** all the matches and manually match the unmatched names. 
+
+### Token-Level Comparisons:
+
+To compare documents at the token level (i.e., how many and how often to token coincide), we can think of each document as a row/column in a matrix and each word as a row/column in a matrix. We call these matrices, document-feature matrices or `dfm`. To do that using `quanteda` we first need to tokenize our corpus:
+
+```{r}
+doc_3 <- "The professor has strong evidence that the weather in London (Ontario) is miserable and depressive."
+
+docs_toks <- tokens(rbind(doc_1,doc_2,doc_3),
+                            remove_punct = T)
+docs_toks <- tokens_remove(docs_toks,
+                           stopwords(language = "en"))
+docs_toks
+```
+
+Now we are ready to create a `dfm`:
+
+```{r}
+docs_dmf <- dfm(docs_toks)
+docs_dmf
+```
+
+Just a matrix (are really sparse matrix which becomes even more sparse as the corpus grows). Now we can measure the similarity or distance between these two text. The most straightforward way is to just correlate the occurrence of 1s and 0s across texts. An intuitive way to see this is by transposing the `dfm` and presenting it in a shape that you are more familiar with:
+
+```{r}
+dfm_df <- convert(docs_dmf, to = "matrix")
+dfm_df_t <- t(dfm_df)
+dfm_df_t
+```
+
+Ok, now we just use a simple correlation test: 
+
+```{r}
+cor(dfm_df_t[,c(1:3)])
+```
+
+From this we can see that text1 is more highly correlated to text2 than to text 3. Alternatively, we can use the built-in functions in `quanteda` to obtain similar results without having to transform our `dfm`:
+
+```{r}
+textstat_simil(docs_dmf, margin = "documents", method = "correlation")
+```
+
+We can use `textstat_simil` for the a whole bunch of similarity/distance methods:
+
+```{r}
+textstat_simil(docs_dmf, margin = "documents", method = "cosine")
+```
+
+```{r}
+textstat_simil(docs_dmf, margin = "documents", method = "jaccard")
+```
+
+```{r}
+textstat_dist(docs_dmf, margin = "documents", method = "euclidean")
+```
+
+```{r}
+textstat_dist(docs_dmf, margin = "documents", method = "manhattan")
+```
+
+We can also present these matrices as nice plots:
+
+```{r}
+cos_sim_doc <- textstat_simil(docs_dmf, margin = "documents", method = "cosine")
+cos_sim_doc <- as.matrix(cos_sim_doc)
+  
+# We do this to use ggplot
+cos_sim_doc_df <- as.data.frame(cos_sim_doc)
+cos_sim_doc_df %>%
+    rownames_to_column() %>%
+  # ggplot prefers 
+    melt() %>%
+    ggplot(aes(x = as.character(variable),y = as.character(rowname), col = value)) +
+    geom_tile(col="black", fill="white") + 
+    # coord_fixed() +
+    labs(x="",y="",col = "Cosine Sim", fill="") +
+    theme_minimal() +
+    theme(axis.text.x = element_text(
+      angle = 90,
+      vjust = 1,
+      hjust = 1)) +
+    geom_point(aes(size = value)) + 
+    scale_size(guide = 'none') +
+    scale_color_gradient2(mid="#A63446",low= "#A63446",high="#0C6291") +
+    scale_x_discrete(expand=c(0,0)) +
+    scale_y_discrete(expand=c(0,0))
+```
+
+Noise!
+
+## Complexity
+
+From the lecture (and one of the readings) we 
 
