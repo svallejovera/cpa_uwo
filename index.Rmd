@@ -38,8 +38,10 @@ For the first part of this course (Weeks 1 - 5), we will be mainly using R. For 
 
 Throughout the class, we will be using a number of sample datasets. Access to these datasets will be provided directly on the code. For your Final Essay, you can use one of the following datasets (or, even better, you can use your own):
 
-- Data from Ventura et al. (2021) - "Connective Effervescence and Streaming Chat During Political Debates": [LINK TO REPLICATION MATERIAL](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/EWEJZN)
+- Data from Ventura et al. (2021) - "Connective Effervescence and Streaming Chat During Political Debates": [Link to replication material](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/EWEJZN)
 - Data from Project Gutenberg: `gutenbergr`
+- Open-ended question from the 2021 Canadian Election Study survey: [Link to replication material](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/XBZHKC)
+- Open-ended questions from ANES surveys: [Link to ANES homepage](https://electionstudies.org/)
 
 ## Acknowledgments 
 

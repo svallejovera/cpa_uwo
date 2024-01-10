@@ -21,11 +21,11 @@ library(stringdist) # measure string distance
 library(reshape2)
 ```
 
-## Replicate the Lecture:
+## Replicating the Lecture
 
 In this weeks [lecture](https://github.com/svallejovera/cpa_uwo/blob/main/slides/5%20Complexity%20and%20Similarity.pptx), we learned about similarity and complexity measures at the word- and document-level. We will follow the same order from the lecture slides.
 
-## Comparing Text:
+## Comparing Text
 
 There are different ways to compare text, depending on the unit of analysis:
 - Character-level comparisons
@@ -160,5 +160,48 @@ Noise!
 
 ## Complexity
 
-From the lecture (and one of the readings) we 
+From this week's lecture (and one of the readings) we know that another way of analyzing text is by computing its complexity. In *Schoonvelde et al. (2019) - Liberals lecture, conservatives communicate: Analyzing complexity and ideology in 381,609 political speeches*, the authors use Flesch's Reading Ease Score as a measure of "complexity" or readability of a text (see `??textstat_readability` for the formula and other readability measures). Flesch's Reading Ease Score ranges from 0 to 100, where higher values suggest less complex/more readable text (e.g., a score between 90 and 100 is a text that can be understood by a 5th grade; a score between 0 and 30 is a text that can be understood by a college graduate and professional). It obtains the score taking into consideration the average length of a sentence, the number of words, and the number of syllables.
+
+Let's apply the readability score to some open-ended questions from the 2020 ANES survey, and see how these correlate to the characteristics of the respondents. 
+
+```{r}
+load("data/anes_sample.Rdata")
+head(open_srvy)
+```
+
+We have open-ended survey questions that ask respondents what they like and dislike about the Democratic (Joe Biden) and Republican (Donald Trump) 2020 US presidential candidates before the election. Note that survey respondent could opt out of the question and are given an *NA*. 
+
+Let's check:
+
+```{r}
+read_like_dem_pres <- textstat_readability(open_srvy$like_dem_pres,measure = "Flesch")
+open_srvy$read_like_dem_pres <- read_like_dem_pres$Flesch
+head(open_srvy[,c(2,10)],15)
+```
+
+Makes sense: the third row is quite easy to ready, the fourth row is a bit more complex, and the eleventh row is impossible to read because it is in Spanish. 
+
+```{r}
+open_srvy %>%
+  # Remove people who did not answer
+  filter(edu>0) %>%
+  # Remove negative scores
+  filter(read_like_dem_pres>0) %>%
+  ggplot(aes(x=as.factor(edu),y=read_like_dem_pres)) +
+  geom_boxplot(alpha=0.6) +
+  # scale_color_manual(values = wes_palette("BottleRocket2")) +
+  # scale_fill_manual(values = wes_palette("BottleRocket2")) +
+  theme_minimal() +
+  theme(legend.position="bottom") +
+  labs(x="Education", y = "Flesch Score", 
+       caption = "Note: Education goes from 1 - Less the high school credentials to 5 - Graduate Degree")
+```
+
+Look at that... having a degree makes you speak more complicated. 
+
+## Exercise (Optional)
+
+1. Extend the analysis of the ANES data using other readiability scores and/or other variables.
+2. If you wanted to use a similarity/distance measure to explore the ANES data, how would you go about it? What would you be able to compare using only the data provided?
+
 
