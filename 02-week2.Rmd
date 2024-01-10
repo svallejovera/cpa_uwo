@@ -60,7 +60,6 @@ Our goal is to create a document-feature matrix, from which we will later extrac
 
 ```{r}
 corpus_lyrics <- corpus(sample_lyrics,
-                     # docid_field = "texto_id",
                      text_field = "lyrics_clean",
                      unique_docnames = TRUE)
 

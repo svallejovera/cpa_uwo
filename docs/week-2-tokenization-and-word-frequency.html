@@ -133,7 +133,6 @@
 <p>Our goal is to create a document-feature matrix, from which we will later extract information about word frequency. To do that, we start by crating a <code>corpus</code> object, from the <code>quanteda</code> package.</p>
 <div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">corpus_lyrics</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://quanteda.io/reference/corpus.html">corpus</a></span><span class="op">(</span><span class="va">sample_lyrics</span>,</span>
-<span>                     <span class="co"># docid_field = "texto_id",</span></span>
 <span>                     text_field <span class="op">=</span> <span class="st">"lyrics_clean"</span>,</span>
 <span>                     unique_docnames <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
