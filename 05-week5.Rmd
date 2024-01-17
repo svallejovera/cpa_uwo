@@ -2,7 +2,7 @@
 
 ## Slides{.unnumbered}
 
-- 6 Scaling Techniques and Topic Modeling ([link](https://github.com/svallejovera/cpa_uwo/blob/main/slides/6%20Scalingy%20Techniques%20and%20Topic%20Modeling.pptx) or in Perusall) 
+- 6 Scaling Techniques and Topic Modeling ([link](https://github.com/svallejovera/cpa_uwo/blob/main/slides/6%20Scaling%20Techniques%20and%20Topic%20Modeling.pptx) or in Perusall) 
 
 ## Setup
 
