@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 5 Week 5: Scaling Techniques and Topic Modeling | PS9594A: Computational Text Analysis</title>
+<meta name="author" content="Dr. Sebastián Vallejo Vera | Western University">
+<meta name="description" content='Slides 6 Scaling Techniques and Topic Modeling (link or in Perusall)  5.1 Setup As always, we first load the packages that we’ll be using: # devtools::install_github("conjugateprior/austin")...'>
+<meta name="generator" content="bookdown 0.37 with bs4_book()">
+<meta property="og:title" content="Chapter 5 Week 5: Scaling Techniques and Topic Modeling | PS9594A: Computational Text Analysis">
+<meta property="og:type" content="book">
+<meta property="og:description" content='Slides 6 Scaling Techniques and Topic Modeling (link or in Perusall)  5.1 Setup As always, we first load the packages that we’ll be using: # devtools::install_github("conjugateprior/austin")...'>
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 5 Week 5: Scaling Techniques and Topic Modeling | PS9594A: Computational Text Analysis">
+<meta name="twitter:description" content='Slides 6 Scaling Techniques and Topic Modeling (link or in Perusall)  5.1 Setup As always, we first load the packages that we’ll be using: # devtools::install_github("conjugateprior/austin")...'>
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.1/transition.js"></script><script src="libs/bs3compat-0.5.1/tabs.js"></script><script src="libs/bs3compat-0.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">PS9594A: Computational Text Analysis</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">“Computational Text Analysis”</a></li>
+<li><a class="" href="week-1-a-primer-on-using-text-as-data.html"><span class="header-section-number">1</span> Week 1: A Primer on Using Text as Data</a></li>
+<li><a class="" href="week-2-tokenization-and-word-frequency.html"><span class="header-section-number">2</span> Week 2: Tokenization and Word Frequency</a></li>
+<li><a class="" href="week-3-dictionary-based-approaches.html"><span class="header-section-number">3</span> Week 3: Dictionary-Based Approaches</a></li>
+<li><a class="" href="week-4-complexity-and-similarity.html"><span class="header-section-number">4</span> Week 4: Complexity and Similarity</a></li>
+<li><a class="active" href="week-5-scaling-techniques-and-topic-modeling.html"><span class="header-section-number">5</span> Week 5: Scaling Techniques and Topic Modeling</a></li>
+<li><a class="" href="sharing-your-book.html"><span class="header-section-number">6</span> Sharing your book</a></li>
+<li><a class="" href="references.html">References</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="https://github.com/svallejovera/cpa_uwo">View book source <i class="fab fa-github"></i></a></p>
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="week-5-scaling-techniques-and-topic-modeling" class="section level1" number="5">
+<h1>
+<span class="header-section-number">5</span> Week 5: Scaling Techniques and Topic Modeling<a class="anchor" aria-label="anchor" href="#week-5-scaling-techniques-and-topic-modeling"><i class="fas fa-link"></i></a>
+</h1>
+<div id="slides-4" class="section level2 unnumbered">
+<h2>Slides<a class="anchor" aria-label="anchor" href="#slides-4"><i class="fas fa-link"></i></a>
+</h2>
+<ul>
+<li>6 Scaling Techniques and Topic Modeling (<a href="https://github.com/svallejovera/cpa_uwo/blob/main/slides/6%20Scalingy%20Techniques%20and%20Topic%20Modeling.pptx">link</a> or in Perusall)</li>
+</ul>
+</div>
+<div id="setup-4" class="section level2" number="5.1">
+<h2>
+<span class="header-section-number">5.1</span> Setup<a class="anchor" aria-label="anchor" href="#setup-4"><i class="fas fa-link"></i></a>
+</h2>
+<p>As always, we first load the packages that we’ll be using:</p>
+<div class="sourceCode" id="cb262"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># devtools::install_github("conjugateprior/austin")</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://conjugateprior.github.io/austin">austin</a></span><span class="op">)</span> <span class="co"># just for those sweet wordscores</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span> <span class="co"># for wrangling data</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/elbersb/tidylog/">tidylog</a></span><span class="op">)</span> <span class="co"># to know what we are wrangling</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/juliasilge/tidytext">tidytext</a></span><span class="op">)</span> <span class="co"># for 'tidy' manipulation of text data</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://quanteda.io">quanteda</a></span><span class="op">)</span> <span class="co"># tokenization power house</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/quanteda/quanteda.textmodels">quanteda.textmodels</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://www.structuraltopicmodel.com/">stm</a></span><span class="op">)</span> <span class="co"># run structural topic models</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/karthik/wesanderson">wesanderson</a></span><span class="op">)</span> <span class="co"># to prettify</span></span></code></pre></div>
+</div>
+<div id="wordscores" class="section level2" number="5.2">
+<h2>
+<span class="header-section-number">5.2</span> Wordscores<a class="anchor" aria-label="anchor" href="#wordscores"><i class="fas fa-link"></i></a>
+</h2>
+<p>Laver et al. (2003) propose a supervised scaling technique called <em>wordscores</em>. We learned about the intuition in this weeks lecture. We will now replicate Table 1 from Laver and Benoit (2003) using the <code>austin</code> package. The package includes some sample data we will be using:</p>
+<div class="sourceCode" id="cb263"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">lbg</span><span class="op">)</span></span></code></pre></div>
+<p>Let’s keep only the reference documents:</p>
+<div class="sourceCode" id="cb264"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ref</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://conjugateprior.github.io/austin/reference/getdocs.html">getdocs</a></span><span class="op">(</span><span class="va">lbg</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span></span>
+<span><span class="va">ref</span></span></code></pre></div>
+<pre><code>##      docs
+## words  R1  R2  R3  R4  R5
+##    A    2   0   0   0   0
+##    B    3   0   0   0   0
+##    C   10   0   0   0   0
+##    D   22   0   0   0   0
+##    E   45   0   0   0   0
+##    F   78   2   0   0   0
+##    G  115   3   0   0   0
+##    H  146  10   0   0   0
+##    I  158  22   0   0   0
+##    J  146  45   0   0   0
+##    K  115  78   2   0   0
+##    L   78 115   3   0   0
+##    M   45 146  10   0   0
+##    N   22 158  22   0   0
+##    O   10 146  45   0   0
+##    P    3 115  78   2   0
+##    Q    2  78 115   3   0
+##    R    0  45 146  10   0
+##    S    0  22 158  22   0
+##    T    0  10 146  45   0
+##    U    0   3 115  78   2
+##    V    0   2  78 115   3
+##    W    0   0  45 146  10
+##    X    0   0  22 158  22
+##    Y    0   0  10 146  45
+##    Z    0   0   3 115  78
+##    ZA   0   0   2  78 115
+##    ZB   0   0   0  45 146
+##    ZC   0   0   0  22 158
+##    ZD   0   0   0  10 146
+##    ZE   0   0   0   3 115
+##    ZF   0   0   0   2  78
+##    ZG   0   0   0   0  45
+##    ZH   0   0   0   0  22
+##    ZI   0   0   0   0  10
+##    ZJ   0   0   0   0   3
+##    ZK   0   0   0   0   2</code></pre>
+<p>This is the same matrix from Figure 1, where we have a count for the count of each word (in this case, letters) by reference document (the documents that have been previously labelled). We can give scores <code>A_scores</code> to each reference text to place them in a ideological scale (or whatever scale we want). We then estimate the wordscores for each word.</p>
+<div class="sourceCode" id="cb266"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># We do this in the order of the reference texts:</span></span>
+<span><span class="va">A_score</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1.5</span>,<span class="op">-</span><span class="fl">0.75</span>,<span class="fl">0</span>,<span class="fl">0.75</span>,<span class="fl">1.5</span><span class="op">)</span></span>
+<span><span class="va">ws</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://conjugateprior.github.io/austin/reference/classic.wordscores.html">classic.wordscores</a></span><span class="op">(</span><span class="va">ref</span>, scores<span class="op">=</span><span class="va">A_score</span><span class="op">)</span></span>
+<span><span class="va">ws</span><span class="op">$</span><span class="va">pi</span></span></code></pre></div>
+<pre><code>##         Score
+## A  -1.5000000
+## B  -1.5000000
+## C  -1.5000000
+## D  -1.5000000
+## E  -1.5000000
+## F  -1.4812500
+## G  -1.4809322
+## H  -1.4519231
+## I  -1.4083333
+## J  -1.3232984
+## K  -1.1846154
+## L  -1.0369898
+## M  -0.8805970
+## N  -0.7500000
+## O  -0.6194030
+## P  -0.4507576
+## Q  -0.2992424
+## R  -0.1305970
+## S   0.0000000
+## T   0.1305970
+## U   0.2992424
+## V   0.4507576
+## W   0.6194030
+## X   0.7500000
+## Y   0.8805970
+## Z   1.0369898
+## ZA  1.1846154
+## ZB  1.3232984
+## ZC  1.4083333
+## ZD  1.4519231
+## ZE  1.4809322
+## ZF  1.4812500
+## ZG  1.5000000
+## ZH  1.5000000
+## ZI  1.5000000
+## ZJ  1.5000000
+## ZK  1.5000000</code></pre>
+<p>Now we get the virgin text and predict the textscore by estimating the average of the weighted wordscores for the virgin document:</p>
+<div class="sourceCode" id="cb268"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">vir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://conjugateprior.github.io/austin/reference/getdocs.html">getdocs</a></span><span class="op">(</span><span class="va">lbg</span>, <span class="st">'V1'</span><span class="op">)</span></span>
+<span><span class="va">vir</span></span></code></pre></div>
+<pre><code>##      docs
+## words  V1
+##    A    0
+##    B    0
+##    C    0
+##    D    0
+##    E    0
+##    F    0
+##    G    0
+##    H    2
+##    I    3
+##    J   10
+##    K   22
+##    L   45
+##    M   78
+##    N  115
+##    O  146
+##    P  158
+##    Q  146
+##    R  115
+##    S   78
+##    T   45
+##    U   22
+##    V   10
+##    W    3
+##    X    2
+##    Y    0
+##    Z    0
+##    ZA   0
+##    ZB   0
+##    ZC   0
+##    ZD   0
+##    ZE   0
+##    ZF   0
+##    ZG   0
+##    ZH   0
+##    ZI   0
+##    ZJ   0
+##    ZK   0</code></pre>
+<div class="sourceCode" id="cb270"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># predict textscores for the virgin documents</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">ws</span>, newdata<span class="op">=</span><span class="va">vir</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## 37 of 37 words (100%) are scorable
+## 
+##     Score Std. Err. Rescaled  Lower  Upper
+## V1 -0.448    0.0119   -0.448 -0.459 -0.437</code></pre>
+<p>Cool.</p>
+</div>
+<div id="wordfish" class="section level2" number="5.3">
+<h2>
+<span class="header-section-number">5.3</span> Wordfish<a class="anchor" aria-label="anchor" href="#wordfish"><i class="fas fa-link"></i></a>
+</h2>
+<p>Slapin and Proksch (2008) propose an unsupervised scaling model that places texts in a one-dimensional scale. The underlying assumption is that in</p>
+<p><span class="math display">\[w_{ik} ∼ Poisson(\lambda _{ik})\]</span>
+<span class="math display">\[\lambda_{ik} = exp(α_i +ψ_k +β_k ×θ_i)\]</span></p>
+<p><span class="math inline">\(\lambda_{ik}\)</span> is generated by <span class="math inline">\(α_i\)</span> (the “loquaciousness” of politician <span class="math inline">\(i\)</span> or document fixed-effects), <span class="math inline">\(ψ_k\)</span> (the frequency of word k), <span class="math inline">\(β_k\)</span> (the discrimination parameter of word <span class="math inline">\(k\)</span>) and, most importantly, <span class="math inline">\(θ_i\)</span> (the politician’s ideological position). Let’s believe for a moment that the peer-review system works and use the <code><a href="https://rdrr.io/pkg/quanteda.textmodels/man/textmodel_wordfish.html">textmodel_wordfish()</a></code> function to estimate the ideological positions of U.S. Presidents using their inaugural speeches.</p>
+<div class="sourceCode" id="cb272"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">us_pres</span> <span class="op">&lt;-</span> <span class="fu">readxl</span><span class="fu">::</span><span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_xlsx</a></span><span class="op">(</span>path <span class="op">=</span> <span class="st">"data/inaugTexts.xlsx"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">us_pres</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## # A tibble: 6 × 4
+##   inaugSpeech                                               Year President party
+##   &lt;chr&gt;                                                    &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;
+## 1 "My Countrymen, It a relief to feel that no heart but m…  1853 Pierce    Demo…
+## 2 "Fellow citizens, I appear before you this day to take …  1857 Buchanan  Demo…
+## 3 "Fellow-Citizens of the United States: In compliance wi…  1861 Lincoln   Repu…
+## 4 "Fellow-Countrymen:\r\n\r\nAt this second appearing to …  1865 Lincoln   Repu…
+## 5 "Citizens of the United States:\r\n\r\nYour suffrages h…  1869 Grant     Repu…
+## 6 "Fellow-Citizens:\r\n\r\nUnder Providence I have been c…  1873 Grant     Repu…</code></pre>
+<p>The text is pretty clean, so we can change it into a corpus object and then a <code>dfm</code> and apply <code><a href="https://rdrr.io/pkg/quanteda.textmodels/man/textmodel_wordfish.html">textmodel_wordfish()</a></code>:</p>
+<div class="sourceCode" id="cb274"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">corpus_us_pres</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://quanteda.io/reference/corpus.html">corpus</a></span><span class="op">(</span><span class="va">us_pres</span>,</span>
+<span>                     text_field <span class="op">=</span> <span class="st">"inaugSpeech"</span>,</span>
+<span>                     unique_docnames <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">corpus_us_pres</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## Corpus consisting of 41 documents, showing 41 documents:
+## 
+##    Text Types Tokens Sentences Year    President      party
+##   text1  1164   3631       104 1853       Pierce   Democrat
+##   text2   944   3080        89 1857     Buchanan   Democrat
+##   text3  1074   3992       135 1861      Lincoln Republican
+##   text4   359    774        26 1865      Lincoln Republican
+##   text5   484   1223        40 1869        Grant Republican
+##   text6   551   1469        43 1873        Grant Republican
+##   text7   830   2698        59 1877        Hayes Republican
+##   text8  1020   3206       111 1881     Garfield Republican
+##   text9   675   1812        44 1885    Cleveland   Democrat
+##  text10  1351   4720       157 1889     Harrison Republican
+##  text11   821   2125        58 1893    Cleveland   Democrat
+##  text12  1231   4345       130 1897     McKinley Republican
+##  text13   854   2437       100 1901     McKinley Republican
+##  text14   404   1079        33 1905  T Roosevelt Republican
+##  text15  1437   5821       158 1909         Taft Republican
+##  text16   658   1882        68 1913       Wilson   Democrat
+##  text17   548   1648        59 1917       Wilson   Democrat
+##  text18  1168   3717       148 1921      Harding Republican
+##  text19  1220   4440       196 1925     Coolidge Republican
+##  text20  1089   3855       158 1929       Hoover Republican
+##  text21   742   2052        85 1933 FD Roosevelt   Democrat
+##  text22   724   1981        96 1937 FD Roosevelt   Democrat
+##  text23   525   1494        68 1941 FD Roosevelt   Democrat
+##  text24   274    619        27 1945 FD Roosevelt   Democrat
+##  text25   780   2495       116 1949       Truman   Democrat
+##  text26   899   2729       119 1953   Eisenhower Republican
+##  text27   620   1883        92 1957   Eisenhower Republican
+##  text28   565   1516        52 1961      Kennedy   Democrat
+##  text29   567   1697        93 1965      Johnson   Democrat
+##  text30   742   2395       103 1969        Nixon Republican
+##  text31   543   1978        68 1973        Nixon Republican
+##  text32   527   1363        52 1977       Carter   Democrat
+##  text33   901   2771       129 1981       Reagan Republican
+##  text34   924   2897       124 1985       Reagan Republican
+##  text35   794   2666       141 1989         Bush Republican
+##  text36   642   1833        81 1993      Clinton   Democrat
+##  text37   772   2423       111 1997      Clinton   Democrat
+##  text38   620   1804        97 2001         Bush Republican
+##  text39   773   2321       100 2005         Bush Republican
+##  text40   937   2667       110 2009        Obama   Democrat
+##  text41   814   2317        88 2013        Obama   Democrat</code></pre>
+<div class="sourceCode" id="cb276"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># We do the whole tokenization sequence</span></span>
+<span><span class="va">toks_us_pres</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://quanteda.io/reference/tokens.html">tokens</a></span><span class="op">(</span><span class="va">corpus_us_pres</span>,</span>
+<span>                   remove_numbers <span class="op">=</span> <span class="cn">TRUE</span>, <span class="co"># Thinks about this</span></span>
+<span>                   remove_punct <span class="op">=</span> <span class="cn">TRUE</span>, <span class="co"># Remove punctuation!</span></span>
+<span>                   remove_url <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># Might be helpful</span></span>
+<span></span>
+<span><span class="va">toks_us_pres</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://quanteda.io/reference/tokens_select.html">tokens_remove</a></span><span class="op">(</span><span class="va">toks_us_pres</span>,</span>
+<span>                              <span class="co"># Should we though? See Denny and Spirling (2018)</span></span>
+<span>                              <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/stopwords/man/stopwords.html">stopwords</a></span><span class="op">(</span>language <span class="op">=</span> <span class="st">"en"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>                              padding <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">toks_us_pres</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://quanteda.io/reference/tokens_wordstem.html">tokens_wordstem</a></span><span class="op">(</span><span class="va">toks_us_pres</span>, language <span class="op">=</span> <span class="st">"en"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">dfm_us_pres</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://quanteda.io/reference/dfm.html">dfm</a></span><span class="op">(</span><span class="va">toks_us_pres</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">wfish_us_pres</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/quanteda.textmodels/man/textmodel_wordfish.html">textmodel_wordfish</a></span><span class="op">(</span><span class="va">dfm_us_pres</span>, dir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">28</span>,<span class="fl">30</span><span class="op">)</span><span class="op">)</span> <span class="co">#Does not really matter what the starting values are, they just serve as anchors for the relative position of the rest of the texts. In this case, I chose Kennedy and Nixon.  </span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">wfish_us_pres</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## 
+## Call:
+## textmodel_wordfish.dfm(x = dfm_us_pres, dir = c(28, 30))
+## 
+## Estimated Document Positions:
+##           theta      se
+## text1  -0.95629 0.03619
+## text2  -1.27077 0.03413
+## text3  -1.40878 0.02863
+## text4  -0.37189 0.08907
+## text5  -1.19374 0.05617
+## text6  -0.98770 0.05747
+## text7  -1.25058 0.03681
+## text8  -1.15827 0.03506
+## text9  -1.06959 0.04866
+## text10 -1.37028 0.02601
+## text11 -1.09563 0.04336
+## text12 -1.36432 0.02716
+## text13 -0.96921 0.04392
+## text14  0.14969 0.07992
+## text15 -1.67350 0.01837
+## text16  0.04362 0.05968
+## text17 -0.14872 0.06481
+## text18 -0.23053 0.04050
+## text19 -0.64321 0.03619
+## text20 -0.81689 0.03636
+## text21 -0.26532 0.05470
+## text22  0.26579 0.05564
+## text23  0.56628 0.06543
+## text24  0.82820 0.09574
+## text25  0.09676 0.04999
+## text26  0.37480 0.04777
+## text27  0.60678 0.05655
+## text28  0.92039 0.05651
+## text29  0.95967 0.05604
+## text30  1.42421 0.03773
+## text31  0.93162 0.05098
+## text32  0.87564 0.06215
+## text33  1.13335 0.04084
+## text34  1.19832 0.03745
+## text35  1.26112 0.03960
+## text36  1.38125 0.04374
+## text37  1.37962 0.03680
+## text38  0.86932 0.05416
+## text39  0.74023 0.04862
+## text40  1.18811 0.03946
+## text41  1.05044 0.04446
+## 
+## Estimated Feature Scores:
+##      countrymen  relief    feel   heart    can   know  person  regret   bitter
+## beta    -0.5490 -0.9578 -0.4909 0.80654 0.1395 0.9422 -0.1117 -0.2531  0.00357
+## psi     -0.5455 -1.8438 -0.3950 0.08677 2.1155 0.6955 -0.1544 -2.8008 -2.01944
+##       sorrow    born   posit suitabl  other    rather   desir circumst   call
+## beta  0.5176  0.7626 -0.9823  -4.120 0.3938  0.005296 -0.6213  -0.6355 0.3744
+## psi  -2.0333 -0.8259 -1.2129  -6.134 0.1718 -0.591942 -0.5404  -1.3620 0.5610
+##         limit    period presid destini   republ    fill profound    sens
+## beta -0.07365 -0.004602 0.4897  0.2596 -0.27095  0.6832 -0.05067 -0.1156
+## psi  -0.02462 -1.040467 0.4726 -0.2598  0.08116 -1.6845 -1.52213 -0.2337
+##      respons     noth    like  shrink
+## beta  0.2263 -0.08437 0.01591  0.1689
+## psi   0.8392 -0.25100 0.19881 -1.7082</code></pre>
+<p>Let’s see if this made any sense. Since we have the party of the president, we should see the Republican cluster together and apart from Democrats (or something):</p>
+<div class="sourceCode" id="cb278"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Get predictions:</span></span>
+<span><span class="va">wfish_preds</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">wfish_us_pres</span>, interval <span class="op">=</span> <span class="st">"confidence"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Tidy everything up:</span></span>
+<span><span class="va">posi_us_pres</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://quanteda.io/reference/docvars.html">docvars</a></span><span class="op">(</span><span class="va">corpus_us_pres</span><span class="op">)</span>,</span>
+<span>                      <span class="va">wfish_preds</span><span class="op">$</span><span class="va">fit</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Plot</span></span>
+<span><span class="va">posi_us_pres</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">fit</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/reorder.factor.html">reorder</a></span><span class="op">(</span><span class="va">President</span>,<span class="va">fit</span><span class="op">)</span>, xmin <span class="op">=</span> <span class="va">lwr</span>, xmax <span class="op">=</span> <span class="va">upr</span>, color <span class="op">=</span> <span class="va">party</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_errorbarh.html">geom_errorbarh</a></span><span class="op">(</span>height <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Position"</span>, y <span class="op">=</span> <span class="st">""</span>, color <span class="op">=</span> <span class="st">"Party"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_color_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/wesanderson/man/wes_palette.html">wes_palette</a></span><span class="op">(</span><span class="st">"BottleRocket2"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Estimated Positions"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-83-1.png" width="672"></div>
+<p>Two things to note. First, the <em>direction</em> of the scale is a theoretically-based decision that the researcher has to make (not the algorithm). In our case, based on the results, we could say that the positive values are more left-leaning and the negative values are more right-leaning. We can switch that (for visualization purposes) just by multiplying by -1:</p>
+<div class="sourceCode" id="cb279"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Plot inverse</span></span>
+<span><span class="va">posi_us_pres</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="op">-</span><span class="va">fit</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/reorder.factor.html">reorder</a></span><span class="op">(</span><span class="va">President</span>,<span class="va">fit</span><span class="op">)</span>, xmin <span class="op">=</span> <span class="op">-</span><span class="va">lwr</span>, xmax <span class="op">=</span> <span class="op">-</span><span class="va">upr</span>, color <span class="op">=</span> <span class="va">party</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_errorbarh.html">geom_errorbarh</a></span><span class="op">(</span>height <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Position"</span>, y <span class="op">=</span> <span class="st">""</span>, color <span class="op">=</span> <span class="st">"Party"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_color_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/wesanderson/man/wes_palette.html">wes_palette</a></span><span class="op">(</span><span class="st">"BottleRocket2"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Estimated Positions"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="main_files/figure-html/unnamed-chunk-84-1.png" width="672">
+Second, there seems to be a mismatch between our theoretical expectations and our empirical observations. We would assume that Republicans (Democrats) will talk similarly to other Republicans (Democrats) and different from Democrats (Republicans). However, this is not the case. <em>What could be happening?</em></p>
+<p>One answer could be that language changes over time or that issues change over time or that what it meant to be a Democrat and Republican changed over time, and that change is being picked up by the model:</p>
+<div class="sourceCode" id="cb280"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Plot time</span></span>
+<span><span class="va">posi_us_pres</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>y <span class="op">=</span> <span class="op">-</span><span class="va">fit</span>, x <span class="op">=</span> <span class="va">Year</span>, ymin <span class="op">=</span> <span class="op">-</span><span class="va">lwr</span>, ymax <span class="op">=</span> <span class="op">-</span><span class="va">upr</span>, color <span class="op">=</span> <span class="va">party</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_linerange.html">geom_errorbar</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Year"</span>, y <span class="op">=</span> <span class="st">"Position"</span>, color <span class="op">=</span> <span class="st">"Party"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_color_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/wesanderson/man/wes_palette.html">wes_palette</a></span><span class="op">(</span><span class="st">"BottleRocket2"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Estimated Positions"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-85-1.png" width="672"></div>
+<p>That seems to be one possible explanation. The other could be that the pre-processing steps substantively modified the texts (see Denny and Spirling 2018). We can estimate the model again using a different pre-processed text:</p>
+<div class="sourceCode" id="cb281"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Tokenization only removing punctuation</span></span>
+<span><span class="va">toks_us_pres2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://quanteda.io/reference/tokens.html">tokens</a></span><span class="op">(</span><span class="va">corpus_us_pres</span>,</span>
+<span>                   remove_punct <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> </span>
+<span></span>
+<span><span class="va">dfm_us_pres2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://quanteda.io/reference/dfm.html">dfm</a></span><span class="op">(</span><span class="va">toks_us_pres2</span><span class="op">)</span></span>
+<span><span class="va">wfish_us_pres</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/quanteda.textmodels/man/textmodel_wordfish.html">textmodel_wordfish</a></span><span class="op">(</span><span class="va">dfm_us_pres2</span>, dir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">28</span>,<span class="fl">30</span><span class="op">)</span><span class="op">)</span>  </span>
+<span></span>
+<span><span class="co"># Get predictions:</span></span>
+<span><span class="va">wfish_preds</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">wfish_us_pres</span>, interval <span class="op">=</span> <span class="st">"confidence"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Tidy everything up:</span></span>
+<span><span class="va">posi_us_pres</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://quanteda.io/reference/docvars.html">docvars</a></span><span class="op">(</span><span class="va">corpus_us_pres</span><span class="op">)</span>,</span>
+<span>                      <span class="va">wfish_preds</span><span class="op">$</span><span class="va">fit</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Plot</span></span>
+<span><span class="va">posi_us_pres</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="op">-</span><span class="va">fit</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/reorder.factor.html">reorder</a></span><span class="op">(</span><span class="va">President</span>,<span class="va">fit</span><span class="op">)</span>, xmin <span class="op">=</span> <span class="op">-</span><span class="va">lwr</span>, xmax <span class="op">=</span> <span class="op">-</span><span class="va">upr</span>, color <span class="op">=</span> <span class="va">party</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_errorbarh.html">geom_errorbarh</a></span><span class="op">(</span>height <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Position"</span>, y <span class="op">=</span> <span class="st">""</span>, color <span class="op">=</span> <span class="st">"Party"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_color_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/wesanderson/man/wes_palette.html">wes_palette</a></span><span class="op">(</span><span class="st">"BottleRocket2"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Estimated Positions (No Pre-Processing"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure">
+<img src="main_files/figure-html/unnamed-chunk-86-1.png" width="672">
+At the very least, the within president differences in estimates have narrowed, but time seems to still be the best predictor:</div>
+<div class="sourceCode" id="cb282"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Plot time</span></span>
+<span><span class="va">posi_us_pres</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>y <span class="op">=</span> <span class="op">-</span><span class="va">fit</span>, x <span class="op">=</span> <span class="va">Year</span>, ymin <span class="op">=</span> <span class="op">-</span><span class="va">lwr</span>, ymax <span class="op">=</span> <span class="op">-</span><span class="va">upr</span>, color <span class="op">=</span> <span class="va">party</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_linerange.html">geom_errorbar</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Year"</span>, y <span class="op">=</span> <span class="st">"Position"</span>, color <span class="op">=</span> <span class="st">"Party"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_color_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/wesanderson/man/wes_palette.html">wes_palette</a></span><span class="op">(</span><span class="st">"BottleRocket2"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Estimated Positions"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-87-1.png" width="672"></div>
+<p>If time is the main predictor, then maybe we need to think about periods of time that are comparable for both parties (e.g., after the Civil Rights Act).</p>
+</div>
+<div id="structural-topic-models" class="section level2" number="5.4">
+<h2>
+<span class="header-section-number">5.4</span> Structural Topic Models<a class="anchor" aria-label="anchor" href="#structural-topic-models"><i class="fas fa-link"></i></a>
+</h2>
+<p>STM provides two ways to include contextual information to “guide” the estimation of the model. First, topic prevalence can vary by metadata (e.g. Republicans talk about military issues more than Democrats). Second, topic content can vary by metadata (e.g. Republicans talk about military issues differently from Democrats).</p>
+<p>We can run STM using the <code>stm</code> package. The <code>stm</code> package includes the complete workflow (i.e. from raw text to figures), and if you are planning to use it in the future I highly encourage you to check <a href="https://cran.r-project.org/web/packages/stm/vignettes/stmVignette.pdf">this</a> and <a href="https://www.jstor.org/stable/pdf/24363543.pdf?casa_token=b_rJjIOUUScAAAAA:KXNQeVBQMzB7-kIEhl-1qo6uyD7vHvRTHhMinMdZVT6G3M3olzKzPv00XMJQd7mRw9Nm9UqJDmWHv3N_0cXBmbdeu2XZv8-jy1RYxvpm7Ab3WEOmApXP">this</a> and <a href="https://juliasilge.com/blog/evaluating-stm/">this</a> and <a href="https://juliasilge.com/blog/sherlock-holmes-stm/">this</a>. <code><a href="https://rdrr.io/pkg/stm/man/stm.html">stm()</a></code> takes our <em>dfm</em> and produces topics. If we do not specify any prevalence terms, then it will estimate an LDA. Since this is a Bayesian approach, it is recommended you set a seed value for future replication. We also need to set <span class="math inline">\(K\)</span> number of topics. How many topics are the right number of topics? There is no good number. Too many pre-specified topics and the categories might be meaningless. Too few, and you might be piling together two or more topics. Note that changes to a) the number of topics, b) the prevalence term, c) the omitted words, d) the seed value, can (greatly) change the outcome. Here is where validation becomes crucial (for a review see <a href="https://www.researchgate.net/profile/Andreu_Casas/publication/317140610_Large-Scale_Computerized_Text_Analysis_in_Political_Science_Opportunities_and_Challenges/links/59285e6f0f7e9b9979a35ec4/Large-Scale-Computerized-Text-Analysis-in-Political-Science-Opportunities-and-Challenges.pdf">Wilkerson and Casas 2017</a>).</p>
+<p>Using our presidential speeches data, I will use <code>stm</code> to estimate the topics surrounding the inaugural addresses. As my prevalence term, I add the party of the speaker. I set my number of topics at 10 (but with a corpus this big I should probably set it at ~30 and work my way up from there).</p>
+<div class="sourceCode" id="cb283"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">stm_us_pres</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/stm/man/stm.html">stm</a></span><span class="op">(</span><span class="va">dfm_us_pres</span>, K <span class="op">=</span> <span class="fl">10</span>, seed <span class="op">=</span> <span class="fl">1984</span>,</span>
+<span>                   prevalence <span class="op">=</span> <span class="op">~</span><span class="va">party</span>,</span>
+<span>                   init.type <span class="op">=</span> <span class="st">"Spectral"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## Beginning Spectral Initialization 
+##   Calculating the gram matrix...
+##   Finding anchor words...
+##      ..........
+##   Recovering initialization...
+##      ..............................................
+## Initialization complete.
+## .........................................
+## Completed E-Step (0 seconds). 
+## Completed M-Step. 
+## Completing Iteration 1 (approx. per word bound = -7.071) 
+## .........................................
+## Completed E-Step (0 seconds). 
+## Completed M-Step. 
+## Completing Iteration 2 (approx. per word bound = -6.881, relative change = 2.689e-02) 
+## .........................................
+## Completed E-Step (0 seconds). 
+## Completed M-Step. 
+## Completing Iteration 3 (approx. per word bound = -6.819, relative change = 8.961e-03) 
+## .........................................
+## Completed E-Step (0 seconds). 
+## Completed M-Step. 
+## Completing Iteration 4 (approx. per word bound = -6.790, relative change = 4.253e-03) 
+## .........................................
+## Completed E-Step (0 seconds). 
+## Completed M-Step. 
+## Completing Iteration 5 (approx. per word bound = -6.780, relative change = 1.521e-03) 
+## Topic 1: us, new, world, nation, let 
+##  Topic 2: new, can, us, nation, work 
+##  Topic 3: constitut, state, union, can, law 
+##  Topic 4: nation, must, us, peopl, can 
+##  Topic 5: govern, peopl, upon, state, law 
+##  Topic 6: nation, freedom, america, govern, peopl 
+##  Topic 7: us, america, must, nation, american 
+##  Topic 8: upon, nation, govern, peopl, shall 
+##  Topic 9: world, nation, peopl, peac, can 
+##  Topic 10: us, nation, govern, must, peopl 
+## .........................................
+## Completed E-Step (0 seconds). 
+## Completed M-Step. 
+## Completing Iteration 6 (approx. per word bound = -6.775, relative change = 6.929e-04) 
+## .........................................
+## Completed E-Step (0 seconds). 
+## Completed M-Step. 
+## Completing Iteration 7 (approx. per word bound = -6.771, relative change = 5.320e-04) 
+## .........................................
+## Completed E-Step (0 seconds). 
+## Completed M-Step. 
+## Completing Iteration 8 (approx. per word bound = -6.768, relative change = 5.267e-04) 
+## .........................................
+## Completed E-Step (0 seconds). 
+## Completed M-Step. 
+## Completing Iteration 9 (approx. per word bound = -6.765, relative change = 4.328e-04) 
+## .........................................
+## Completed E-Step (0 seconds). 
+## Completed M-Step. 
+## Completing Iteration 10 (approx. per word bound = -6.763, relative change = 3.022e-04) 
+## Topic 1: us, new, world, let, nation 
+##  Topic 2: us, new, can, nation, work 
+##  Topic 3: constitut, state, union, can, shall 
+##  Topic 4: nation, must, peopl, us, world 
+##  Topic 5: govern, peopl, upon, law, state 
+##  Topic 6: nation, freedom, america, peopl, govern 
+##  Topic 7: us, america, must, nation, american 
+##  Topic 8: upon, nation, govern, peopl, can 
+##  Topic 9: nation, world, peopl, peac, can 
+##  Topic 10: us, govern, nation, peopl, must 
+## .........................................
+## Completed E-Step (0 seconds). 
+## Completed M-Step. 
+## Completing Iteration 11 (approx. per word bound = -6.762, relative change = 2.094e-04) 
+## .........................................
+## Completed E-Step (0 seconds). 
+## Completed M-Step. 
+## Completing Iteration 12 (approx. per word bound = -6.760, relative change = 1.745e-04) 
+## .........................................
+## Completed E-Step (0 seconds). 
+## Completed M-Step. 
+## Completing Iteration 13 (approx. per word bound = -6.759, relative change = 1.485e-04) 
+## .........................................
+## Completed E-Step (0 seconds). 
+## Completed M-Step. 
+## Completing Iteration 14 (approx. per word bound = -6.759, relative change = 1.147e-04) 
+## .........................................
+## Completed E-Step (0 seconds). 
+## Completed M-Step. 
+## Completing Iteration 15 (approx. per word bound = -6.758, relative change = 1.018e-04) 
+## Topic 1: us, new, let, world, nation 
+##  Topic 2: us, new, can, nation, work 
+##  Topic 3: constitut, state, union, can, shall 
+##  Topic 4: nation, must, peopl, us, world 
+##  Topic 5: govern, peopl, upon, law, state 
+##  Topic 6: nation, freedom, america, peopl, govern 
+##  Topic 7: us, america, must, nation, american 
+##  Topic 8: upon, nation, govern, peopl, can 
+##  Topic 9: nation, peopl, world, can, peac 
+##  Topic 10: us, govern, nation, peopl, must 
+## .........................................
+## Completed E-Step (0 seconds). 
+## Completed M-Step. 
+## Completing Iteration 16 (approx. per word bound = -6.757, relative change = 9.728e-05) 
+## .........................................
+## Completed E-Step (0 seconds). 
+## Completed M-Step. 
+## Completing Iteration 17 (approx. per word bound = -6.757, relative change = 8.328e-05) 
+## .........................................
+## Completed E-Step (0 seconds). 
+## Completed M-Step. 
+## Completing Iteration 18 (approx. per word bound = -6.756, relative change = 7.150e-05) 
+## .........................................
+## Completed E-Step (0 seconds). 
+## Completed M-Step. 
+## Completing Iteration 19 (approx. per word bound = -6.756, relative change = 5.364e-05) 
+## .........................................
+## Completed E-Step (0 seconds). 
+## Completed M-Step. 
+## Completing Iteration 20 (approx. per word bound = -6.756, relative change = 3.903e-05) 
+## Topic 1: us, new, let, world, nation 
+##  Topic 2: us, new, can, nation, work 
+##  Topic 3: constitut, state, govern, shall, union 
+##  Topic 4: nation, must, peopl, us, world 
+##  Topic 5: govern, peopl, upon, law, state 
+##  Topic 6: nation, freedom, america, peopl, govern 
+##  Topic 7: us, america, must, nation, american 
+##  Topic 8: upon, nation, govern, peopl, can 
+##  Topic 9: nation, peopl, world, can, peac 
+##  Topic 10: us, govern, nation, peopl, must 
+## .........................................
+## Completed E-Step (0 seconds). 
+## Completed M-Step. 
+## Completing Iteration 21 (approx. per word bound = -6.755, relative change = 3.678e-05) 
+## .........................................
+## Completed E-Step (0 seconds). 
+## Completed M-Step. 
+## Completing Iteration 22 (approx. per word bound = -6.755, relative change = 3.378e-05) 
+## .........................................
+## Completed E-Step (0 seconds). 
+## Completed M-Step. 
+## Completing Iteration 23 (approx. per word bound = -6.755, relative change = 3.008e-05) 
+## .........................................
+## Completed E-Step (0 seconds). 
+## Completed M-Step. 
+## Completing Iteration 24 (approx. per word bound = -6.755, relative change = 3.311e-05) 
+## .........................................
+## Completed E-Step (0 seconds). 
+## Completed M-Step. 
+## Completing Iteration 25 (approx. per word bound = -6.754, relative change = 3.247e-05) 
+## Topic 1: us, new, let, world, nation 
+##  Topic 2: us, new, can, nation, work 
+##  Topic 3: constitut, state, govern, peopl, shall 
+##  Topic 4: nation, must, peopl, us, world 
+##  Topic 5: govern, peopl, upon, law, state 
+##  Topic 6: nation, freedom, america, govern, peopl 
+##  Topic 7: us, must, america, nation, american 
+##  Topic 8: upon, nation, govern, peopl, can 
+##  Topic 9: nation, peopl, world, can, peac 
+##  Topic 10: us, govern, nation, peopl, must 
+## .........................................
+## Completed E-Step (0 seconds). 
+## Completed M-Step. 
+## Completing Iteration 26 (approx. per word bound = -6.754, relative change = 2.886e-05) 
+## .........................................
+## Completed E-Step (0 seconds). 
+## Completed M-Step. 
+## Completing Iteration 27 (approx. per word bound = -6.754, relative change = 2.778e-05) 
+## .........................................
+## Completed E-Step (0 seconds). 
+## Completed M-Step. 
+## Completing Iteration 28 (approx. per word bound = -6.754, relative change = 2.814e-05) 
+## .........................................
+## Completed E-Step (0 seconds). 
+## Completed M-Step. 
+## Completing Iteration 29 (approx. per word bound = -6.754, relative change = 4.342e-05) 
+## .........................................
+## Completed E-Step (0 seconds). 
+## Completed M-Step. 
+## Completing Iteration 30 (approx. per word bound = -6.753, relative change = 2.111e-05) 
+## Topic 1: us, new, let, nation, world 
+##  Topic 2: us, new, can, nation, work 
+##  Topic 3: constitut, state, govern, peopl, shall 
+##  Topic 4: nation, peopl, must, us, world 
+##  Topic 5: govern, peopl, upon, law, state 
+##  Topic 6: nation, freedom, america, govern, peopl 
+##  Topic 7: us, must, america, nation, american 
+##  Topic 8: upon, nation, govern, peopl, can 
+##  Topic 9: nation, peopl, world, can, peac 
+##  Topic 10: us, govern, nation, peopl, world 
+## .........................................
+## Completed E-Step (0 seconds). 
+## Completed M-Step. 
+## Completing Iteration 31 (approx. per word bound = -6.753, relative change = 1.621e-05) 
+## .........................................
+## Completed E-Step (0 seconds). 
+## Completed M-Step. 
+## Completing Iteration 32 (approx. per word bound = -6.753, relative change = 1.678e-05) 
+## .........................................
+## Completed E-Step (0 seconds). 
+## Completed M-Step. 
+## Completing Iteration 33 (approx. per word bound = -6.753, relative change = 1.686e-05) 
+## .........................................
+## Completed E-Step (0 seconds). 
+## Completed M-Step. 
+## Completing Iteration 34 (approx. per word bound = -6.753, relative change = 1.705e-05) 
+## .........................................
+## Completed E-Step (0 seconds). 
+## Completed M-Step. 
+## Completing Iteration 35 (approx. per word bound = -6.753, relative change = 1.793e-05) 
+## Topic 1: us, new, let, nation, world 
+##  Topic 2: us, new, can, nation, work 
+##  Topic 3: constitut, state, govern, peopl, shall 
+##  Topic 4: nation, peopl, must, us, world 
+##  Topic 5: govern, peopl, upon, law, state 
+##  Topic 6: nation, freedom, america, govern, peopl 
+##  Topic 7: us, must, america, nation, american 
+##  Topic 8: upon, nation, govern, peopl, can 
+##  Topic 9: nation, peopl, world, can, peac 
+##  Topic 10: us, govern, nation, peopl, world 
+## .........................................
+## Completed E-Step (0 seconds). 
+## Completed M-Step. 
+## Completing Iteration 36 (approx. per word bound = -6.753, relative change = 2.033e-05) 
+## .........................................
+## Completed E-Step (0 seconds). 
+## Completed M-Step. 
+## Completing Iteration 37 (approx. per word bound = -6.753, relative change = 2.216e-05) 
+## .........................................
+## Completed E-Step (0 seconds). 
+## Completed M-Step. 
+## Completing Iteration 38 (approx. per word bound = -6.752, relative change = 1.878e-05) 
+## .........................................
+## Completed E-Step (0 seconds). 
+## Completed M-Step. 
+## Completing Iteration 39 (approx. per word bound = -6.752, relative change = 1.591e-05) 
+## .........................................
+## Completed E-Step (0 seconds). 
+## Completed M-Step. 
+## Completing Iteration 40 (approx. per word bound = -6.752, relative change = 1.384e-05) 
+## Topic 1: us, new, let, nation, world 
+##  Topic 2: us, new, can, nation, work 
+##  Topic 3: constitut, state, govern, peopl, shall 
+##  Topic 4: nation, peopl, must, us, world 
+##  Topic 5: govern, peopl, upon, law, state 
+##  Topic 6: nation, freedom, america, govern, peopl 
+##  Topic 7: us, must, america, nation, american 
+##  Topic 8: upon, nation, govern, peopl, can 
+##  Topic 9: nation, peopl, world, can, peac 
+##  Topic 10: us, govern, nation, peopl, world 
+## .........................................
+## Completed E-Step (0 seconds). 
+## Completed M-Step. 
+## Completing Iteration 41 (approx. per word bound = -6.752, relative change = 1.337e-05) 
+## .........................................
+## Completed E-Step (0 seconds). 
+## Completed M-Step. 
+## Completing Iteration 42 (approx. per word bound = -6.752, relative change = 1.381e-05) 
+## .........................................
+## Completed E-Step (0 seconds). 
+## Completed M-Step. 
+## Completing Iteration 43 (approx. per word bound = -6.752, relative change = 1.388e-05) 
+## .........................................
+## Completed E-Step (0 seconds). 
+## Completed M-Step. 
+## Completing Iteration 44 (approx. per word bound = -6.752, relative change = 1.720e-05) 
+## .........................................
+## Completed E-Step (0 seconds). 
+## Completed M-Step. 
+## Completing Iteration 45 (approx. per word bound = -6.752, relative change = 1.363e-05) 
+## Topic 1: us, new, let, nation, world 
+##  Topic 2: us, new, can, nation, work 
+##  Topic 3: constitut, state, govern, peopl, shall 
+##  Topic 4: nation, peopl, must, us, world 
+##  Topic 5: govern, peopl, upon, law, state 
+##  Topic 6: nation, freedom, america, peopl, govern 
+##  Topic 7: us, must, america, nation, american 
+##  Topic 8: upon, nation, govern, peopl, can 
+##  Topic 9: nation, peopl, world, can, peac 
+##  Topic 10: us, govern, nation, peopl, world 
+## .........................................
+## Completed E-Step (0 seconds). 
+## Completed M-Step. 
+## Completing Iteration 46 (approx. per word bound = -6.752, relative change = 1.725e-05) 
+## .........................................
+## Completed E-Step (0 seconds). 
+## Completed M-Step. 
+## Completing Iteration 47 (approx. per word bound = -6.752, relative change = 1.410e-05) 
+## .........................................
+## Completed E-Step (0 seconds). 
+## Completed M-Step. 
+## Model Converged</code></pre>
+<p>The nice thing about the <code><a href="https://rdrr.io/pkg/stm/man/stm.html">stm()</a></code> function is that it allows us to see in “real-time” what is going on within the black box. We can summarize the process in the following way (this is similar to a collapsed Gibbs sampling, which the <code><a href="https://rdrr.io/pkg/stm/man/stm.html">stm()</a></code> function sort of uses):</p>
+<ol style="list-style-type: decimal">
+<li><p>Go through each document, and randomly assign each word in the document to one of the topics <span class="math inline">\(\displaystyle t\in k\)</span>.</p></li>
+<li><p>Notice that this random assignment already gives both topic representations of all the documents and word distributions of all the topics (albeit not very good ones).</p></li>
+<li><p>So to improve on them, for each document <span class="math inline">\(\displaystyle W\)</span> do the following:</p></li>
+</ol>
+<p>3.1 Go through each word <span class="math inline">\(\displaystyle w\)</span> in <span class="math inline">\(\displaystyle W\)</span></p>
+<p>3.1.1 And for each topic <span class="math inline">\(\displaystyle t\)</span>, compute two things:</p>
+<p>3.1.1.1 <span class="math inline">\(\displaystyle p(t|W)\)</span> = the proportion of words in document <span class="math inline">\(\displaystyle W\)</span> that are currently assigned to topic <span class="math inline">\(\displaystyle t\)</span>, and</p>
+<p>3.1.1.2 <span class="math inline">\(\displaystyle p(w|t)\)</span> = the proportion of assignments to topic <span class="math inline">\(\displaystyle t\)</span> over all documents that come from this word <span class="math inline">\(\displaystyle w\)</span>. Reassign <span class="math inline">\(\displaystyle w\)</span> a new topic, where we choose topic <span class="math inline">\(\displaystyle t\)</span> with probability <span class="math inline">\(\displaystyle p(t|W)*p(w|t)\)</span>. It is worth noting that according to our generative model, this is essentially the probability that topic <span class="math inline">\(\displaystyle t\)</span> generated word <span class="math inline">\(\displaystyle w\)</span>, so it makes sense that we resample the current word’s topic with this probability. (Also, I’m glossing over a couple of things here, in particular the use of priors/pseudocounts in these probabilities.)</p>
+<p>3.1.1.3 In other words, in this step, we’re assuming that all topic assignments except for the current word in question are correct, and then updating the assignment of the current word using our model of how documents are generated.</p>
+<ol start="4" style="list-style-type: decimal">
+<li>After repeating the previous step a large number of times, you’ll eventually reach a roughly steady state where your assignments are pretty good. So use these assignments to estimate the topic mixtures of each document (by counting the proportion of words assigned to each topic within that document) and the words associated with each topic (by counting the proportion of words assigned to each topic overall).</li>
+</ol>
+<p>(This explanation was taken from <a href="https://wiki.ubc.ca/Course:CPSC522/Latent_Dirichlet_Allocation#cite_note-rcode-4">here</a>). Let’s explore the topics produced:</p>
+<div class="sourceCode" id="cb285"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/stm/man/labelTopics.html">labelTopics</a></span><span class="op">(</span><span class="va">stm_us_pres</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## Topic 1 Top Words:
+##       Highest Prob: us, new, let, nation, world, can, america 
+##       FREX: let, centuri, togeth, dream, new, promis, weak 
+##       Lift: 200th, 20th, micah, rhetor, 18th, 19th, accident 
+##       Score: role, dream, abroad, third, explor, shape, proud 
+## Topic 2 Top Words:
+##       Highest Prob: us, new, can, nation, work, world, great 
+##       FREX: friend, mr, thing, breez, word, blow, fact 
+##       Lift: breez, crucial, addict, alloc, assistanc, bacteria, bicentenni 
+##       Score: breez, crucial, blow, page, manger, thank, sometim 
+## Topic 3 Top Words:
+##       Highest Prob: constitut, state, govern, peopl, shall, can, law 
+##       FREX: case, constitut, slave, union, territori, slaveri, minor 
+##       Lift: alleg, anarchi, besid, compulsori, constru, cover, dissatisfi 
+##       Score: case, slaveri, territori, slave, invas, provis, fli 
+## Topic 4 Top Words:
+##       Highest Prob: nation, peopl, must, us, world, can, govern 
+##       FREX: activ, republ, task, confid, industri, inspir, normal 
+##       Lift: abnorm, acclaim, aright, changer, comiti, frugal, gaze 
+##       Score: normal, activ, amid, readjust, self-reli, relationship, unshaken 
+## Topic 5 Top Words:
+##       Highest Prob: govern, peopl, upon, law, state, countri, nation 
+##       FREX: revenu, tariff, offic, appoint, busi, consider, proper 
+##       Lift: ampli, antitrust, board, box, boycott, congression, dakota 
+##       Score: revenu, legisl, enforc, polici, negro, interst, tariff 
+## Topic 6 Top Words:
+##       Highest Prob: nation, freedom, america, peopl, govern, know, democraci 
+##       FREX: democraci, ideal, million, liberti, freedom, came, seen 
+##       Lift: paint, &gt;, aught, autocrat, baffl, baggag, beli 
+##       Score: democraci, paint, million, magna, excus, seen, encount 
+## Topic 7 Top Words:
+##       Highest Prob: us, must, america, nation, american, world, peopl 
+##       FREX: journey, stori, generat, storm, america, job, ideal 
+##       Lift: afghanistan, aids, alongsid, anchor, anybodi, apathi, appalachia 
+##       Score: stori, journey, job, capitol, storm, thank, drift 
+## Topic 8 Top Words:
+##       Highest Prob: upon, nation, govern, peopl, can, shall, great 
+##       FREX: enforc, counsel, organ, island, thought, upon, integr 
+##       Lift: cuba, eighteenth, adapt, aspect, creation, cuban, dilig 
+##       Score: enforc, island, cuba, counsel, organ, eighteenth, adapt 
+## Topic 9 Top Words:
+##       Highest Prob: nation, peopl, world, can, peac, must, free 
+##       FREX: resourc, contribut, repres, everywher, result, free, europ 
+##       Lift: display, joint, likewis, mockeri, philosophi, array, barter 
+##       Score: europ, philosophi, commun, contribut, precept, tax, program 
+## Topic 10 Top Words:
+##       Highest Prob: us, govern, nation, peopl, world, must, american 
+##       FREX: weapon, tax, believ, hero, man, reduc, dream 
+##       Lift: 50th, absent, adam, alamo, anger, ant, artilleri 
+##       Score: weapon, hero, monument, nuclear, spend, tax, soviet</code></pre>
+<p><em>FREX</em> weights words by their overall frequency and how exclusive they are to the topic. <em>Lift</em> weights words by dividing by their frequency in other topics, therefore giving higher weight to words that appear less frequently in other topics. Similar to Lift, <em>Score</em> divides the log frequency of the word in the topic by the log frequency of the word in other topics <a href="https://cran.r-project.org/web/packages/stm/vignettes/stmVignette.pdf">(Roberts et al. 2013)</a>. <a href="https://icml.cc/2012/papers/113.pdf">Bischof and Airoldi (2012)</a> show the value of using <strong>FREX</strong> over the other measures.</p>
+<p>You can use the <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> function to show the topics.</p>
+<div class="sourceCode" id="cb287"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">stm_us_pres</span>, type <span class="op">=</span> <span class="st">"summary"</span>, labeltype <span class="op">=</span> <span class="st">"frex"</span><span class="op">)</span> <span class="co"># or prob, lift score</span></span></code></pre></div>
+<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-90-1.png" width="672"></div>
+<p>Topic 5 seems to be about the economy: revenue, tariffs, etc. Topic 3 about slavery adn the Civil War. If you want to see a sample of a specific topic:</p>
+<div class="sourceCode" id="cb288"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/stm/man/findThoughts.html">findThoughts</a></span><span class="op">(</span><span class="va">stm_us_pres</span>, texts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span><span class="op">(</span><span class="va">corpus_us_pres</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://quanteda.io/reference/docnames.html">docnames</a></span><span class="op">(</span><span class="va">dfm_us_pres</span><span class="op">)</span><span class="op">]</span>, topics <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>  </span></code></pre></div>
+<p>That is a long speech.</p>
+<p>We can (should/must) run some diagnostics. There are two qualities that were are looking for in our model: semantic coherence and exclusivity. Exclusivity is based on the FREX labeling matrix. Semantic coherence is a criterion developed by Mimno et al. (2011) and it maximizes when the most probable words in a given topic frequently co-occur together. Mimno et al. (2011) show that the metric correlates well with human judgement of topic quality. Yet, it is fairly easy to obtain high semantic coherence so it is important to see it in tandem with exclusivity. Let’s see how exclusive are the words in each topic:</p>
+<div class="sourceCode" id="cb289"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/dotchart.html">dotchart</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/stm/man/exclusivity.html">exclusivity</a></span><span class="op">(</span><span class="va">stm_us_pres</span><span class="op">)</span>, labels <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-92-1.png" width="672"></div>
+<p>We can also see the semantic coherence of our topics –words a topic generates should co-occur often in the same document–:</p>
+<div class="sourceCode" id="cb290"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/dotchart.html">dotchart</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/stm/man/semanticCoherence.html">semanticCoherence</a></span><span class="op">(</span><span class="va">stm_us_pres</span>,<span class="va">dfm_us_pres</span><span class="op">)</span>, labels <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-93-1.png" width="672"></div>
+<p>We can also see the overall quality of our topic model:</p>
+<div class="sourceCode" id="cb291"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/stm/man/topicQuality.html">topicQuality</a></span><span class="op">(</span><span class="va">stm_us_pres</span>,<span class="va">dfm_us_pres</span><span class="op">)</span></span></code></pre></div>
+<pre><code>##  [1]  -5.287875  -7.035510 -12.913601  -3.154439  -8.562729 -11.770514
+##  [7]  -4.095783  -5.495206  -5.782951  -4.794982
+##  [1] 8.975188 9.296784 8.794789 8.229003 7.886663 9.119321 8.616780 7.907198
+##  [9] 8.689432 8.813805</code></pre>
+<div class="inline-figure"><img src="main_files/figure-html/Quality-1.png" width="672"></div>
+<p>On their own, both metrics are not really useful (what do those numbers even mean?). They are useful when we are looking for the “optimal” number of topics.</p>
+<div class="sourceCode" id="cb293"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">stm_us_pres_10_15_20</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/stm/man/manyTopics.html">manyTopics</a></span><span class="op">(</span><span class="va">dfm_us_pres</span>,</span>
+<span>                       prevalence <span class="op">=</span> <span class="op">~</span> <span class="va">party</span>,</span>
+<span>                       K <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10</span>,<span class="fl">15</span>,<span class="fl">20</span><span class="op">)</span>, runs<span class="op">=</span><span class="fl">2</span>,</span>
+<span>                       <span class="co"># max.em.its = 100, </span></span>
+<span>                       init.type <span class="op">=</span> <span class="st">"Spectral"</span><span class="op">)</span> <span class="co"># It takes around 250 iterations for the model to converge. Depending on your computer, this can take a while.</span></span></code></pre></div>
+<p>We can now compare the performance of each model based on their semantic coherence and exclusivity. We are looking for high exclusivity and high coherence (top-right corner):</p>
+<div class="sourceCode" id="cb294"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">k_10</span> <span class="op">&lt;-</span> <span class="va">stm_us_pres_10_15_20</span><span class="op">$</span><span class="va">out</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="co"># k_10 is an stm object which can be explored and used like any other topic model. </span></span>
+<span><span class="va">k_15</span> <span class="op">&lt;-</span> <span class="va">stm_us_pres_10_15_20</span><span class="op">$</span><span class="va">out</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span></span>
+<span><span class="va">k_20</span> <span class="op">&lt;-</span> <span class="va">stm_us_pres_10_15_20</span><span class="op">$</span><span class="va">out</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span></span>
+<span></span>
+<span><span class="co"># I will just graph the 'quality' of each model:</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/stm/man/topicQuality.html">topicQuality</a></span><span class="op">(</span><span class="va">k_10</span>,<span class="va">dfm_us_pres</span><span class="op">)</span></span></code></pre></div>
+<pre><code>##  [1]  -5.287875  -7.035510 -12.913601  -3.154439  -8.562729 -11.770514
+##  [7]  -4.095783  -5.495206  -5.782951  -4.794982
+##  [1] 8.975188 9.296784 8.794789 8.229003 7.886663 9.119321 8.616780 7.907198
+##  [9] 8.689432 8.813805</code></pre>
+<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-95-1.png" width="672"></div>
+<div class="sourceCode" id="cb296"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/stm/man/topicQuality.html">topicQuality</a></span><span class="op">(</span><span class="va">k_15</span>,<span class="va">dfm_us_pres</span><span class="op">)</span></span></code></pre></div>
+<pre><code>##  [1]  -8.282551 -10.661122  -9.146329  -6.243444 -10.002100 -11.315179
+##  [7]  -3.107797  -4.907182  -5.059424  -4.905652  -7.864316 -13.149897
+## [13]  -6.834348 -11.917696  -4.182962
+##  [1] 9.225426 9.359212 9.252890 9.186251 9.037698 9.150213 8.615448 8.497762
+##  [9] 8.545416 9.139213 8.183189 9.136856 8.467946 9.642172 8.453394</code></pre>
+<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-95-2.png" width="672"></div>
+<div class="sourceCode" id="cb298"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/stm/man/topicQuality.html">topicQuality</a></span><span class="op">(</span><span class="va">k_20</span>,<span class="va">dfm_us_pres</span><span class="op">)</span></span></code></pre></div>
+<pre><code>##  [1]  -8.136428 -22.245476 -21.390006  -6.602534 -11.543624 -10.272049
+##  [7]  -3.923380  -5.506620  -7.188791 -12.486262 -10.086060 -13.443443
+## [13] -15.978725 -12.256070 -10.137597 -11.231218  -6.177453  -4.358259
+## [19]  -5.246579  -2.209688
+##  [1] 9.489401 9.872037 9.761442 9.184861 9.370893 9.330946 9.019413 8.522081
+##  [9] 8.633818 9.649097 8.307636 9.125968 8.957859 9.644505 9.533281 8.824664
+## [17] 9.488938 9.220756 8.596374 8.727104</code></pre>
+<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-95-3.png" width="672"></div>
+<p>Maybe we have some theory about the difference in topic prevalence across parties. We can see the topic proportions in our topic model object:</p>
+<div class="sourceCode" id="cb300"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">stm_us_pres</span><span class="op">$</span><span class="va">theta</span><span class="op">)</span></span></code></pre></div>
+<pre><code>##              [,1]         [,2]         [,3]         [,4]         [,5]
+## [1,] 0.0001965139 8.910433e-05 8.224181e-05 1.366525e-04 0.0003038924
+## [2,] 0.0004943115 6.694931e-05 9.823350e-01 1.233605e-04 0.0162390724
+## [3,] 0.0002929573 4.935711e-05 9.988060e-01 1.794408e-05 0.0005358752
+## [4,] 0.1143189826 9.475844e-04 8.765515e-01 2.637466e-04 0.0030686131
+## [5,] 0.0117265212 2.101959e-04 6.658082e-03 1.163485e-03 0.9768804322
+## [6,] 0.0254848264 3.421690e-04 4.654306e-03 1.751075e-03 0.9609666414
+##              [,6]         [,7]         [,8]         [,9]        [,10]
+## [1,] 2.109828e-04 1.271428e-04 9.985770e-01 1.726828e-04 1.037666e-04
+## [2,] 1.673617e-04 1.837545e-04 2.369797e-04 9.412580e-05 5.907198e-05
+## [3,] 6.424073e-05 5.105122e-05 6.933715e-05 6.752421e-05 4.572869e-05
+## [4,] 7.946389e-04 8.965244e-04 7.116956e-04 1.080859e-03 1.365866e-03
+## [5,] 5.210418e-04 4.736609e-04 8.391293e-04 8.456329e-04 6.818197e-04
+## [6,] 7.226817e-04 6.610786e-04 1.740575e-03 1.314907e-03 2.361741e-03</code></pre>
+<p>Note that the prevalence terms <span class="math inline">\(\theta\)</span> will add to 1 within a document. That is, the term tells us the proportion of (words associated with) topics for each document:</p>
+<div class="sourceCode" id="cb302"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">stm_us_pres</span><span class="op">$</span><span class="va">theta</span><span class="op">[</span><span class="fl">1</span>,<span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] 1</code></pre>
+<div class="sourceCode" id="cb304"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">stm_us_pres</span><span class="op">$</span><span class="va">theta</span><span class="op">[</span><span class="fl">2</span>,<span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] 1</code></pre>
+<p>What about connecting this info to our dfm and seeing if there are differences in the proportion topic 5 (economy) is addressed by each side.</p>
+<div class="sourceCode" id="cb306"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://lrberge.github.io/fixest/">fixest</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjPlot/">sjPlot</a></span><span class="op">)</span></span></code></pre></div>
+<pre><code>## #refugeeswelcome</code></pre>
+<div class="sourceCode" id="cb308"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">us_pres_prev</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>topic5 <span class="op">=</span> <span class="va">stm_us_pres</span><span class="op">$</span><span class="va">theta</span><span class="op">[</span>,<span class="fl">5</span><span class="op">]</span>, <span class="fu"><a href="https://quanteda.io/reference/docvars.html">docvars</a></span><span class="op">(</span><span class="va">dfm_us_pres</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">feols_topic5</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://lrberge.github.io/fixest/reference/feols.html">feols</a></span><span class="op">(</span><span class="va">topic5</span> <span class="op">~</span> <span class="va">party</span> , data <span class="op">=</span> <span class="va">us_pres_prev</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://strengejacke.github.io/sjPlot/reference/plot_model.html">plot_model</a></span><span class="op">(</span><span class="va">feols_topic5</span>, type <span class="op">=</span> <span class="st">"pred"</span>, term <span class="op">=</span> <span class="st">"party"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>caption <span class="op">=</span> <span class="st">"Stat. Sig. at p&lt;0.1"</span>, x<span class="op">=</span><span class="st">""</span>, y<span class="op">=</span><span class="st">"Topic Prevalence"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-98-1.png" width="672"></div>
+<p>Seems that Republican presidents address more the economy in their speeches. Let’s plot the proportion of by president:</p>
+<div class="sourceCode" id="cb309"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">us_pres_prev</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="co"># Going to log the prev of topic 5 because is quite skewed but you should probably leave as is if you want to explore how topics are addressed. </span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">topic5</span><span class="op">)</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/reorder.factor.html">reorder</a></span><span class="op">(</span><span class="va">President</span>,<span class="va">topic5</span><span class="op">)</span>, color <span class="op">=</span> <span class="va">party</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"log(Theta)"</span>, y <span class="op">=</span> <span class="st">""</span>, color <span class="op">=</span> <span class="st">"Party"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_color_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/wesanderson/man/wes_palette.html">wes_palette</a></span><span class="op">(</span><span class="st">"BottleRocket2"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> </span></code></pre></div>
+<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-99-1.png" width="672"></div>
+<p>We can do something similar with the <code>stm</code> function directly. We just need to specify the functional form and add the document variables.</p>
+<div class="sourceCode" id="cb310"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">topics_us_pres</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/stm/man/estimateEffect.html">estimateEffect</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">5</span><span class="op">)</span> <span class="op">~</span> <span class="va">party</span>, <span class="va">stm_us_pres</span>, <span class="fu"><a href="https://quanteda.io/reference/docvars.html">docvars</a></span><span class="op">(</span><span class="va">dfm_us_pres</span><span class="op">)</span><span class="op">)</span> <span class="co"># You can compare other topics by changing c(6,9). </span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">topics_us_pres</span>, <span class="st">"party"</span>, method <span class="op">=</span> <span class="st">"difference"</span>,</span>
+<span>     cov.value1 <span class="op">=</span> <span class="st">"Democrat"</span>, </span>
+<span>     cov.value2 <span class="op">=</span> <span class="st">"Republican"</span>,</span>
+<span>     labeltype <span class="op">=</span> <span class="st">"custom"</span>,</span>
+<span>     xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">.75</span>,<span class="fl">.25</span><span class="op">)</span>,</span>
+<span>     custom.labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'Topic 3: Slavery'</span>, <span class="st">'Topic 5: Economy'</span><span class="op">)</span>,</span>
+<span>     model <span class="op">=</span> <span class="va">stm_us_pres</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-100-1.png" width="672"></div>
+<p>Same results, Republicans mention more Topic 5: Economy.</p>
+</div>
+<div id="exercise-2" class="section level2" number="5.5">
+<h2>
+<span class="header-section-number">5.5</span> Exercise 2:<a class="anchor" aria-label="anchor" href="#exercise-2"><i class="fas fa-link"></i></a>
+</h2>
+<ol style="list-style-type: decimal">
+<li>We had a hard time scaling our text. Why looked at some possible problems. What are possible solutions if we want to position U.S. presidents in a ideological scale using text?</li>
+<li>Use the <code>data/candidate-tweets.csv</code> data to run a STM. Decide what your covariates are going. Decide whether you will use all the data or a sample of the data. Decide if you are going to aggregate/divide in some way the text (i.e., decide your unit of analysis). Decide the number of topics you will look for (try more than one option). What can you tell me about the topics tweeted out by the 2015 U.S. primaries candidates?</li>
+<li>Choose three topics. Can you place the candidates in an ideological scale within each topic (determine the <span class="math inline">\(theta\)</span> threshold for when you can say that a tweet is <em>mostly</em> about a topic)? Does it make sense? Why or why not?</li>
+</ol>
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="week-4-complexity-and-similarity.html"><span class="header-section-number">4</span> Week 4: Complexity and Similarity</a></div>
+<div class="next"><a href="sharing-your-book.html"><span class="header-section-number">6</span> Sharing your book</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#week-5-scaling-techniques-and-topic-modeling"><span class="header-section-number">5</span> Week 5: Scaling Techniques and Topic Modeling</a></li>
+<li><a class="nav-link" href="#slides-4">Slides</a></li>
+<li><a class="nav-link" href="#setup-4"><span class="header-section-number">5.1</span> Setup</a></li>
+<li><a class="nav-link" href="#wordscores"><span class="header-section-number">5.2</span> Wordscores</a></li>
+<li><a class="nav-link" href="#wordfish"><span class="header-section-number">5.3</span> Wordfish</a></li>
+<li><a class="nav-link" href="#structural-topic-models"><span class="header-section-number">5.4</span> Structural Topic Models</a></li>
+<li><a class="nav-link" href="#exercise-2"><span class="header-section-number">5.5</span> Exercise 2:</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="https://github.com/svallejovera/cpa_uwo/blob/master/05-week5.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/svallejovera/cpa_uwo/edit/master/05-week5.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>PS9594A: Computational Text Analysis</strong>" was written by Dr. Sebastián Vallejo Vera | Western University. It was last built on 2024-01-17.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

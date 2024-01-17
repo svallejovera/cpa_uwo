@@ -1,7 +1,5 @@
 fig:curve
 tab:unnamed-chunk-50
-eq:binom
-thm:tri
 software-and-packages
 datasets
 acknowledgments
@@ -37,10 +35,12 @@ character-level-comparisons
 token-level-comparisons
 complexity
 exercise-optional-1
-blocks
-equations
-theorems-and-proofs
-callout-blocks
+week-5-scaling-techniques-and-topic-modeling
+setup-4
+wordscores
+wordfish
+structural-topic-models
+exercise-2
 sharing-your-book
 publishing
 pages
