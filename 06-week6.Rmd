@@ -1,0 +1,9 @@
+# Week 6: Word Embeddings
+
+## Slides{.unnumbered}
+
+- 7 Word Embeddings ([link](https://github.com/svallejovera/cpa_uwo/blob/main/slides/7%20Word%20Embeddings.pptx) or in Perusall) 
+
+## Setup
+
+Today we work in python. You can access the jupyter notebook [here]().
