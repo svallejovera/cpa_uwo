@@ -41,7 +41,5 @@ wordscores
 wordfish
 structural-topic-models
 exercise-2
-sharing-your-book
-publishing
-pages
-metadata-for-sharing
+week-6-word-embeddings
+setup-5
