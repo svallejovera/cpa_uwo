@@ -6,4 +6,4 @@
 
 ## Setup
 
-Today we work in python. You can access the jupyter notebook [here]().
+Today we work in python. You can access the jupyter notebook [here](https://github.com/svallejovera/cpa_uwo/blob/main/06-week6.ipynb).
