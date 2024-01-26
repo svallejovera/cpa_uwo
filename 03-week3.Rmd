@@ -430,7 +430,7 @@ head(affect[affect$anger>0 & affect$fear>0,])
 
 ## Homework
 
-1. Replicate the results from Figure 3 in Ventura et al. (2021)
+1. Replicate the results from the left-most column of Figure 3 in Ventura et al. (2021)
 2. Look at the keywords in context for *Biden* in the `ventura_etal_df` dataset, and compare the results with the same data, but pre-processed (i.e., lower-case, remove stopwords, etc.). Which provides more information about the context in which *Biden* appears in the comments?
 3. Do a different collocation approach with the `ventura_etal_df` dataset, but pre-process the data (i.e., lower-case, remove stopwords, etc.). Which approach (pre-processed and not pre-processed) provides a better picture of the corpus or of the collocations you found?
 4. Compare the **positive** sentiments of comments mentioning *trump* and comments mentioning *biden* obtained using `bing` and `afinn`. Note that `afinn` gives a numeric value, so you will need to choose a threshold to determine **positive** sentiment.
