@@ -1,56 +1,32 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-  <title>Chapter 4 Week 4: Complexity and Similarity | PS9594A: Computational Text Analysis</title>
-
-    <meta name="author" content="Dr. Sebastián Vallejo Vera | Western University" />
-  
-   <meta name="description" content="Code, exercises, and slides for PS9594A: Computational Text Analysis" />
-   <meta name="generator" content="placeholder" />
-  <meta property="og:title" content="Chapter 4 Week 4: Complexity and Similarity | PS9594A: Computational Text Analysis" />
-  <meta property="og:type" content="book" />
-  
-  
-  <meta property="og:description" content="Code, exercises, and slides for PS9594A: Computational Text Analysis" />
-
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 4 Week 4: Complexity and Similarity | PS9594A: Computational Text Analysis" />
-  
-  <meta name="twitter:description" content="Code, exercises, and slides for PS9594A: Computational Text Analysis" />
-  
-  <!-- JS -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script>
-  <script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script>
-    <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet" />
-    <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script>
-    <script src="libs/bs3compat-0.5.0/transition.js"></script>
-    <script src="libs/bs3compat-0.5.0/tabs.js"></script>
-    <script src="libs/bs3compat-0.5.0/bs3compat.js"></script>
-    <link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet" />
-    <script src="libs/bs4_book-1.0.0/bs4_book.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script>
-
-  <!-- CSS -->
-  <style type="text/css">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 4 Week 4: Complexity and Similarity | PS9594A: Computational Text Analysis</title>
+<meta name="author" content="Dr. Sebastián Vallejo Vera | Western University">
+<meta name="description" content="Slides 5 Complexity and Similarity (link or in Perusall)  4.1 Setup As always, we first load the packages that we’ll be using: library(tidyverse) # for wrangling data library(tidylog) # to know...">
+<meta name="generator" content="bookdown 0.37 with bs4_book()">
+<meta property="og:title" content="Chapter 4 Week 4: Complexity and Similarity | PS9594A: Computational Text Analysis">
+<meta property="og:type" content="book">
+<meta property="og:description" content="Slides 5 Complexity and Similarity (link or in Perusall)  4.1 Setup As always, we first load the packages that we’ll be using: library(tidyverse) # for wrangling data library(tidylog) # to know...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 4 Week 4: Complexity and Similarity | PS9594A: Computational Text Analysis">
+<meta name="twitter:description" content="Slides 5 Complexity and Similarity (link or in Perusall)  4.1 Setup As always, we first load the packages that we’ll be using: library(tidyverse) # for wrangling data library(tidylog) # to know...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.0/transition.js"></script><script src="libs/bs3compat-0.5.0/tabs.js"></script><script src="libs/bs3compat-0.5.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
   </style>
-    
 </head>
-
 <body data-spy="scroll" data-target="#toc">
 
 <div class="container-fluid">
 <div class="row">
-  <header class="col-sm-12 col-lg-3 sidebar sidebar-book">
-    <a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
 
     <div class="d-flex align-items-start justify-content-between">
       <h1>
@@ -62,100 +38,126 @@
     <div id="main-nav" class="collapse-lg">
       <form role="search">
         <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
-      </form>
+</form>
 
-      <nav aria-label="Table of contents">
-        <h2>Table of contents</h2>
-        <div id="book-toc"></div>
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">“Computational Text Analysis”</a></li>
+<li><a class="" href="week-1-a-primer-on-using-text-as-data.html"><span class="header-section-number">1</span> Week 1: A Primer on Using Text as Data</a></li>
+<li><a class="" href="week-2-tokenization-and-word-frequency.html"><span class="header-section-number">2</span> Week 2: Tokenization and Word Frequency</a></li>
+<li><a class="" href="week-3-dictionary-based-approaches.html"><span class="header-section-number">3</span> Week 3: Dictionary-Based Approaches</a></li>
+<li><a class="active" href="week-4-complexity-and-similarity.html"><span class="header-section-number">4</span> Week 4: Complexity and Similarity</a></li>
+<li><a class="" href="week-5-scaling-techniques-and-topic-modeling.html"><span class="header-section-number">5</span> Week 5: Scaling Techniques and Topic Modeling</a></li>
+<li><a class="" href="week-6-word-embeddings.html"><span class="header-section-number">6</span> Week 6: Word Embeddings</a></li>
+<li><a class="" href="references.html">References</a></li>
+</ul>
 
         <div class="book-extra">
-          <p><a id="book-repo" href="#">View book source <i class="fab fa-github"></i></a></li></p>
+          <p><a id="book-repo" href="https://github.com/svallejovera/cpa_uwo">View book source <i class="fab fa-github"></i></a></p>
         </div>
       </nav>
-    </div>
-  </header>
-
-  <main class="col-sm-12 col-md-9 col-lg-7" id="content">
-<div id="week-4-complexity-and-similarity" class="section level1" number="4">
-<h1><span class="header-section-number">Chapter 4</span> Week 4: Complexity and Similarity</h1>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="week-4-complexity-and-similarity" class="section level1" number="4">
+<h1>
+<span class="header-section-number">4</span> Week 4: Complexity and Similarity<a class="anchor" aria-label="anchor" href="#week-4-complexity-and-similarity"><i class="fas fa-link"></i></a>
+</h1>
 <div id="slides-3" class="section level2 unnumbered">
-<h2>Slides</h2>
+<h2>Slides<a class="anchor" aria-label="anchor" href="#slides-3"><i class="fas fa-link"></i></a>
+</h2>
 <ul>
 <li>5 Complexity and Similarity (<a href="https://github.com/svallejovera/cpa_uwo/blob/main/slides/5%20Complexity%20and%20Similarity.pptx">link</a> or in Perusall)</li>
 </ul>
 </div>
 <div id="setup-3" class="section level2" number="4.1">
-<h2><span class="header-section-number">4.1</span> Setup</h2>
+<h2>
+<span class="header-section-number">4.1</span> Setup<a class="anchor" aria-label="anchor" href="#setup-3"><i class="fas fa-link"></i></a>
+</h2>
 <p>As always, we first load the packages that we’ll be using:</p>
-<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb224-1"><a href="week-4-complexity-and-similarity.html#cb224-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># for wrangling data</span></span>
-<span id="cb224-2"><a href="week-4-complexity-and-similarity.html#cb224-2" tabindex="-1"></a><span class="fu">library</span>(tidylog) <span class="co"># to know what we are wrangling</span></span>
-<span id="cb224-3"><a href="week-4-complexity-and-similarity.html#cb224-3" tabindex="-1"></a><span class="fu">library</span>(tidytext) <span class="co"># for &#39;tidy&#39; manipulation of text data</span></span>
-<span id="cb224-4"><a href="week-4-complexity-and-similarity.html#cb224-4" tabindex="-1"></a><span class="fu">library</span>(textdata) <span class="co"># text datasets</span></span>
-<span id="cb224-5"><a href="week-4-complexity-and-similarity.html#cb224-5" tabindex="-1"></a><span class="fu">library</span>(quanteda) <span class="co"># tokenization power house</span></span>
-<span id="cb224-6"><a href="week-4-complexity-and-similarity.html#cb224-6" tabindex="-1"></a><span class="fu">library</span>(quanteda.textstats)</span>
-<span id="cb224-7"><a href="week-4-complexity-and-similarity.html#cb224-7" tabindex="-1"></a><span class="fu">library</span>(quanteda.textplots)</span>
-<span id="cb224-8"><a href="week-4-complexity-and-similarity.html#cb224-8" tabindex="-1"></a><span class="fu">library</span>(wesanderson) <span class="co"># to prettify</span></span>
-<span id="cb224-9"><a href="week-4-complexity-and-similarity.html#cb224-9" tabindex="-1"></a><span class="fu">library</span>(stringdist) <span class="co"># measure string distance</span></span>
-<span id="cb224-10"><a href="week-4-complexity-and-similarity.html#cb224-10" tabindex="-1"></a><span class="fu">library</span>(reshape2)</span></code></pre></div>
+<div class="sourceCode" id="cb224"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span> <span class="co"># for wrangling data</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/elbersb/tidylog/">tidylog</a></span><span class="op">)</span> <span class="co"># to know what we are wrangling</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/juliasilge/tidytext">tidytext</a></span><span class="op">)</span> <span class="co"># for 'tidy' manipulation of text data</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/EmilHvitfeldt/textdata">textdata</a></span><span class="op">)</span> <span class="co"># text datasets</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://quanteda.io">quanteda</a></span><span class="op">)</span> <span class="co"># tokenization power house</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://quanteda.io">quanteda.textstats</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">quanteda.textplots</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/karthik/wesanderson">wesanderson</a></span><span class="op">)</span> <span class="co"># to prettify</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/markvanderloo/stringdist">stringdist</a></span><span class="op">)</span> <span class="co"># measure string distance</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/hadley/reshape">reshape2</a></span><span class="op">)</span></span></code></pre></div>
 </div>
 <div id="replicating-the-lecture" class="section level2" number="4.2">
-<h2><span class="header-section-number">4.2</span> Replicating the Lecture</h2>
+<h2>
+<span class="header-section-number">4.2</span> Replicating the Lecture<a class="anchor" aria-label="anchor" href="#replicating-the-lecture"><i class="fas fa-link"></i></a>
+</h2>
 <p>In this weeks <a href="https://github.com/svallejovera/cpa_uwo/blob/main/slides/5%20Complexity%20and%20Similarity.pptx">lecture</a>, we learned about similarity and complexity measures at the word- and document-level. We will follow the same order from the lecture slides.</p>
 </div>
 <div id="comparing-text" class="section level2" number="4.3">
-<h2><span class="header-section-number">4.3</span> Comparing Text</h2>
+<h2>
+<span class="header-section-number">4.3</span> Comparing Text<a class="anchor" aria-label="anchor" href="#comparing-text"><i class="fas fa-link"></i></a>
+</h2>
 <p>There are different ways to compare text, depending on the unit of analysis:
 - Character-level comparisons
 - Token-level comparison</p>
 <div id="character-level-comparisons" class="section level3" number="4.3.1">
-<h3><span class="header-section-number">4.3.1</span> Character-Level Comparisons:</h3>
+<h3>
+<span class="header-section-number">4.3.1</span> Character-Level Comparisons:<a class="anchor" aria-label="anchor" href="#character-level-comparisons"><i class="fas fa-link"></i></a>
+</h3>
 <p>Let’s start by using character-level comparisons tools to evaluate two documents (in this case, two statements made by me on any given Ontario winter day):</p>
-<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="week-4-complexity-and-similarity.html#cb225-1" tabindex="-1"></a>doc_1 <span class="ot">&lt;-</span> <span class="st">&quot;By the professor’s standards, the weather in Ontario during the Winter term is miserable.&quot;</span></span>
-<span id="cb225-2"><a href="week-4-complexity-and-similarity.html#cb225-2" tabindex="-1"></a>doc_2 <span class="ot">&lt;-</span> <span class="st">&quot;By the professor’s high standards, the weather in London during the Winter term is depressive.&quot;</span></span></code></pre></div>
-<p>From <code>?stringdist</code>, we know that “the longest common substring distance is defined as the number of unpaired characters. The distance is equivalent to the edit distance allowing only deletions and insertions, each with weight one.” We also learned about <em>Levenshtein</em> distance and <em>Jaro</em> distance. We can easily implement these using the <code>stringdist</code> function:</p>
-<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb226-1"><a href="week-4-complexity-and-similarity.html#cb226-1" tabindex="-1"></a><span class="fu">stringdist</span>(doc_1,doc_2,<span class="at">method =</span> <span class="st">&quot;lcs&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb225"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">doc_1</span> <span class="op">&lt;-</span> <span class="st">"By the professor’s standards, the weather in Ontario during the Winter term is miserable."</span></span>
+<span><span class="va">doc_2</span> <span class="op">&lt;-</span> <span class="st">"By the professor’s high standards, the weather in London during the Winter term is depressive."</span></span></code></pre></div>
+<p>From <code><a href="https://rdrr.io/pkg/stringdist/man/stringdist.html">?stringdist</a></code>, we know that “the longest common substring distance is defined as the number of unpaired characters. The distance is equivalent to the edit distance allowing only deletions and insertions, each with weight one.” We also learned about <em>Levenshtein</em> distance and <em>Jaro</em> distance. We can easily implement these using the <code>stringdist</code> function:</p>
+<div class="sourceCode" id="cb226"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/stringdist/man/stringdist.html">stringdist</a></span><span class="op">(</span><span class="va">doc_1</span>,<span class="va">doc_2</span>,method <span class="op">=</span> <span class="st">"lcs"</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 27</code></pre>
-<div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb228-1"><a href="week-4-complexity-and-similarity.html#cb228-1" tabindex="-1"></a><span class="fu">stringdist</span>(doc_1,doc_2,<span class="at">method =</span> <span class="st">&quot;lv&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb228"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/stringdist/man/stringdist.html">stringdist</a></span><span class="op">(</span><span class="va">doc_1</span>,<span class="va">doc_2</span>,method <span class="op">=</span> <span class="st">"lv"</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 20</code></pre>
-<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb230-1"><a href="week-4-complexity-and-similarity.html#cb230-1" tabindex="-1"></a><span class="fu">stringdist</span>(doc_1,doc_2,<span class="at">method =</span> <span class="st">&quot;jw&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb230"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/stringdist/man/stringdist.html">stringdist</a></span><span class="op">(</span><span class="va">doc_1</span>,<span class="va">doc_2</span>,method <span class="op">=</span> <span class="st">"jw"</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 0.1768849</code></pre>
 <p>Each distance provides slightly different information about the relation between both documents. There are other distances that the <code>stringdist</code> function can compute. If this is something that interests you, there is more information about each measure in this <a href="https://www.dcc.uchile.cl/TR/1999/TR_DCC-1999-005.pdf_a">paper</a>.</p>
 <p>Have <em>I</em> ever used these measure in my own work? Actually, yes. When combining a corpus of legislative speeches from the Ecuadorian Congress with a data set of Ecuadorian legislators, I matched the names of both data set using <em>fuzzy matching</em> or matching names that were closely related (even if they were not a perfect match). Here is an example of the code:</p>
-<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="week-4-complexity-and-similarity.html#cb232-1" tabindex="-1"></a><span class="co"># I have a dataframe df_a and df_b. I want to match names from b to a. I run a loop that goes through all the names b and gives a Jaro distance score for a name in a. I assume that the names are a match when the Jaro distance score is highest AND it is above a threshold (0.4).</span></span>
-<span id="cb232-2"><a href="week-4-complexity-and-similarity.html#cb232-2" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(df_a<span class="sc">$</span>CANDIDATO_to_MATCH)){</span>
-<span id="cb232-3"><a href="week-4-complexity-and-similarity.html#cb232-3" tabindex="-1"></a>  score_temp <span class="ot">&lt;-</span> <span class="fu">stringdist</span>(df_a<span class="sc">$</span>CANDIDATO_to_MATCH[i],df_b<span class="sc">$</span>CANDIDATO_MERGE,<span class="at">method =</span> <span class="st">&quot;jw&quot;</span>) </span>
-<span id="cb232-4"><a href="week-4-complexity-and-similarity.html#cb232-4" tabindex="-1"></a>  <span class="cf">if</span>(<span class="fu">max</span>(score_temp)<span class="sc">&gt;</span>.<span class="dv">4</span> <span class="sc">&amp;</span> <span class="fu">length</span>(<span class="fu">which</span>(score_temp <span class="sc">==</span> <span class="fu">max</span>(score_temp)))<span class="sc">&lt;</span><span class="dv">2</span>){</span>
-<span id="cb232-5"><a href="week-4-complexity-and-similarity.html#cb232-5" tabindex="-1"></a>    df_a<span class="sc">$</span>CANDIDATO_MERGE[i] <span class="ot">&lt;-</span> df_b<span class="sc">$</span>CANDIDATO_MERGE[<span class="fu">which</span>(score_temp <span class="sc">==</span> <span class="fu">max</span>(score_temp))]}</span>
-<span id="cb232-6"><a href="week-4-complexity-and-similarity.html#cb232-6" tabindex="-1"></a>  <span class="cf">else</span>{</span>
-<span id="cb232-7"><a href="week-4-complexity-and-similarity.html#cb232-7" tabindex="-1"></a>    df_a<span class="sc">$</span>CANDIDATO_MERGE[i] <span class="ot">&lt;-</span> <span class="cn">NA</span>}</span>
-<span id="cb232-8"><a href="week-4-complexity-and-similarity.html#cb232-8" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb232"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># I have a dataframe df_a and df_b. I want to match names from b to a. I run a loop that goes through all the names b and gives a Jaro distance score for a name in a. I assume that the names are a match when the Jaro distance score is highest AND it is above a threshold (0.4).</span></span>
+<span><span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">df_a</span><span class="op">$</span><span class="va">CANDIDATO_to_MATCH</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span>
+<span>  <span class="va">score_temp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/stringdist/man/stringdist.html">stringdist</a></span><span class="op">(</span><span class="va">df_a</span><span class="op">$</span><span class="va">CANDIDATO_to_MATCH</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>,<span class="va">df_b</span><span class="op">$</span><span class="va">CANDIDATO_MERGE</span>,method <span class="op">=</span> <span class="st">"jw"</span><span class="op">)</span> </span>
+<span>  <span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">score_temp</span><span class="op">)</span><span class="op">&gt;</span><span class="fl">.4</span> <span class="op">&amp;</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="va">score_temp</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">score_temp</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">&lt;</span><span class="fl">2</span><span class="op">)</span><span class="op">{</span></span>
+<span>    <span class="va">df_a</span><span class="op">$</span><span class="va">CANDIDATO_MERGE</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">df_b</span><span class="op">$</span><span class="va">CANDIDATO_MERGE</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="va">score_temp</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">score_temp</span><span class="op">)</span><span class="op">)</span><span class="op">]</span><span class="op">}</span></span>
+<span>  <span class="kw">else</span><span class="op">{</span></span>
+<span>    <span class="va">df_a</span><span class="op">$</span><span class="va">CANDIDATO_MERGE</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="cn">NA</span><span class="op">}</span></span>
+<span><span class="op">}</span></span></code></pre></div>
 <p>It saved me a lot of time. I still needed to <strong>validate</strong> all the matches and manually match the unmatched names.</p>
 </div>
 <div id="token-level-comparisons" class="section level3" number="4.3.2">
-<h3><span class="header-section-number">4.3.2</span> Token-Level Comparisons:</h3>
+<h3>
+<span class="header-section-number">4.3.2</span> Token-Level Comparisons:<a class="anchor" aria-label="anchor" href="#token-level-comparisons"><i class="fas fa-link"></i></a>
+</h3>
 <p>To compare documents at the token level (i.e., how many and how often to token coincide), we can think of each document as a row/column in a matrix and each word as a row/column in a matrix. We call these matrices, document-feature matrices or <code>dfm</code>. To do that using <code>quanteda</code> we first need to tokenize our corpus:</p>
-<div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb233-1"><a href="week-4-complexity-and-similarity.html#cb233-1" tabindex="-1"></a>doc_3 <span class="ot">&lt;-</span> <span class="st">&quot;The professor has strong evidence that the weather in London (Ontario) is miserable and depressive.&quot;</span></span>
-<span id="cb233-2"><a href="week-4-complexity-and-similarity.html#cb233-2" tabindex="-1"></a></span>
-<span id="cb233-3"><a href="week-4-complexity-and-similarity.html#cb233-3" tabindex="-1"></a>docs_toks <span class="ot">&lt;-</span> <span class="fu">tokens</span>(<span class="fu">rbind</span>(doc_1,doc_2,doc_3),</span>
-<span id="cb233-4"><a href="week-4-complexity-and-similarity.html#cb233-4" tabindex="-1"></a>                            <span class="at">remove_punct =</span> T)</span>
-<span id="cb233-5"><a href="week-4-complexity-and-similarity.html#cb233-5" tabindex="-1"></a>docs_toks <span class="ot">&lt;-</span> <span class="fu">tokens_remove</span>(docs_toks,</span>
-<span id="cb233-6"><a href="week-4-complexity-and-similarity.html#cb233-6" tabindex="-1"></a>                           <span class="fu">stopwords</span>(<span class="at">language =</span> <span class="st">&quot;en&quot;</span>))</span>
-<span id="cb233-7"><a href="week-4-complexity-and-similarity.html#cb233-7" tabindex="-1"></a>docs_toks</span></code></pre></div>
+<div class="sourceCode" id="cb233"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">doc_3</span> <span class="op">&lt;-</span> <span class="st">"The professor has strong evidence that the weather in London (Ontario) is miserable and depressive."</span></span>
+<span></span>
+<span><span class="va">docs_toks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://quanteda.io/reference/tokens.html">tokens</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span><span class="va">doc_1</span>,<span class="va">doc_2</span>,<span class="va">doc_3</span><span class="op">)</span>,</span>
+<span>                            remove_punct <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
+<span><span class="va">docs_toks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://quanteda.io/reference/tokens_select.html">tokens_remove</a></span><span class="op">(</span><span class="va">docs_toks</span>,</span>
+<span>                           <span class="fu"><a href="https://rdrr.io/pkg/stopwords/man/stopwords.html">stopwords</a></span><span class="op">(</span>language <span class="op">=</span> <span class="st">"en"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">docs_toks</span></span></code></pre></div>
 <pre><code>## Tokens consisting of 3 documents.
 ## text1 :
-## [1] &quot;professor’s&quot; &quot;standards&quot;   &quot;weather&quot;     &quot;Ontario&quot;     &quot;Winter&quot;     
-## [6] &quot;term&quot;        &quot;miserable&quot;  
+## [1] "professor’s" "standards"   "weather"     "Ontario"     "Winter"     
+## [6] "term"        "miserable"  
 ## 
 ## text2 :
-## [1] &quot;professor’s&quot; &quot;high&quot;        &quot;standards&quot;   &quot;weather&quot;     &quot;London&quot;     
-## [6] &quot;Winter&quot;      &quot;term&quot;        &quot;depressive&quot; 
+## [1] "professor’s" "high"        "standards"   "weather"     "London"     
+## [6] "Winter"      "term"        "depressive" 
 ## 
 ## text3 :
-## [1] &quot;professor&quot;  &quot;strong&quot;     &quot;evidence&quot;   &quot;weather&quot;    &quot;London&quot;    
-## [6] &quot;Ontario&quot;    &quot;miserable&quot;  &quot;depressive&quot;</code></pre>
+## [1] "professor"  "strong"     "evidence"   "weather"    "London"    
+## [6] "Ontario"    "miserable"  "depressive"</code></pre>
 <p>Now we are ready to create a <code>dfm</code>:</p>
-<div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb235-1"><a href="week-4-complexity-and-similarity.html#cb235-1" tabindex="-1"></a>docs_dmf <span class="ot">&lt;-</span> <span class="fu">dfm</span>(docs_toks)</span>
-<span id="cb235-2"><a href="week-4-complexity-and-similarity.html#cb235-2" tabindex="-1"></a>docs_dmf</span></code></pre></div>
+<div class="sourceCode" id="cb235"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">docs_dmf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://quanteda.io/reference/dfm.html">dfm</a></span><span class="op">(</span><span class="va">docs_toks</span><span class="op">)</span></span>
+<span><span class="va">docs_dmf</span></span></code></pre></div>
 <pre><code>## Document-feature matrix of: 3 documents, 13 features (41.03% sparse) and 0 docvars.
 ##        features
 ## docs    professor’s standards weather ontario winter term miserable high london
@@ -169,9 +171,10 @@
 ##   text3          1
 ## [ reached max_nfeat ... 3 more features ]</code></pre>
 <p>Just a matrix (are really sparse matrix which becomes even more sparse as the corpus grows). Now we can measure the similarity or distance between these two text. The most straightforward way is to just correlate the occurrence of 1s and 0s across texts. An intuitive way to see this is by transposing the <code>dfm</code> and presenting it in a shape that you are more familiar with:</p>
-<div class="sourceCode" id="cb237"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb237-1"><a href="week-4-complexity-and-similarity.html#cb237-1" tabindex="-1"></a>dfm_df <span class="ot">&lt;-</span> <span class="fu">convert</span>(docs_dmf, <span class="at">to =</span> <span class="st">&quot;matrix&quot;</span>)</span>
-<span id="cb237-2"><a href="week-4-complexity-and-similarity.html#cb237-2" tabindex="-1"></a>dfm_df_t <span class="ot">&lt;-</span> <span class="fu">t</span>(dfm_df)</span>
-<span id="cb237-3"><a href="week-4-complexity-and-similarity.html#cb237-3" tabindex="-1"></a>dfm_df_t</span></code></pre></div>
+<div class="sourceCode" id="cb237"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dfm_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://quanteda.io/reference/convert.html">convert</a></span><span class="op">(</span><span class="va">docs_dmf</span>, to <span class="op">=</span> <span class="st">"matrix"</span><span class="op">)</span></span>
+<span><span class="va">dfm_df_t</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="va">dfm_df</span><span class="op">)</span></span>
+<span><span class="va">dfm_df_t</span></span></code></pre></div>
 <pre><code>##              docs
 ## features      text1 text2 text3
 ##   professor’s     1     1     0
@@ -188,78 +191,88 @@
 ##   strong          0     0     1
 ##   evidence        0     0     1</code></pre>
 <p>Ok, now we just use a simple correlation test:</p>
-<div class="sourceCode" id="cb239"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb239-1"><a href="week-4-complexity-and-similarity.html#cb239-1" tabindex="-1"></a><span class="fu">cor</span>(dfm_df_t[,<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)])</span></code></pre></div>
+<div class="sourceCode" id="cb239"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span><span class="op">(</span><span class="va">dfm_df_t</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##            text1      text2      text3
 ## text1  1.0000000  0.2195775 -0.4147575
 ## text2  0.2195775  1.0000000 -0.6250000
 ## text3 -0.4147575 -0.6250000  1.0000000</code></pre>
 <p>From this we can see that text1 is more highly correlated to text2 than to text 3. Alternatively, we can use the built-in functions in <code>quanteda</code> to obtain similar results without having to transform our <code>dfm</code>:</p>
-<div class="sourceCode" id="cb241"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb241-1"><a href="week-4-complexity-and-similarity.html#cb241-1" tabindex="-1"></a><span class="fu">textstat_simil</span>(docs_dmf, <span class="at">margin =</span> <span class="st">&quot;documents&quot;</span>, <span class="at">method =</span> <span class="st">&quot;correlation&quot;</span>)</span></code></pre></div>
-<pre><code>## textstat_simil object; method = &quot;correlation&quot;
+<div class="sourceCode" id="cb241"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://quanteda.io/reference/textstat_simil.html">textstat_simil</a></span><span class="op">(</span><span class="va">docs_dmf</span>, margin <span class="op">=</span> <span class="st">"documents"</span>, method <span class="op">=</span> <span class="st">"correlation"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## textstat_simil object; method = "correlation"
 ##        text1  text2  text3
 ## text1  1.000  0.220 -0.415
 ## text2  0.220  1.000 -0.625
 ## text3 -0.415 -0.625  1.000</code></pre>
 <p>We can use <code>textstat_simil</code> for the a whole bunch of similarity/distance methods:</p>
-<div class="sourceCode" id="cb243"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb243-1"><a href="week-4-complexity-and-similarity.html#cb243-1" tabindex="-1"></a><span class="fu">textstat_simil</span>(docs_dmf, <span class="at">margin =</span> <span class="st">&quot;documents&quot;</span>, <span class="at">method =</span> <span class="st">&quot;cosine&quot;</span>)</span></code></pre></div>
-<pre><code>## textstat_simil object; method = &quot;cosine&quot;
+<div class="sourceCode" id="cb243"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://quanteda.io/reference/textstat_simil.html">textstat_simil</a></span><span class="op">(</span><span class="va">docs_dmf</span>, margin <span class="op">=</span> <span class="st">"documents"</span>, method <span class="op">=</span> <span class="st">"cosine"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## textstat_simil object; method = "cosine"
 ##       text1 text2 text3
 ## text1 1.000 0.668 0.401
 ## text2 0.668 1.000 0.375
 ## text3 0.401 0.375 1.000</code></pre>
-<div class="sourceCode" id="cb245"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb245-1"><a href="week-4-complexity-and-similarity.html#cb245-1" tabindex="-1"></a><span class="fu">textstat_simil</span>(docs_dmf, <span class="at">margin =</span> <span class="st">&quot;documents&quot;</span>, <span class="at">method =</span> <span class="st">&quot;jaccard&quot;</span>)</span></code></pre></div>
-<pre><code>## textstat_simil object; method = &quot;jaccard&quot;
+<div class="sourceCode" id="cb245"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://quanteda.io/reference/textstat_simil.html">textstat_simil</a></span><span class="op">(</span><span class="va">docs_dmf</span>, margin <span class="op">=</span> <span class="st">"documents"</span>, method <span class="op">=</span> <span class="st">"jaccard"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## textstat_simil object; method = "jaccard"
 ##       text1 text2 text3
 ## text1  1.00 0.500 0.250
 ## text2  0.50 1.000 0.231
 ## text3  0.25 0.231 1.000</code></pre>
-<div class="sourceCode" id="cb247"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb247-1"><a href="week-4-complexity-and-similarity.html#cb247-1" tabindex="-1"></a><span class="fu">textstat_dist</span>(docs_dmf, <span class="at">margin =</span> <span class="st">&quot;documents&quot;</span>, <span class="at">method =</span> <span class="st">&quot;euclidean&quot;</span>)</span></code></pre></div>
-<pre><code>## textstat_dist object; method = &quot;euclidean&quot;
+<div class="sourceCode" id="cb247"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://quanteda.io/reference/textstat_simil.html">textstat_dist</a></span><span class="op">(</span><span class="va">docs_dmf</span>, margin <span class="op">=</span> <span class="st">"documents"</span>, method <span class="op">=</span> <span class="st">"euclidean"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## textstat_dist object; method = "euclidean"
 ##       text1 text2 text3
 ## text1     0  2.24  3.00
 ## text2  2.24     0  3.16
 ## text3  3.00  3.16     0</code></pre>
-<div class="sourceCode" id="cb249"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb249-1"><a href="week-4-complexity-and-similarity.html#cb249-1" tabindex="-1"></a><span class="fu">textstat_dist</span>(docs_dmf, <span class="at">margin =</span> <span class="st">&quot;documents&quot;</span>, <span class="at">method =</span> <span class="st">&quot;manhattan&quot;</span>)</span></code></pre></div>
-<pre><code>## textstat_dist object; method = &quot;manhattan&quot;
+<div class="sourceCode" id="cb249"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://quanteda.io/reference/textstat_simil.html">textstat_dist</a></span><span class="op">(</span><span class="va">docs_dmf</span>, margin <span class="op">=</span> <span class="st">"documents"</span>, method <span class="op">=</span> <span class="st">"manhattan"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## textstat_dist object; method = "manhattan"
 ##       text1 text2 text3
 ## text1     0     5     9
 ## text2     5     0    10
 ## text3     9    10     0</code></pre>
 <p>We can also present these matrices as nice plots:</p>
-<div class="sourceCode" id="cb251"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb251-1"><a href="week-4-complexity-and-similarity.html#cb251-1" tabindex="-1"></a>cos_sim_doc <span class="ot">&lt;-</span> <span class="fu">textstat_simil</span>(docs_dmf, <span class="at">margin =</span> <span class="st">&quot;documents&quot;</span>, <span class="at">method =</span> <span class="st">&quot;cosine&quot;</span>)</span>
-<span id="cb251-2"><a href="week-4-complexity-and-similarity.html#cb251-2" tabindex="-1"></a>cos_sim_doc <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(cos_sim_doc)</span>
-<span id="cb251-3"><a href="week-4-complexity-and-similarity.html#cb251-3" tabindex="-1"></a>  </span>
-<span id="cb251-4"><a href="week-4-complexity-and-similarity.html#cb251-4" tabindex="-1"></a><span class="co"># We do this to use ggplot</span></span>
-<span id="cb251-5"><a href="week-4-complexity-and-similarity.html#cb251-5" tabindex="-1"></a>cos_sim_doc_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(cos_sim_doc)</span>
-<span id="cb251-6"><a href="week-4-complexity-and-similarity.html#cb251-6" tabindex="-1"></a>cos_sim_doc_df <span class="sc">%&gt;%</span></span>
-<span id="cb251-7"><a href="week-4-complexity-and-similarity.html#cb251-7" tabindex="-1"></a>    <span class="fu">rownames_to_column</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb251-8"><a href="week-4-complexity-and-similarity.html#cb251-8" tabindex="-1"></a>  <span class="co"># ggplot prefers </span></span>
-<span id="cb251-9"><a href="week-4-complexity-and-similarity.html#cb251-9" tabindex="-1"></a>    <span class="fu">melt</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb251-10"><a href="week-4-complexity-and-similarity.html#cb251-10" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">as.character</span>(variable),<span class="at">y =</span> <span class="fu">as.character</span>(rowname), <span class="at">col =</span> value)) <span class="sc">+</span></span>
-<span id="cb251-11"><a href="week-4-complexity-and-similarity.html#cb251-11" tabindex="-1"></a>    <span class="fu">geom_tile</span>(<span class="at">col=</span><span class="st">&quot;black&quot;</span>, <span class="at">fill=</span><span class="st">&quot;white&quot;</span>) <span class="sc">+</span> </span>
-<span id="cb251-12"><a href="week-4-complexity-and-similarity.html#cb251-12" tabindex="-1"></a>    <span class="co"># coord_fixed() +</span></span>
-<span id="cb251-13"><a href="week-4-complexity-and-similarity.html#cb251-13" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;&quot;</span>,<span class="at">y=</span><span class="st">&quot;&quot;</span>,<span class="at">col =</span> <span class="st">&quot;Cosine Sim&quot;</span>, <span class="at">fill=</span><span class="st">&quot;&quot;</span>) <span class="sc">+</span></span>
-<span id="cb251-14"><a href="week-4-complexity-and-similarity.html#cb251-14" tabindex="-1"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb251-15"><a href="week-4-complexity-and-similarity.html#cb251-15" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(</span>
-<span id="cb251-16"><a href="week-4-complexity-and-similarity.html#cb251-16" tabindex="-1"></a>      <span class="at">angle =</span> <span class="dv">90</span>,</span>
-<span id="cb251-17"><a href="week-4-complexity-and-similarity.html#cb251-17" tabindex="-1"></a>      <span class="at">vjust =</span> <span class="dv">1</span>,</span>
-<span id="cb251-18"><a href="week-4-complexity-and-similarity.html#cb251-18" tabindex="-1"></a>      <span class="at">hjust =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
-<span id="cb251-19"><a href="week-4-complexity-and-similarity.html#cb251-19" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">size =</span> value)) <span class="sc">+</span> </span>
-<span id="cb251-20"><a href="week-4-complexity-and-similarity.html#cb251-20" tabindex="-1"></a>    <span class="fu">scale_size</span>(<span class="at">guide =</span> <span class="st">&#39;none&#39;</span>) <span class="sc">+</span></span>
-<span id="cb251-21"><a href="week-4-complexity-and-similarity.html#cb251-21" tabindex="-1"></a>    <span class="fu">scale_color_gradient2</span>(<span class="at">mid=</span><span class="st">&quot;#A63446&quot;</span>,<span class="at">low=</span> <span class="st">&quot;#A63446&quot;</span>,<span class="at">high=</span><span class="st">&quot;#0C6291&quot;</span>) <span class="sc">+</span></span>
-<span id="cb251-22"><a href="week-4-complexity-and-similarity.html#cb251-22" tabindex="-1"></a>    <span class="fu">scale_x_discrete</span>(<span class="at">expand=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>)) <span class="sc">+</span></span>
-<span id="cb251-23"><a href="week-4-complexity-and-similarity.html#cb251-23" tabindex="-1"></a>    <span class="fu">scale_y_discrete</span>(<span class="at">expand=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb251"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">cos_sim_doc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://quanteda.io/reference/textstat_simil.html">textstat_simil</a></span><span class="op">(</span><span class="va">docs_dmf</span>, margin <span class="op">=</span> <span class="st">"documents"</span>, method <span class="op">=</span> <span class="st">"cosine"</span><span class="op">)</span></span>
+<span><span class="va">cos_sim_doc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">cos_sim_doc</span><span class="op">)</span></span>
+<span>  </span>
+<span><span class="co"># We do this to use ggplot</span></span>
+<span><span class="va">cos_sim_doc_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="va">cos_sim_doc</span><span class="op">)</span></span>
+<span><span class="va">cos_sim_doc_df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html">rownames_to_column</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="co"># ggplot prefers </span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/reshape2/man/melt.html">melt</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span><span class="op">(</span><span class="va">variable</span><span class="op">)</span>,y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span><span class="op">(</span><span class="va">rowname</span><span class="op">)</span>, col <span class="op">=</span> <span class="va">value</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html">geom_tile</a></span><span class="op">(</span>col<span class="op">=</span><span class="st">"black"</span>, fill<span class="op">=</span><span class="st">"white"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>    <span class="co"># coord_fixed() +</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x<span class="op">=</span><span class="st">""</span>,y<span class="op">=</span><span class="st">""</span>,col <span class="op">=</span> <span class="st">"Cosine Sim"</span>, fill<span class="op">=</span><span class="st">""</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>axis.text.x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span></span>
+<span>      angle <span class="op">=</span> <span class="fl">90</span>,</span>
+<span>      vjust <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>      hjust <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>size <span class="op">=</span> <span class="va">value</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_size.html">scale_size</a></span><span class="op">(</span>guide <span class="op">=</span> <span class="st">'none'</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_gradient.html">scale_color_gradient2</a></span><span class="op">(</span>mid<span class="op">=</span><span class="st">"#A63446"</span>,low<span class="op">=</span> <span class="st">"#A63446"</span>,high<span class="op">=</span><span class="st">"#0C6291"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_discrete.html">scale_x_discrete</a></span><span class="op">(</span>expand<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_discrete.html">scale_y_discrete</a></span><span class="op">(</span>expand<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## Using rowname as id variables</code></pre>
-<p><img src="main_files/figure-html/unnamed-chunk-70-1.png" width="672" /></p>
+<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-70-1.png" width="672"></div>
 <p>Noise!</p>
 </div>
 </div>
 <div id="complexity" class="section level2" number="4.4">
-<h2><span class="header-section-number">4.4</span> Complexity</h2>
+<h2>
+<span class="header-section-number">4.4</span> Complexity<a class="anchor" aria-label="anchor" href="#complexity"><i class="fas fa-link"></i></a>
+</h2>
 <p>From this week’s lecture (and one of the readings) we know that another way of analyzing text is by computing its complexity. In <em>Schoonvelde et al. (2019) - Liberals lecture, conservatives communicate: Analyzing complexity and ideology in 381,609 political speeches</em>, the authors use Flesch’s Reading Ease Score as a measure of “complexity” or readability of a text (see <code>??textstat_readability</code> for the formula and other readability measures). Flesch’s Reading Ease Score ranges from 0 to 100, where higher values suggest less complex/more readable text (e.g., a score between 90 and 100 is a text that can be understood by a 5th grade; a score between 0 and 30 is a text that can be understood by a college graduate and professional). It obtains the score taking into consideration the average length of a sentence, the number of words, and the number of syllables.</p>
 <p>Let’s apply the readability score to some open-ended questions from the 2020 ANES survey, and see how these correlate to the characteristics of the respondents.</p>
-<div class="sourceCode" id="cb253"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb253-1"><a href="week-4-complexity-and-similarity.html#cb253-1" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;data/anes_sample.Rdata&quot;</span>)</span>
-<span id="cb253-2"><a href="week-4-complexity-and-similarity.html#cb253-2" tabindex="-1"></a><span class="fu">head</span>(open_srvy)</span></code></pre></div>
+<div class="sourceCode" id="cb253"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/load.html">load</a></span><span class="op">(</span><span class="st">"data/anes_sample.Rdata"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">open_srvy</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## # A tibble: 6 × 9
 ##   V200001 like_dem_pres   dislike_dem_pres like_rep_pres dislike_rep_pres income
 ##     &lt;dbl&gt; &lt;chr&gt;           &lt;chr&gt;            &lt;chr&gt;         &lt;chr&gt;             &lt;int&gt;
@@ -272,10 +285,12 @@
 ## # ℹ 3 more variables: pid &lt;int&gt;, edu &lt;int&gt;, age &lt;int&gt;</code></pre>
 <p>We have open-ended survey questions that ask respondents what they like and dislike about the Democratic (Joe Biden) and Republican (Donald Trump) 2020 US presidential candidates before the election. Note that survey respondent could opt out of the question and are given an <em>NA</em>.</p>
 <p>Let’s check:</p>
-<div class="sourceCode" id="cb255"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb255-1"><a href="week-4-complexity-and-similarity.html#cb255-1" tabindex="-1"></a>read_like_dem_pres <span class="ot">&lt;-</span> <span class="fu">textstat_readability</span>(open_srvy<span class="sc">$</span>like_dem_pres,<span class="at">measure =</span> <span class="st">&quot;Flesch&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb255"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">read_like_dem_pres</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://quanteda.io/reference/textstat_readability.html">textstat_readability</a></span><span class="op">(</span><span class="va">open_srvy</span><span class="op">$</span><span class="va">like_dem_pres</span>,measure <span class="op">=</span> <span class="st">"Flesch"</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## Warning: NA is replaced by empty string</code></pre>
-<div class="sourceCode" id="cb257"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb257-1"><a href="week-4-complexity-and-similarity.html#cb257-1" tabindex="-1"></a>open_srvy<span class="sc">$</span>read_like_dem_pres <span class="ot">&lt;-</span> read_like_dem_pres<span class="sc">$</span>Flesch</span>
-<span id="cb257-2"><a href="week-4-complexity-and-similarity.html#cb257-2" tabindex="-1"></a><span class="fu">head</span>(open_srvy[,<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">10</span>)],<span class="dv">15</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb257"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">open_srvy</span><span class="op">$</span><span class="va">read_like_dem_pres</span> <span class="op">&lt;-</span> <span class="va">read_like_dem_pres</span><span class="op">$</span><span class="va">Flesch</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">open_srvy</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">10</span><span class="op">)</span><span class="op">]</span>,<span class="fl">15</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## # A tibble: 15 × 2
 ##    like_dem_pres                                              read_like_dem_pres
 ##    &lt;chr&gt;                                                                   &lt;dbl&gt;
@@ -295,54 +310,68 @@
 ## 14 Everything he stands for.                                                75.9
 ## 15 He is very intuned with his voters and their point of view               81.9</code></pre>
 <p>Makes sense: the third row is quite easy to ready, the fourth row is a bit more complex, and the eleventh row is impossible to read because it is in Spanish.</p>
-<div class="sourceCode" id="cb259"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb259-1"><a href="week-4-complexity-and-similarity.html#cb259-1" tabindex="-1"></a>open_srvy <span class="sc">%&gt;%</span></span>
-<span id="cb259-2"><a href="week-4-complexity-and-similarity.html#cb259-2" tabindex="-1"></a>  <span class="co"># Remove people who did not answer</span></span>
-<span id="cb259-3"><a href="week-4-complexity-and-similarity.html#cb259-3" tabindex="-1"></a>  <span class="fu">filter</span>(edu<span class="sc">&gt;</span><span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb259-4"><a href="week-4-complexity-and-similarity.html#cb259-4" tabindex="-1"></a>  <span class="co"># Remove negative scores</span></span>
-<span id="cb259-5"><a href="week-4-complexity-and-similarity.html#cb259-5" tabindex="-1"></a>  <span class="fu">filter</span>(read_like_dem_pres<span class="sc">&gt;</span><span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb259-6"><a href="week-4-complexity-and-similarity.html#cb259-6" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span><span class="fu">as.factor</span>(edu),<span class="at">y=</span>read_like_dem_pres)) <span class="sc">+</span></span>
-<span id="cb259-7"><a href="week-4-complexity-and-similarity.html#cb259-7" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">alpha=</span><span class="fl">0.6</span>) <span class="sc">+</span></span>
-<span id="cb259-8"><a href="week-4-complexity-and-similarity.html#cb259-8" tabindex="-1"></a>  <span class="co"># scale_color_manual(values = wes_palette(&quot;BottleRocket2&quot;)) +</span></span>
-<span id="cb259-9"><a href="week-4-complexity-and-similarity.html#cb259-9" tabindex="-1"></a>  <span class="co"># scale_fill_manual(values = wes_palette(&quot;BottleRocket2&quot;)) +</span></span>
-<span id="cb259-10"><a href="week-4-complexity-and-similarity.html#cb259-10" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb259-11"><a href="week-4-complexity-and-similarity.html#cb259-11" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">&quot;bottom&quot;</span>) <span class="sc">+</span></span>
-<span id="cb259-12"><a href="week-4-complexity-and-similarity.html#cb259-12" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Education&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Flesch Score&quot;</span>, </span>
-<span id="cb259-13"><a href="week-4-complexity-and-similarity.html#cb259-13" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">&quot;Note: Education goes from 1 - Less the high school credentials to 5 - Graduate Degree&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb259"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">open_srvy</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="co"># Remove people who did not answer</span></span>
+<span>  <span class="fu">filter</span><span class="op">(</span><span class="va">edu</span><span class="op">&gt;</span><span class="fl">0</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="co"># Remove negative scores</span></span>
+<span>  <span class="fu">filter</span><span class="op">(</span><span class="va">read_like_dem_pres</span><span class="op">&gt;</span><span class="fl">0</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="va">edu</span><span class="op">)</span>,y<span class="op">=</span><span class="va">read_like_dem_pres</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span><span class="op">(</span>alpha<span class="op">=</span><span class="fl">0.6</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="co"># scale_color_manual(values = wes_palette("BottleRocket2")) +</span></span>
+<span>  <span class="co"># scale_fill_manual(values = wes_palette("BottleRocket2")) +</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"bottom"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x<span class="op">=</span><span class="st">"Education"</span>, y <span class="op">=</span> <span class="st">"Flesch Score"</span>, </span>
+<span>       caption <span class="op">=</span> <span class="st">"Note: Education goes from 1 - Less the high school credentials to 5 - Graduate Degree"</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## filter: removed 131 rows (2%), 8,149 rows remaining</code></pre>
 <pre><code>## filter: removed 4,413 rows (54%), 3,736 rows remaining</code></pre>
-<p><img src="main_files/figure-html/unnamed-chunk-73-1.png" width="672" /></p>
+<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-73-1.png" width="672"></div>
 <p>Look at that… having a degree makes you speak more complicated.</p>
 </div>
 <div id="exercise-optional-1" class="section level2" number="4.5">
-<h2><span class="header-section-number">4.5</span> Exercise (Optional)</h2>
+<h2>
+<span class="header-section-number">4.5</span> Exercise (Optional)<a class="anchor" aria-label="anchor" href="#exercise-optional-1"><i class="fas fa-link"></i></a>
+</h2>
 <ol style="list-style-type: decimal">
 <li>Extend the analysis of the ANES data using other readiability scores and/or other variables.</li>
 <li>If you wanted to use a similarity/distance measure to explore the ANES data, how would you go about it? What would you be able to compare using only the data provided?</li>
 </ol>
-
 </div>
 </div>
-  </main>
-
-  <div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
-    <nav id="toc" data-toggle="toc" aria-label="On this page">
-      <h2>On this page</h2>
-      <div id="book-on-this-page"></div>
+  <div class="chapter-nav">
+<div class="prev"><a href="week-3-dictionary-based-approaches.html"><span class="header-section-number">3</span> Week 3: Dictionary-Based Approaches</a></div>
+<div class="next"><a href="week-5-scaling-techniques-and-topic-modeling.html"><span class="header-section-number">5</span> Week 5: Scaling Techniques and Topic Modeling</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#week-4-complexity-and-similarity"><span class="header-section-number">4</span> Week 4: Complexity and Similarity</a></li>
+<li><a class="nav-link" href="#slides-3">Slides</a></li>
+<li><a class="nav-link" href="#setup-3"><span class="header-section-number">4.1</span> Setup</a></li>
+<li><a class="nav-link" href="#replicating-the-lecture"><span class="header-section-number">4.2</span> Replicating the Lecture</a></li>
+<li>
+<a class="nav-link" href="#comparing-text"><span class="header-section-number">4.3</span> Comparing Text</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#character-level-comparisons"><span class="header-section-number">4.3.1</span> Character-Level Comparisons:</a></li>
+<li><a class="nav-link" href="#token-level-comparisons"><span class="header-section-number">4.3.2</span> Token-Level Comparisons:</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#complexity"><span class="header-section-number">4.4</span> Complexity</a></li>
+<li><a class="nav-link" href="#exercise-optional-1"><span class="header-section-number">4.5</span> Exercise (Optional)</a></li>
+</ul>
 
       <div class="book-extra">
         <ul class="list-unstyled">
-          <li><a id="book-source" href="#">View source <i class="fab fa-github"></i></a></li>
-          <li><a id="book-edit" href="#">Edit this page <i class="fab fa-github"></i></a></li>
+<li><a id="book-source" href="https://github.com/svallejovera/cpa_uwo/blob/master/04-week4.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/svallejovera/cpa_uwo/edit/master/04-week4.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
         </ul>
-      </div>
+</div>
     </nav>
-  </div>
+</div>
 
 </div>
 </div> <!-- .container -->
 
-<footer class="bg-primary text-light mt-5">
-  <div class="container"><div class="row">
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
     <p>"<strong>PS9594A: Computational Text Analysis</strong>" was written by Dr. Sebastián Vallejo Vera | Western University. It was last built on 2024-01-26.</p>
@@ -353,11 +382,7 @@
   </div>
 
 </div></div>
-</footer>
-
-
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
@@ -369,8 +394,7 @@
     script.src = src;
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
-</script>
-<script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
 for (let popover of popovers) {
   const div = document.createElement('div');
   div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
@@ -388,5 +412,4 @@ for (let popover of popovers) {
 }
 </script>
 </body>
-
 </html>

@@ -1,56 +1,32 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-  <title>Chapter 2 Week 2: Tokenization and Word Frequency | PS9594A: Computational Text Analysis</title>
-
-    <meta name="author" content="Dr. Sebastián Vallejo Vera | Western University" />
-  
-   <meta name="description" content="Code, exercises, and slides for PS9594A: Computational Text Analysis" />
-   <meta name="generator" content="placeholder" />
-  <meta property="og:title" content="Chapter 2 Week 2: Tokenization and Word Frequency | PS9594A: Computational Text Analysis" />
-  <meta property="og:type" content="book" />
-  
-  
-  <meta property="og:description" content="Code, exercises, and slides for PS9594A: Computational Text Analysis" />
-
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 2 Week 2: Tokenization and Word Frequency | PS9594A: Computational Text Analysis" />
-  
-  <meta name="twitter:description" content="Code, exercises, and slides for PS9594A: Computational Text Analysis" />
-  
-  <!-- JS -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script>
-  <script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script>
-    <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet" />
-    <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script>
-    <script src="libs/bs3compat-0.5.0/transition.js"></script>
-    <script src="libs/bs3compat-0.5.0/tabs.js"></script>
-    <script src="libs/bs3compat-0.5.0/bs3compat.js"></script>
-    <link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet" />
-    <script src="libs/bs4_book-1.0.0/bs4_book.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script>
-
-  <!-- CSS -->
-  <style type="text/css">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 2 Week 2: Tokenization and Word Frequency | PS9594A: Computational Text Analysis</title>
+<meta name="author" content="Dr. Sebastián Vallejo Vera | Western University">
+<meta name="description" content="Slides 3 Tokenization and Word Frequency (link or in Perusall)  2.1 Setup As always, we first load the packages that we’ll be using: library(tidyverse) # for wrangling data library(tidylog) # to...">
+<meta name="generator" content="bookdown 0.37 with bs4_book()">
+<meta property="og:title" content="Chapter 2 Week 2: Tokenization and Word Frequency | PS9594A: Computational Text Analysis">
+<meta property="og:type" content="book">
+<meta property="og:description" content="Slides 3 Tokenization and Word Frequency (link or in Perusall)  2.1 Setup As always, we first load the packages that we’ll be using: library(tidyverse) # for wrangling data library(tidylog) # to...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 2 Week 2: Tokenization and Word Frequency | PS9594A: Computational Text Analysis">
+<meta name="twitter:description" content="Slides 3 Tokenization and Word Frequency (link or in Perusall)  2.1 Setup As always, we first load the packages that we’ll be using: library(tidyverse) # for wrangling data library(tidylog) # to...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.0/transition.js"></script><script src="libs/bs3compat-0.5.0/tabs.js"></script><script src="libs/bs3compat-0.5.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
   </style>
-    
 </head>
-
 <body data-spy="scroll" data-target="#toc">
 
 <div class="container-fluid">
 <div class="row">
-  <header class="col-sm-12 col-lg-3 sidebar sidebar-book">
-    <a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
 
     <div class="d-flex align-items-start justify-content-between">
       <h1>
@@ -62,55 +38,69 @@
     <div id="main-nav" class="collapse-lg">
       <form role="search">
         <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
-      </form>
+</form>
 
-      <nav aria-label="Table of contents">
-        <h2>Table of contents</h2>
-        <div id="book-toc"></div>
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">“Computational Text Analysis”</a></li>
+<li><a class="" href="week-1-a-primer-on-using-text-as-data.html"><span class="header-section-number">1</span> Week 1: A Primer on Using Text as Data</a></li>
+<li><a class="active" href="week-2-tokenization-and-word-frequency.html"><span class="header-section-number">2</span> Week 2: Tokenization and Word Frequency</a></li>
+<li><a class="" href="week-3-dictionary-based-approaches.html"><span class="header-section-number">3</span> Week 3: Dictionary-Based Approaches</a></li>
+<li><a class="" href="week-4-complexity-and-similarity.html"><span class="header-section-number">4</span> Week 4: Complexity and Similarity</a></li>
+<li><a class="" href="week-5-scaling-techniques-and-topic-modeling.html"><span class="header-section-number">5</span> Week 5: Scaling Techniques and Topic Modeling</a></li>
+<li><a class="" href="week-6-word-embeddings.html"><span class="header-section-number">6</span> Week 6: Word Embeddings</a></li>
+<li><a class="" href="references.html">References</a></li>
+</ul>
 
         <div class="book-extra">
-          <p><a id="book-repo" href="#">View book source <i class="fab fa-github"></i></a></li></p>
+          <p><a id="book-repo" href="https://github.com/svallejovera/cpa_uwo">View book source <i class="fab fa-github"></i></a></p>
         </div>
       </nav>
-    </div>
-  </header>
-
-  <main class="col-sm-12 col-md-9 col-lg-7" id="content">
-<div id="week-2-tokenization-and-word-frequency" class="section level1" number="2">
-<h1><span class="header-section-number">Chapter 2</span> Week 2: Tokenization and Word Frequency</h1>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="week-2-tokenization-and-word-frequency" class="section level1" number="2">
+<h1>
+<span class="header-section-number">2</span> Week 2: Tokenization and Word Frequency<a class="anchor" aria-label="anchor" href="#week-2-tokenization-and-word-frequency"><i class="fas fa-link"></i></a>
+</h1>
 <div id="slides-1" class="section level2 unnumbered">
-<h2>Slides</h2>
+<h2>Slides<a class="anchor" aria-label="anchor" href="#slides-1"><i class="fas fa-link"></i></a>
+</h2>
 <ul>
 <li>3 Tokenization and Word Frequency (<a href="https://github.com/svallejovera/cpa_uwo/blob/main/slides/3%20Tokenization%20and%20Word%20Frequency.pptx">link</a> or in Perusall)</li>
 </ul>
 </div>
 <div id="setup-1" class="section level2" number="2.1">
-<h2><span class="header-section-number">2.1</span> Setup</h2>
+<h2>
+<span class="header-section-number">2.1</span> Setup<a class="anchor" aria-label="anchor" href="#setup-1"><i class="fas fa-link"></i></a>
+</h2>
 <p>As always, we first load the packages that we’ll be using:</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="week-2-tokenization-and-word-frequency.html#cb46-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># for wrangling data</span></span>
-<span id="cb46-2"><a href="week-2-tokenization-and-word-frequency.html#cb46-2" tabindex="-1"></a><span class="fu">library</span>(tidylog) <span class="co"># to know what we are wrangling</span></span>
-<span id="cb46-3"><a href="week-2-tokenization-and-word-frequency.html#cb46-3" tabindex="-1"></a><span class="fu">library</span>(tidytext) <span class="co"># for &#39;tidy&#39; manipulation of text data</span></span>
-<span id="cb46-4"><a href="week-2-tokenization-and-word-frequency.html#cb46-4" tabindex="-1"></a><span class="fu">library</span>(quanteda) <span class="co"># tokenization power house</span></span>
-<span id="cb46-5"><a href="week-2-tokenization-and-word-frequency.html#cb46-5" tabindex="-1"></a><span class="fu">library</span>(quanteda.textstats)</span>
-<span id="cb46-6"><a href="week-2-tokenization-and-word-frequency.html#cb46-6" tabindex="-1"></a><span class="fu">library</span>(quanteda.textplots)</span>
-<span id="cb46-7"><a href="week-2-tokenization-and-word-frequency.html#cb46-7" tabindex="-1"></a><span class="fu">library</span>(wesanderson) <span class="co"># to prettify</span></span>
-<span id="cb46-8"><a href="week-2-tokenization-and-word-frequency.html#cb46-8" tabindex="-1"></a><span class="fu">library</span>(readxl) <span class="co"># to read excel</span></span>
-<span id="cb46-9"><a href="week-2-tokenization-and-word-frequency.html#cb46-9" tabindex="-1"></a><span class="fu">library</span>(kableExtra) <span class="co"># for displaying data in html format (relevant for formatting this worksheet mainly)</span></span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span> <span class="co"># for wrangling data</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/elbersb/tidylog/">tidylog</a></span><span class="op">)</span> <span class="co"># to know what we are wrangling</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/juliasilge/tidytext">tidytext</a></span><span class="op">)</span> <span class="co"># for 'tidy' manipulation of text data</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://quanteda.io">quanteda</a></span><span class="op">)</span> <span class="co"># tokenization power house</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://quanteda.io">quanteda.textstats</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">quanteda.textplots</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/karthik/wesanderson">wesanderson</a></span><span class="op">)</span> <span class="co"># to prettify</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org">readxl</a></span><span class="op">)</span> <span class="co"># to read excel</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://haozhu233.github.io/kableExtra/">kableExtra</a></span><span class="op">)</span> <span class="co"># for displaying data in html format (relevant for formatting this worksheet mainly)</span></span></code></pre></div>
 </div>
 <div id="get-data-1" class="section level2" number="2.2">
-<h2><span class="header-section-number">2.2</span> Get Data:</h2>
+<h2>
+<span class="header-section-number">2.2</span> Get Data:<a class="anchor" aria-label="anchor" href="#get-data-1"><i class="fas fa-link"></i></a>
+</h2>
 <p>For this example, we will be using small corpus of song lyrics.</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="week-2-tokenization-and-word-frequency.html#cb47-1" tabindex="-1"></a>sample_lyrics <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">&quot;data/lyrics_sample.xlsx&quot;</span>)</span>
-<span id="cb47-2"><a href="week-2-tokenization-and-word-frequency.html#cb47-2" tabindex="-1"></a><span class="fu">head</span>(sample_lyrics)</span></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sample_lyrics</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/lyrics_sample.xlsx"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">sample_lyrics</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## # A tibble: 6 × 5
 ##   artist                   album                      year song           lyrics
 ##   &lt;chr&gt;                    &lt;chr&gt;                     &lt;dbl&gt; &lt;chr&gt;          &lt;chr&gt; 
-## 1 Rage Against the Machine Evil Empire                1996 Bulls on Para… &quot;Come…
-## 2 Rage Against the Machine Rage Against the Machine   1992 Killing in th… &quot;Kill…
-## 3 Rage Against the Machine Renegades                  2000 Renegades of … &quot;No m…
-## 4 Rage Against the Machine The Battle of Los Angeles  1999 Sleep Now in … &quot;Yeah…
-## 5 Rage Against the Machine The Battle of Los Angeles  1999 Guerrilla Rad… &quot;Tran…
-## 6 Rage Against the Machine The Battle of Los Angeles  1999 Testify        &quot;Uh!\…</code></pre>
+## 1 Rage Against the Machine Evil Empire                1996 Bulls on Para… "Come…
+## 2 Rage Against the Machine Rage Against the Machine   1992 Killing in th… "Kill…
+## 3 Rage Against the Machine Renegades                  2000 Renegades of … "No m…
+## 4 Rage Against the Machine The Battle of Los Angeles  1999 Sleep Now in … "Yeah…
+## 5 Rage Against the Machine The Battle of Los Angeles  1999 Guerrilla Rad… "Tran…
+## 6 Rage Against the Machine The Battle of Los Angeles  1999 Testify        "Uh!\…</code></pre>
 <p>Ok, so we have different artists, from different genres and year…</p>
 <pre><code>## 
 ##      Megan Thee Stallion Rage Against the Machine         System of a Down 
@@ -118,28 +108,35 @@
 ##             Taylor Swift 
 ##                        5</code></pre>
 <p>And we have the lyrics in the following form:</p>
-<pre><code>## [1] &quot;Yeah\r\n\r\nThe world is my expense\r\nIt’s the cost of my desire\r\nJesus blessed me with its future\r\nAnd I protect it with fire\r\n\r\nSo raise your fists and march around\r\nJust don’t take what you need\r\nI’ll jail and bury those committed\r\nAnd smother the rest in greed\r\n\r\nCrawl with me into tomorrow\r\nOr I’ll drag you to your grave\r\nI’m deep inside your children\r\nThey’ll betray you in my name\r\n\r\nHey, hey, sleep now in the fire\r\nHey, hey, sleep now in the fire\r\n\r\nThe lie is my expense\r\nThe scope of my desire\r\nThe party blessed me with its future\r\nAnd I protect it with fire\r\n\r\nI am the Niña, the Pinta, the Santa María\r\nThe noose and the rapist, the fields overseer\r\nThe Agents of Orange, the Priests of Hiroshima\r\nThe cost of my desire, sleep now in the fire\r\n\r\nHey, hey, sleep now in the fire\r\nHey, hey, sleep now in the fire\r\n\r\nFor it’s the end of history\r\nIt’s caged and frozen still\r\nThere is no other pill to take\r\nSo swallow the one that made you ill\r\n\r\nThe Niña, the Pinta, the Santa María\r\nThe noose and the rapist, the fields overseer\r\nThe Agents of Orange, the Priests of Hiroshima\r\nThe cost of my desire to sleep now in the fire\r\n\r\nYeah\r\n\r\nSleep now in the fire\r\nSleep now in the fire\r\nSleep now in the fire\r\nSleep now in the fire&quot;</code></pre>
+<pre><code>## [1] "Yeah\r\n\r\nThe world is my expense\r\nIt’s the cost of my desire\r\nJesus blessed me with its future\r\nAnd I protect it with fire\r\n\r\nSo raise your fists and march around\r\nJust don’t take what you need\r\nI’ll jail and bury those committed\r\nAnd smother the rest in greed\r\n\r\nCrawl with me into tomorrow\r\nOr I’ll drag you to your grave\r\nI’m deep inside your children\r\nThey’ll betray you in my name\r\n\r\nHey, hey, sleep now in the fire\r\nHey, hey, sleep now in the fire\r\n\r\nThe lie is my expense\r\nThe scope of my desire\r\nThe party blessed me with its future\r\nAnd I protect it with fire\r\n\r\nI am the Niña, the Pinta, the Santa María\r\nThe noose and the rapist, the fields overseer\r\nThe Agents of Orange, the Priests of Hiroshima\r\nThe cost of my desire, sleep now in the fire\r\n\r\nHey, hey, sleep now in the fire\r\nHey, hey, sleep now in the fire\r\n\r\nFor it’s the end of history\r\nIt’s caged and frozen still\r\nThere is no other pill to take\r\nSo swallow the one that made you ill\r\n\r\nThe Niña, the Pinta, the Santa María\r\nThe noose and the rapist, the fields overseer\r\nThe Agents of Orange, the Priests of Hiroshima\r\nThe cost of my desire to sleep now in the fire\r\n\r\nYeah\r\n\r\nSleep now in the fire\r\nSleep now in the fire\r\nSleep now in the fire\r\nSleep now in the fire"</code></pre>
 </div>
 <div id="cleaning-the-text" class="section level2" number="2.3">
-<h2><span class="header-section-number">2.3</span> Cleaning the Text</h2>
-<p>Much like music, text comes in different forms and qualities. From the Regex workshop, you might remember that there are special characters that can signal, for example, a new line (<code>\n</code>), or carriage return (<code>\r</code>). For this example, we can get rid of them <a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>. Before working with text, always check the state of your documents once loaded into your program of choice.</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="week-2-tokenization-and-word-frequency.html#cb51-1" tabindex="-1"></a>sample_lyrics <span class="ot">&lt;-</span> sample_lyrics <span class="sc">%&gt;%</span></span>
-<span id="cb51-2"><a href="week-2-tokenization-and-word-frequency.html#cb51-2" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">lyrics_clean =</span> <span class="fu">str_replace_all</span>(lyrics,<span class="st">&quot;</span><span class="sc">\\</span><span class="st">n&quot;</span>, <span class="st">&quot;</span><span class="sc">\\</span><span class="st">.&quot;</span>),</span>
-<span id="cb51-3"><a href="week-2-tokenization-and-word-frequency.html#cb51-3" tabindex="-1"></a>         <span class="at">lyrics_clean =</span> <span class="fu">str_replace_all</span>(lyrics_clean,<span class="st">&quot;</span><span class="sc">\\</span><span class="st">r&quot;</span>, <span class="st">&quot;</span><span class="sc">\\</span><span class="st">.&quot;</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb51-4"><a href="week-2-tokenization-and-word-frequency.html#cb51-4" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>lyrics)</span></code></pre></div>
-<pre><code>## mutate: new variable &#39;lyrics_clean&#39; (character) with 21 unique values and 0% NA</code></pre>
+<h2>
+<span class="header-section-number">2.3</span> Cleaning the Text<a class="anchor" aria-label="anchor" href="#cleaning-the-text"><i class="fas fa-link"></i></a>
+</h2>
+<p>Much like music, text comes in different forms and qualities. From the Regex workshop, you might remember that there are special characters that can signal, for example, a new line (<code>\n</code>), or carriage return (<code>\r</code>). For this example, we can get rid of them <a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;This is not always the case. Sometimes, we can use this characters to change our unit of analysis. For example, is we want our unit of analysis to be the paragraph, rather than the whole text, then these markers can aid when separating the text.&lt;/p&gt;"><sup>3</sup></a>. Before working with text, always check the state of your documents once loaded into your program of choice.</p>
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sample_lyrics</span> <span class="op">&lt;-</span> <span class="va">sample_lyrics</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>lyrics_clean <span class="op">=</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_replace.html">str_replace_all</a></span><span class="op">(</span><span class="va">lyrics</span>,<span class="st">"\\n"</span>, <span class="st">"\\."</span><span class="op">)</span>,</span>
+<span>         lyrics_clean <span class="op">=</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_replace.html">str_replace_all</a></span><span class="op">(</span><span class="va">lyrics_clean</span>,<span class="st">"\\r"</span>, <span class="st">"\\."</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="op">-</span><span class="va">lyrics</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## mutate: new variable 'lyrics_clean' (character) with 21 unique values and 0% NA</code></pre>
 <pre><code>## select: dropped one variable (lyrics)</code></pre>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="week-2-tokenization-and-word-frequency.html#cb54-1" tabindex="-1"></a>sample_lyrics<span class="sc">$</span>lyrics_clean[<span class="dv">4</span>]</span></code></pre></div>
-<pre><code>## [1] &quot;Yeah....The world is my expense..It’s the cost of my desire..Jesus blessed me with its future..And I protect it with fire....So raise your fists and march around..Just don’t take what you need..I’ll jail and bury those committed..And smother the rest in greed....Crawl with me into tomorrow..Or I’ll drag you to your grave..I’m deep inside your children..They’ll betray you in my name....Hey, hey, sleep now in the fire..Hey, hey, sleep now in the fire....The lie is my expense..The scope of my desire..The party blessed me with its future..And I protect it with fire....I am the Niña, the Pinta, the Santa María..The noose and the rapist, the fields overseer..The Agents of Orange, the Priests of Hiroshima..The cost of my desire, sleep now in the fire....Hey, hey, sleep now in the fire..Hey, hey, sleep now in the fire....For it’s the end of history..It’s caged and frozen still..There is no other pill to take..So swallow the one that made you ill....The Niña, the Pinta, the Santa María..The noose and the rapist, the fields overseer..The Agents of Orange, the Priests of Hiroshima..The cost of my desire to sleep now in the fire....Yeah....Sleep now in the fire..Sleep now in the fire..Sleep now in the fire..Sleep now in the fire&quot;</code></pre>
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sample_lyrics</span><span class="op">$</span><span class="va">lyrics_clean</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span></span></code></pre></div>
+<pre><code>## [1] "Yeah....The world is my expense..It’s the cost of my desire..Jesus blessed me with its future..And I protect it with fire....So raise your fists and march around..Just don’t take what you need..I’ll jail and bury those committed..And smother the rest in greed....Crawl with me into tomorrow..Or I’ll drag you to your grave..I’m deep inside your children..They’ll betray you in my name....Hey, hey, sleep now in the fire..Hey, hey, sleep now in the fire....The lie is my expense..The scope of my desire..The party blessed me with its future..And I protect it with fire....I am the Niña, the Pinta, the Santa María..The noose and the rapist, the fields overseer..The Agents of Orange, the Priests of Hiroshima..The cost of my desire, sleep now in the fire....Hey, hey, sleep now in the fire..Hey, hey, sleep now in the fire....For it’s the end of history..It’s caged and frozen still..There is no other pill to take..So swallow the one that made you ill....The Niña, the Pinta, the Santa María..The noose and the rapist, the fields overseer..The Agents of Orange, the Priests of Hiroshima..The cost of my desire to sleep now in the fire....Yeah....Sleep now in the fire..Sleep now in the fire..Sleep now in the fire..Sleep now in the fire"</code></pre>
 </div>
 <div id="tokenization" class="section level2" number="2.4">
-<h2><span class="header-section-number">2.4</span> Tokenization</h2>
+<h2>
+<span class="header-section-number">2.4</span> Tokenization<a class="anchor" aria-label="anchor" href="#tokenization"><i class="fas fa-link"></i></a>
+</h2>
 <p>Our goal is to create a document-feature matrix, from which we will later extract information about word frequency. To do that, we start by crating a <code>corpus</code> object, from the <code>quanteda</code> package.</p>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="week-2-tokenization-and-word-frequency.html#cb56-1" tabindex="-1"></a>corpus_lyrics <span class="ot">&lt;-</span> <span class="fu">corpus</span>(sample_lyrics,</span>
-<span id="cb56-2"><a href="week-2-tokenization-and-word-frequency.html#cb56-2" tabindex="-1"></a>                     <span class="at">text_field =</span> <span class="st">&quot;lyrics_clean&quot;</span>,</span>
-<span id="cb56-3"><a href="week-2-tokenization-and-word-frequency.html#cb56-3" tabindex="-1"></a>                     <span class="at">unique_docnames =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb56-4"><a href="week-2-tokenization-and-word-frequency.html#cb56-4" tabindex="-1"></a></span>
-<span id="cb56-5"><a href="week-2-tokenization-and-word-frequency.html#cb56-5" tabindex="-1"></a><span class="fu">summary</span>(corpus_lyrics)</span></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">corpus_lyrics</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://quanteda.io/reference/corpus.html">corpus</a></span><span class="op">(</span><span class="va">sample_lyrics</span>,</span>
+<span>                     text_field <span class="op">=</span> <span class="st">"lyrics_clean"</span>,</span>
+<span>                     unique_docnames <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">corpus_lyrics</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## Corpus consisting of 21 documents, showing 21 documents:
 ## 
 ##    Text Types Tokens Sentences                   artist
@@ -187,63 +184,67 @@
 ##                  Traumazine 2022                   Her
 ##                  Traumazine 2022            Ungrateful</code></pre>
 <p>Looks good. Now we can tokenize our corpus (and reduce complexity). One benefit of creating a corpus object first is that we maintain all the metadata for every document when we tokenize. This will come in handy in the future.</p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="week-2-tokenization-and-word-frequency.html#cb58-1" tabindex="-1"></a>lyrics_toks <span class="ot">&lt;-</span> <span class="fu">tokens</span>(corpus_lyrics,</span>
-<span id="cb58-2"><a href="week-2-tokenization-and-word-frequency.html#cb58-2" tabindex="-1"></a>                   <span class="at">remove_numbers =</span> <span class="cn">TRUE</span>, <span class="co"># Thinks about this</span></span>
-<span id="cb58-3"><a href="week-2-tokenization-and-word-frequency.html#cb58-3" tabindex="-1"></a>                   <span class="at">remove_punct =</span> <span class="cn">TRUE</span>, <span class="co"># Remove punctuation!</span></span>
-<span id="cb58-4"><a href="week-2-tokenization-and-word-frequency.html#cb58-4" tabindex="-1"></a>                   <span class="at">remove_url =</span> <span class="cn">TRUE</span>) <span class="co"># Might be helpful</span></span>
-<span id="cb58-5"><a href="week-2-tokenization-and-word-frequency.html#cb58-5" tabindex="-1"></a>lyrics_toks[<span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">14</span>)]</span></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">lyrics_toks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://quanteda.io/reference/tokens.html">tokens</a></span><span class="op">(</span><span class="va">corpus_lyrics</span>,</span>
+<span>                   remove_numbers <span class="op">=</span> <span class="cn">TRUE</span>, <span class="co"># Thinks about this</span></span>
+<span>                   remove_punct <span class="op">=</span> <span class="cn">TRUE</span>, <span class="co"># Remove punctuation!</span></span>
+<span>                   remove_url <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># Might be helpful</span></span>
+<span><span class="va">lyrics_toks</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">14</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
 <pre><code>## Tokens consisting of 2 documents and 4 docvars.
 ## text4 :
-##  [1] &quot;Yeah&quot;    &quot;The&quot;     &quot;world&quot;   &quot;is&quot;      &quot;my&quot;      &quot;expense&quot; &quot;It’s&quot;   
-##  [8] &quot;the&quot;     &quot;cost&quot;    &quot;of&quot;      &quot;my&quot;      &quot;desire&quot; 
+##  [1] "Yeah"    "The"     "world"   "is"      "my"      "expense" "It’s"   
+##  [8] "the"     "cost"    "of"      "my"      "desire" 
 ## [ ... and 227 more ]
 ## 
 ## text14 :
-##  [1] &quot;You&#39;re&quot;     &quot;on&quot;         &quot;the&quot;        &quot;phone&quot;      &quot;with&quot;      
-##  [6] &quot;your&quot;       &quot;girlfriend&quot; &quot;she&#39;s&quot;      &quot;upset&quot;      &quot;She&#39;s&quot;     
-## [11] &quot;going&quot;      &quot;off&quot;       
+##  [1] "You're"     "on"         "the"        "phone"      "with"      
+##  [6] "your"       "girlfriend" "she's"      "upset"      "She's"     
+## [11] "going"      "off"       
 ## [ ... and 385 more ]</code></pre>
 <p>We got rid of the punctuation. Now let’s remove stop words, high and low frequency words, and stem the remaining tokens. Here I am cheating, though. I know that high and low frequency words because I checked my <code>dfm</code> (see next code chunk).</p>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="week-2-tokenization-and-word-frequency.html#cb60-1" tabindex="-1"></a>lyrics_toks <span class="ot">&lt;-</span> <span class="fu">tokens_remove</span>(lyrics_toks,</span>
-<span id="cb60-2"><a href="week-2-tokenization-and-word-frequency.html#cb60-2" tabindex="-1"></a>                          <span class="co"># you can change or add stopwords depending on the </span></span>
-<span id="cb60-3"><a href="week-2-tokenization-and-word-frequency.html#cb60-3" tabindex="-1"></a>                          <span class="co"># language(s) of the documents</span></span>
-<span id="cb60-4"><a href="week-2-tokenization-and-word-frequency.html#cb60-4" tabindex="-1"></a>                          <span class="fu">c</span>(<span class="fu">stopwords</span>(<span class="at">language =</span> <span class="st">&quot;en&quot;</span>),</span>
-<span id="cb60-5"><a href="week-2-tokenization-and-word-frequency.html#cb60-5" tabindex="-1"></a>                            <span class="co"># Now is high frequency... there are many low</span></span>
-<span id="cb60-6"><a href="week-2-tokenization-and-word-frequency.html#cb60-6" tabindex="-1"></a>                            <span class="co"># frequency tokens. We will check these later</span></span>
-<span id="cb60-7"><a href="week-2-tokenization-and-word-frequency.html#cb60-7" tabindex="-1"></a>                            <span class="st">&quot;now&quot;</span>),</span>
-<span id="cb60-8"><a href="week-2-tokenization-and-word-frequency.html#cb60-8" tabindex="-1"></a>                          <span class="at">padding =</span> F)</span>
-<span id="cb60-9"><a href="week-2-tokenization-and-word-frequency.html#cb60-9" tabindex="-1"></a></span>
-<span id="cb60-10"><a href="week-2-tokenization-and-word-frequency.html#cb60-10" tabindex="-1"></a>lyrics_toks_stem <span class="ot">&lt;-</span> <span class="fu">tokens_wordstem</span>(lyrics_toks, <span class="at">language =</span> <span class="st">&quot;en&quot;</span>)</span>
-<span id="cb60-11"><a href="week-2-tokenization-and-word-frequency.html#cb60-11" tabindex="-1"></a></span>
-<span id="cb60-12"><a href="week-2-tokenization-and-word-frequency.html#cb60-12" tabindex="-1"></a>lyrics_toks[<span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">14</span>)]</span></code></pre></div>
+<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">lyrics_toks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://quanteda.io/reference/tokens_select.html">tokens_remove</a></span><span class="op">(</span><span class="va">lyrics_toks</span>,</span>
+<span>                          <span class="co"># you can change or add stopwords depending on the </span></span>
+<span>                          <span class="co"># language(s) of the documents</span></span>
+<span>                          <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/stopwords/man/stopwords.html">stopwords</a></span><span class="op">(</span>language <span class="op">=</span> <span class="st">"en"</span><span class="op">)</span>,</span>
+<span>                            <span class="co"># Now is high frequency... there are many low</span></span>
+<span>                            <span class="co"># frequency tokens. We will check these later</span></span>
+<span>                            <span class="st">"now"</span><span class="op">)</span>,</span>
+<span>                          padding <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">lyrics_toks_stem</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://quanteda.io/reference/tokens_wordstem.html">tokens_wordstem</a></span><span class="op">(</span><span class="va">lyrics_toks</span>, language <span class="op">=</span> <span class="st">"en"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">lyrics_toks</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">14</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
 <pre><code>## Tokens consisting of 2 documents and 4 docvars.
 ## text4 :
-##  [1] &quot;Yeah&quot;    &quot;world&quot;   &quot;expense&quot; &quot;It’s&quot;    &quot;cost&quot;    &quot;desire&quot;  &quot;Jesus&quot;  
-##  [8] &quot;blessed&quot; &quot;future&quot;  &quot;protect&quot; &quot;fire&quot;    &quot;raise&quot;  
+##  [1] "Yeah"    "world"   "expense" "It’s"    "cost"    "desire"  "Jesus"  
+##  [8] "blessed" "future"  "protect" "fire"    "raise"  
 ## [ ... and 105 more ]
 ## 
 ## text14 :
-##  [1] &quot;phone&quot;      &quot;girlfriend&quot; &quot;upset&quot;      &quot;going&quot;      &quot;something&quot; 
-##  [6] &quot;said&quot;       &quot;Cause&quot;      &quot;get&quot;        &quot;humor&quot;      &quot;like&quot;      
-## [11] &quot;room&quot;       &quot;typical&quot;   
+##  [1] "phone"      "girlfriend" "upset"      "going"      "something" 
+##  [6] "said"       "Cause"      "get"        "humor"      "like"      
+## [11] "room"       "typical"   
 ## [ ... and 133 more ]</code></pre>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="week-2-tokenization-and-word-frequency.html#cb62-1" tabindex="-1"></a>lyrics_toks_stem[<span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">14</span>)]</span></code></pre></div>
+<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">lyrics_toks_stem</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">14</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
 <pre><code>## Tokens consisting of 2 documents and 4 docvars.
 ## text4 :
-##  [1] &quot;Yeah&quot;    &quot;world&quot;   &quot;expens&quot;  &quot;It’s&quot;    &quot;cost&quot;    &quot;desir&quot;   &quot;Jesus&quot;  
-##  [8] &quot;bless&quot;   &quot;futur&quot;   &quot;protect&quot; &quot;fire&quot;    &quot;rais&quot;   
+##  [1] "Yeah"    "world"   "expens"  "It’s"    "cost"    "desir"   "Jesus"  
+##  [8] "bless"   "futur"   "protect" "fire"    "rais"   
 ## [ ... and 105 more ]
 ## 
 ## text14 :
-##  [1] &quot;phone&quot;      &quot;girlfriend&quot; &quot;upset&quot;      &quot;go&quot;         &quot;someth&quot;    
-##  [6] &quot;said&quot;       &quot;Caus&quot;       &quot;get&quot;        &quot;humor&quot;      &quot;like&quot;      
-## [11] &quot;room&quot;       &quot;typic&quot;     
+##  [1] "phone"      "girlfriend" "upset"      "go"         "someth"    
+##  [6] "said"       "Caus"       "get"        "humor"      "like"      
+## [11] "room"       "typic"     
 ## [ ... and 133 more ]</code></pre>
 <p>We can compare the stemmed output and the non-stemmed output. Why did ‘future’ become ‘futur’? Because we are assuming that, for <em>our</em> purposes, ‘future=futuristic’. This is for the researcher to decide. And finally, we can create our document-feature matrix (<code>dfm</code>).</p>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="week-2-tokenization-and-word-frequency.html#cb64-1" tabindex="-1"></a>lyrics_dfm <span class="ot">&lt;-</span> <span class="fu">dfm</span>(lyrics_toks)</span>
-<span id="cb64-2"><a href="week-2-tokenization-and-word-frequency.html#cb64-2" tabindex="-1"></a>lyrics_dfm_stem <span class="ot">&lt;-</span> <span class="fu">dfm</span>(lyrics_toks_stem)</span>
-<span id="cb64-3"><a href="week-2-tokenization-and-word-frequency.html#cb64-3" tabindex="-1"></a></span>
-<span id="cb64-4"><a href="week-2-tokenization-and-word-frequency.html#cb64-4" tabindex="-1"></a><span class="fu">head</span>(lyrics_dfm_stem)</span></code></pre></div>
+<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">lyrics_dfm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://quanteda.io/reference/dfm.html">dfm</a></span><span class="op">(</span><span class="va">lyrics_toks</span><span class="op">)</span></span>
+<span><span class="va">lyrics_dfm_stem</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://quanteda.io/reference/dfm.html">dfm</a></span><span class="op">(</span><span class="va">lyrics_toks_stem</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">lyrics_dfm_stem</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## Document-feature matrix of: 6 documents, 1,165 features (93.12% sparse) and 4 docvars.
 ##        features
 ## docs    come wit microphon explod shatter mold either drop hit like
@@ -255,132 +256,144 @@
 ##   text6    0   4         0      0       0    0      0    0   0    0
 ## [ reached max_nfeat ... 1,155 more features ]</code></pre>
 <p>Note that once we create the <code>dfm</code> object, all the tokens become lowercase. Now we can check what are the 15 most frequent tokens.</p>
-<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="week-2-tokenization-and-word-frequency.html#cb66-1" tabindex="-1"></a>lyrics_dfm_stem <span class="sc">%&gt;%</span></span>
-<span id="cb66-2"><a href="week-2-tokenization-and-word-frequency.html#cb66-2" tabindex="-1"></a>  <span class="fu">textstat_frequency</span>(<span class="at">n=</span><span class="dv">30</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb66-3"><a href="week-2-tokenization-and-word-frequency.html#cb66-3" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(feature,frequency),<span class="at">y=</span>frequency,<span class="at">fill =</span> (frequency), <span class="at">color =</span> (frequency))) <span class="sc">+</span></span>
-<span id="cb66-4"><a href="week-2-tokenization-and-word-frequency.html#cb66-4" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">alpha=</span><span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb66-5"><a href="week-2-tokenization-and-word-frequency.html#cb66-5" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
-<span id="cb66-6"><a href="week-2-tokenization-and-word-frequency.html#cb66-6" tabindex="-1"></a>  <span class="fu">scale_x_reordered</span>() <span class="sc">+</span></span>
-<span id="cb66-7"><a href="week-2-tokenization-and-word-frequency.html#cb66-7" tabindex="-1"></a>  <span class="fu">scale_color_distiller</span>(<span class="at">palette =</span> <span class="st">&quot;PuOr&quot;</span>) <span class="sc">+</span></span>
-<span id="cb66-8"><a href="week-2-tokenization-and-word-frequency.html#cb66-8" tabindex="-1"></a>  <span class="fu">scale_fill_distiller</span>(<span class="at">palette =</span> <span class="st">&quot;PuOr&quot;</span>) <span class="sc">+</span></span>
-<span id="cb66-9"><a href="week-2-tokenization-and-word-frequency.html#cb66-9" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span> </span>
-<span id="cb66-10"><a href="week-2-tokenization-and-word-frequency.html#cb66-10" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;&quot;</span>,<span class="at">y=</span><span class="st">&quot;Frequency&quot;</span>,<span class="at">color =</span> <span class="st">&quot;&quot;</span>, <span class="at">fill =</span> <span class="st">&quot;&quot;</span>) <span class="sc">+</span></span>
-<span id="cb66-11"><a href="week-2-tokenization-and-word-frequency.html#cb66-11" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">&quot;none&quot;</span>) </span></code></pre></div>
-<p><img src="main_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">lyrics_dfm_stem</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://quanteda.io/reference/textstat_frequency.html">textstat_frequency</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">30</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/reorder.factor.html">reorder</a></span><span class="op">(</span><span class="va">feature</span>,<span class="va">frequency</span><span class="op">)</span>,y<span class="op">=</span><span class="va">frequency</span>,fill <span class="op">=</span> <span class="op">(</span><span class="va">frequency</span><span class="op">)</span>, color <span class="op">=</span> <span class="op">(</span><span class="va">frequency</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_col</a></span><span class="op">(</span>alpha<span class="op">=</span><span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html">coord_flip</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/tidytext/man/reorder_within.html">scale_x_reordered</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html">scale_color_distiller</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"PuOr"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html">scale_fill_distiller</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"PuOr"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x<span class="op">=</span><span class="st">""</span>,y<span class="op">=</span><span class="st">"Frequency"</span>,color <span class="op">=</span> <span class="st">""</span>, fill <span class="op">=</span> <span class="st">""</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"none"</span><span class="op">)</span> </span></code></pre></div>
+<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-20-1.png" width="672"></div>
 <p>Does not tell us much, but I used the previous code to check for low-information tokens that I might want to remove from my analysis. We can also see how many tokens appear only once:</p>
-<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="week-2-tokenization-and-word-frequency.html#cb67-1" tabindex="-1"></a>only_once <span class="ot">&lt;-</span> lyrics_dfm_stem <span class="sc">%&gt;%</span></span>
-<span id="cb67-2"><a href="week-2-tokenization-and-word-frequency.html#cb67-2" tabindex="-1"></a>  <span class="fu">textstat_frequency</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb67-3"><a href="week-2-tokenization-and-word-frequency.html#cb67-3" tabindex="-1"></a>  <span class="fu">filter</span>(frequency <span class="sc">==</span> <span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">only_once</span> <span class="op">&lt;-</span> <span class="va">lyrics_dfm_stem</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://quanteda.io/reference/textstat_frequency.html">textstat_frequency</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">filter</span><span class="op">(</span><span class="va">frequency</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## filter: removed 566 rows (49%), 599 rows remaining</code></pre>
-<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="week-2-tokenization-and-word-frequency.html#cb69-1" tabindex="-1"></a><span class="fu">length</span>(only_once<span class="sc">$</span>feature)</span></code></pre></div>
+<div class="sourceCode" id="cb69"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">only_once</span><span class="op">$</span><span class="va">feature</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 599</code></pre>
 <p>More interesting for text analysis is to count words over time/space. In this case, our ‘space’ can be the artist.</p>
-<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="week-2-tokenization-and-word-frequency.html#cb71-1" tabindex="-1"></a>lyrics_dfm_stem <span class="sc">%&gt;%</span></span>
-<span id="cb71-2"><a href="week-2-tokenization-and-word-frequency.html#cb71-2" tabindex="-1"></a>  <span class="fu">textstat_frequency</span>(<span class="at">n=</span><span class="dv">15</span>, <span class="at">groups =</span> <span class="fu">c</span>(artist)) <span class="sc">%&gt;%</span></span>
-<span id="cb71-3"><a href="week-2-tokenization-and-word-frequency.html#cb71-3" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder_within</span>(feature,frequency,group),<span class="at">y=</span>frequency,<span class="at">fill =</span> group, <span class="at">color =</span> group)) <span class="sc">+</span></span>
-<span id="cb71-4"><a href="week-2-tokenization-and-word-frequency.html#cb71-4" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb71-5"><a href="week-2-tokenization-and-word-frequency.html#cb71-5" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
-<span id="cb71-6"><a href="week-2-tokenization-and-word-frequency.html#cb71-6" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>group, <span class="at">scales =</span> <span class="st">&quot;free&quot;</span>) <span class="sc">+</span></span>
-<span id="cb71-7"><a href="week-2-tokenization-and-word-frequency.html#cb71-7" tabindex="-1"></a>  <span class="fu">scale_x_reordered</span>() <span class="sc">+</span></span>
-<span id="cb71-8"><a href="week-2-tokenization-and-word-frequency.html#cb71-8" tabindex="-1"></a>  <span class="fu">scale_color_brewer</span>(<span class="at">palette =</span> <span class="st">&quot;PuOr&quot;</span>) <span class="sc">+</span></span>
-<span id="cb71-9"><a href="week-2-tokenization-and-word-frequency.html#cb71-9" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">&quot;PuOr&quot;</span>) <span class="sc">+</span></span>
-<span id="cb71-10"><a href="week-2-tokenization-and-word-frequency.html#cb71-10" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span> </span>
-<span id="cb71-11"><a href="week-2-tokenization-and-word-frequency.html#cb71-11" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;&quot;</span>,<span class="at">y=</span><span class="st">&quot;&quot;</span>,<span class="at">color =</span> <span class="st">&quot;&quot;</span>, <span class="at">fill =</span> <span class="st">&quot;&quot;</span>) <span class="sc">+</span></span>
-<span id="cb71-12"><a href="week-2-tokenization-and-word-frequency.html#cb71-12" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">&quot;none&quot;</span>) </span></code></pre></div>
-<p><img src="main_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">lyrics_dfm_stem</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://quanteda.io/reference/textstat_frequency.html">textstat_frequency</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">15</span>, groups <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">artist</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/tidytext/man/reorder_within.html">reorder_within</a></span><span class="op">(</span><span class="va">feature</span>,<span class="va">frequency</span>,<span class="va">group</span><span class="op">)</span>,y<span class="op">=</span><span class="va">frequency</span>,fill <span class="op">=</span> <span class="va">group</span>, color <span class="op">=</span> <span class="va">group</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_col</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html">coord_flip</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">group</span>, scales <span class="op">=</span> <span class="st">"free"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/tidytext/man/reorder_within.html">scale_x_reordered</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html">scale_color_brewer</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"PuOr"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html">scale_fill_brewer</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"PuOr"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x<span class="op">=</span><span class="st">""</span>,y<span class="op">=</span><span class="st">""</span>,color <span class="op">=</span> <span class="st">""</span>, fill <span class="op">=</span> <span class="st">""</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"none"</span><span class="op">)</span> </span></code></pre></div>
+<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-22-1.png" width="672"></div>
 <p>Interesting. Not a lot of overlap (apart from a token from Megan Thee Stallion and Rage Against the Machine). However, it would be great if we could measure the importance of a word relative to how much it appears across documents (one way to denominate). Enter TF-IDF: “Term-Frequency / Inverse-Document-frequency”. TF-IDF weighting up-weights relatively rare words that do not appear in all documents. Using term frequency and inverse document frequency allows us to find words that are characteristic for one document within a collection of documents.</p>
-<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="week-2-tokenization-and-word-frequency.html#cb72-1" tabindex="-1"></a>lyrics_dfm_tfidf <span class="ot">&lt;-</span> <span class="fu">dfm_tfidf</span>(lyrics_dfm_stem)</span>
-<span id="cb72-2"><a href="week-2-tokenization-and-word-frequency.html#cb72-2" tabindex="-1"></a></span>
-<span id="cb72-3"><a href="week-2-tokenization-and-word-frequency.html#cb72-3" tabindex="-1"></a>lyrics_dfm_tfidf <span class="sc">%&gt;%</span></span>
-<span id="cb72-4"><a href="week-2-tokenization-and-word-frequency.html#cb72-4" tabindex="-1"></a>  <span class="fu">textstat_frequency</span>(<span class="at">n=</span><span class="dv">15</span>, <span class="at">groups =</span> <span class="fu">c</span>(artist), <span class="at">force=</span>T) <span class="sc">%&gt;%</span></span>
-<span id="cb72-5"><a href="week-2-tokenization-and-word-frequency.html#cb72-5" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder_within</span>(feature,frequency,group),<span class="at">y=</span>frequency,<span class="at">fill =</span> group, <span class="at">color =</span> group)) <span class="sc">+</span></span>
-<span id="cb72-6"><a href="week-2-tokenization-and-word-frequency.html#cb72-6" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb72-7"><a href="week-2-tokenization-and-word-frequency.html#cb72-7" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
-<span id="cb72-8"><a href="week-2-tokenization-and-word-frequency.html#cb72-8" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>group, <span class="at">scales =</span> <span class="st">&quot;free&quot;</span>) <span class="sc">+</span></span>
-<span id="cb72-9"><a href="week-2-tokenization-and-word-frequency.html#cb72-9" tabindex="-1"></a>  <span class="fu">scale_x_reordered</span>() <span class="sc">+</span></span>
-<span id="cb72-10"><a href="week-2-tokenization-and-word-frequency.html#cb72-10" tabindex="-1"></a>  <span class="fu">scale_color_brewer</span>(<span class="at">palette =</span> <span class="st">&quot;PuOr&quot;</span>) <span class="sc">+</span></span>
-<span id="cb72-11"><a href="week-2-tokenization-and-word-frequency.html#cb72-11" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">&quot;PuOr&quot;</span>) <span class="sc">+</span></span>
-<span id="cb72-12"><a href="week-2-tokenization-and-word-frequency.html#cb72-12" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span> </span>
-<span id="cb72-13"><a href="week-2-tokenization-and-word-frequency.html#cb72-13" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;&quot;</span>,<span class="at">y=</span><span class="st">&quot;TF-IDF&quot;</span>,<span class="at">color =</span> <span class="st">&quot;&quot;</span>, <span class="at">fill =</span> <span class="st">&quot;&quot;</span>) <span class="sc">+</span></span>
-<span id="cb72-14"><a href="week-2-tokenization-and-word-frequency.html#cb72-14" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">&quot;none&quot;</span>) </span></code></pre></div>
-<p><img src="main_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">lyrics_dfm_tfidf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://quanteda.io/reference/dfm_tfidf.html">dfm_tfidf</a></span><span class="op">(</span><span class="va">lyrics_dfm_stem</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">lyrics_dfm_tfidf</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://quanteda.io/reference/textstat_frequency.html">textstat_frequency</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">15</span>, groups <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">artist</span><span class="op">)</span>, force<span class="op">=</span><span class="cn">T</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/tidytext/man/reorder_within.html">reorder_within</a></span><span class="op">(</span><span class="va">feature</span>,<span class="va">frequency</span>,<span class="va">group</span><span class="op">)</span>,y<span class="op">=</span><span class="va">frequency</span>,fill <span class="op">=</span> <span class="va">group</span>, color <span class="op">=</span> <span class="va">group</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_col</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html">coord_flip</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">group</span>, scales <span class="op">=</span> <span class="st">"free"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/tidytext/man/reorder_within.html">scale_x_reordered</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html">scale_color_brewer</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"PuOr"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html">scale_fill_brewer</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"PuOr"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x<span class="op">=</span><span class="st">""</span>,y<span class="op">=</span><span class="st">"TF-IDF"</span>,color <span class="op">=</span> <span class="st">""</span>, fill <span class="op">=</span> <span class="st">""</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"none"</span><span class="op">)</span> </span></code></pre></div>
+<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-23-1.png" width="672"></div>
 <p>If we are building a dictionary, for example, we might want to include words with high TF-IDF values. Another way to think about TF-IDF is in terms of predictive power. Words that are common to all documents do not have any predictive power and receive a TD-IDF value of 0. Words that appear, but only in relatively few document, have greater predictive power and receive a TD-IDF &gt; 0. Very rare words are also penalized, since these might provide only specific information about one document (i.e., high prediction for one document but no information about the rest). As you will read in Chapter 6/7 in Grimmer et al., the idea is to find the right balance.</p>
 <p>Another useful tool (and concept) is keyness. Keyness is a two-by-two association score for features that occur differentially across different categories. We can estimate which features are associated more with one category (in this case, one artist), compared to the other. Let’s compare Megan Thee Stallion and Taylor Swift.</p>
-<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="week-2-tokenization-and-word-frequency.html#cb73-1" tabindex="-1"></a>lyrics_dfm_ts_mts <span class="ot">&lt;-</span> <span class="fu">dfm_subset</span>(lyrics_dfm_stem, year <span class="sc">&gt;</span> <span class="dv">2006</span>)</span>
-<span id="cb73-2"><a href="week-2-tokenization-and-word-frequency.html#cb73-2" tabindex="-1"></a></span>
-<span id="cb73-3"><a href="week-2-tokenization-and-word-frequency.html#cb73-3" tabindex="-1"></a>lyrics_key <span class="ot">&lt;-</span> <span class="fu">textstat_keyness</span>(lyrics_dfm_ts_mts, </span>
-<span id="cb73-4"><a href="week-2-tokenization-and-word-frequency.html#cb73-4" tabindex="-1"></a>                              <span class="at">target =</span> lyrics_dfm_ts_mts<span class="sc">$</span>artist <span class="sc">==</span> <span class="st">&quot;Taylor Swift&quot;</span>)</span>
-<span id="cb73-5"><a href="week-2-tokenization-and-word-frequency.html#cb73-5" tabindex="-1"></a><span class="fu">textplot_keyness</span>(lyrics_key)</span></code></pre></div>
-<p><img src="main_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+<div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">lyrics_dfm_ts_mts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://quanteda.io/reference/dfm_subset.html">dfm_subset</a></span><span class="op">(</span><span class="va">lyrics_dfm_stem</span>, <span class="va">year</span> <span class="op">&gt;</span> <span class="fl">2006</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">lyrics_key</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://quanteda.io/reference/textstat_keyness.html">textstat_keyness</a></span><span class="op">(</span><span class="va">lyrics_dfm_ts_mts</span>, </span>
+<span>                              target <span class="op">=</span> <span class="va">lyrics_dfm_ts_mts</span><span class="op">$</span><span class="va">artist</span> <span class="op">==</span> <span class="st">"Taylor Swift"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/quanteda.textplots/man/textplot_keyness.html">textplot_keyness</a></span><span class="op">(</span><span class="va">lyrics_key</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-24-1.png" width="672"></div>
 <p>Similar to what we would have implied from the TF-IDF graphs. Notice that stemming does not always works are expected. Taylor Swift sings about “shake, shake, shake” and Megan Thee Stallion sings about “shaking”. However, both words appear as distinct features from both artists.</p>
 </div>
 <div id="word-frequency-across-artist" class="section level2" number="2.5">
-<h2><span class="header-section-number">2.5</span> Word Frequency Across Artist</h2>
+<h2>
+<span class="header-section-number">2.5</span> Word Frequency Across Artist<a class="anchor" aria-label="anchor" href="#word-frequency-across-artist"><i class="fas fa-link"></i></a>
+</h2>
 <p>We can do something similar to what we did last week to look at word frequencies. Rather than creating a <code>dfm</code>, we can use the dataset as is, and get some information. For example, the average number of tokens by artist.</p>
-<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="week-2-tokenization-and-word-frequency.html#cb74-1" tabindex="-1"></a>sample_lyrics <span class="sc">%&gt;%</span></span>
-<span id="cb74-2"><a href="week-2-tokenization-and-word-frequency.html#cb74-2" tabindex="-1"></a>  <span class="co"># take the column lyrics_clean and divide it by words</span></span>
-<span id="cb74-3"><a href="week-2-tokenization-and-word-frequency.html#cb74-3" tabindex="-1"></a>  <span class="co"># this uses a similar tokenizer to quanteda</span></span>
-<span id="cb74-4"><a href="week-2-tokenization-and-word-frequency.html#cb74-4" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(word, lyrics_clean) <span class="sc">%&gt;%</span></span>
-<span id="cb74-5"><a href="week-2-tokenization-and-word-frequency.html#cb74-5" tabindex="-1"></a>  <span class="fu">group_by</span>(song) <span class="sc">%&gt;%</span></span>
-<span id="cb74-6"><a href="week-2-tokenization-and-word-frequency.html#cb74-6" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">total_tk_song =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
-<span id="cb74-7"><a href="week-2-tokenization-and-word-frequency.html#cb74-7" tabindex="-1"></a>  <span class="fu">distinct</span>(song,<span class="at">.keep_all=</span>T) <span class="sc">%&gt;%</span> </span>
-<span id="cb74-8"><a href="week-2-tokenization-and-word-frequency.html#cb74-8" tabindex="-1"></a>  <span class="fu">group_by</span>(artist) <span class="sc">%&gt;%</span></span>
-<span id="cb74-9"><a href="week-2-tokenization-and-word-frequency.html#cb74-9" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">mean_tokens =</span> <span class="fu">mean</span>(total_tk_song)) <span class="sc">%&gt;%</span></span>
-<span id="cb74-10"><a href="week-2-tokenization-and-word-frequency.html#cb74-10" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>song,<span class="at">y=</span>total_tk_song,<span class="at">fill=</span>artist,<span class="at">color=</span>artist)) <span class="sc">+</span></span>
-<span id="cb74-11"><a href="week-2-tokenization-and-word-frequency.html#cb74-11" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">alpha=</span>.<span class="dv">8</span>) <span class="sc">+</span></span>
-<span id="cb74-12"><a href="week-2-tokenization-and-word-frequency.html#cb74-12" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="fu">aes</span>(<span class="at">yintercept =</span> mean_tokens, <span class="at">color =</span> artist), <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>)<span class="sc">+</span></span>
-<span id="cb74-13"><a href="week-2-tokenization-and-word-frequency.html#cb74-13" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">wes_palette</span>(<span class="st">&quot;Royal2&quot;</span>)) <span class="sc">+</span></span>
-<span id="cb74-14"><a href="week-2-tokenization-and-word-frequency.html#cb74-14" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">wes_palette</span>(<span class="st">&quot;Royal2&quot;</span>)) <span class="sc">+</span></span>
-<span id="cb74-15"><a href="week-2-tokenization-and-word-frequency.html#cb74-15" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>artist, <span class="at">scales =</span> <span class="st">&quot;free_x&quot;</span>, <span class="at">nrow =</span> <span class="dv">1</span>) <span class="sc">+</span> </span>
-<span id="cb74-16"><a href="week-2-tokenization-and-word-frequency.html#cb74-16" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb74-17"><a href="week-2-tokenization-and-word-frequency.html#cb74-17" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">&quot;none&quot;</span>,</span>
-<span id="cb74-18"><a href="week-2-tokenization-and-word-frequency.html#cb74-18" tabindex="-1"></a>        <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">size =</span> <span class="dv">5</span>,<span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">hjust=</span><span class="dv">1</span>)) <span class="sc">+</span></span>
-<span id="cb74-19"><a href="week-2-tokenization-and-word-frequency.html#cb74-19" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Total Tokens&quot;</span>, <span class="at">color =</span> <span class="st">&quot;&quot;</span>, <span class="at">fill =</span> <span class="st">&quot;&quot;</span>,</span>
-<span id="cb74-20"><a href="week-2-tokenization-and-word-frequency.html#cb74-20" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">&quot;Note: Mean token length in dashed line.&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sample_lyrics</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="co"># take the column lyrics_clean and divide it by words</span></span>
+<span>  <span class="co"># this uses a similar tokenizer to quanteda</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/tidytext/man/unnest_tokens.html">unnest_tokens</a></span><span class="op">(</span><span class="va">word</span>, <span class="va">lyrics_clean</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">song</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>total_tk_song <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">distinct</span><span class="op">(</span><span class="va">song</span>,.keep_all<span class="op">=</span><span class="cn">T</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">artist</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>mean_tokens <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">total_tk_song</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">song</span>,y<span class="op">=</span><span class="va">total_tk_song</span>,fill<span class="op">=</span><span class="va">artist</span>,color<span class="op">=</span><span class="va">artist</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_col</a></span><span class="op">(</span>alpha<span class="op">=</span><span class="fl">.8</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_hline</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>yintercept <span class="op">=</span> <span class="va">mean_tokens</span>, color <span class="op">=</span> <span class="va">artist</span><span class="op">)</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_color_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/wesanderson/man/wes_palette.html">wes_palette</a></span><span class="op">(</span><span class="st">"Royal2"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/wesanderson/man/wes_palette.html">wes_palette</a></span><span class="op">(</span><span class="st">"Royal2"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">artist</span>, scales <span class="op">=</span> <span class="st">"free_x"</span>, nrow <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"none"</span>,</span>
+<span>        axis.text.x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">90</span>, size <span class="op">=</span> <span class="fl">5</span>,vjust <span class="op">=</span> <span class="fl">0.5</span>, hjust<span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x<span class="op">=</span><span class="st">""</span>, y <span class="op">=</span> <span class="st">"Total Tokens"</span>, color <span class="op">=</span> <span class="st">""</span>, fill <span class="op">=</span> <span class="st">""</span>,</span>
+<span>       caption <span class="op">=</span> <span class="st">"Note: Mean token length in dashed line."</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## group_by: one grouping variable (song)</code></pre>
-<pre><code>## mutate (grouped): new variable &#39;total_tk_song&#39; (integer) with 20 unique values and 0% NA</code></pre>
+<pre><code>## mutate (grouped): new variable 'total_tk_song' (integer) with 20 unique values and 0% NA</code></pre>
 <pre><code>## distinct (grouped): removed 8,958 rows (&gt;99%), 21 rows remaining</code></pre>
 <pre><code>## group_by: one grouping variable (artist)</code></pre>
-<pre><code>## mutate (grouped): new variable &#39;mean_tokens&#39; (double) with 4 unique values and 0% NA</code></pre>
-<p><img src="main_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+<pre><code>## mutate (grouped): new variable 'mean_tokens' (double) with 4 unique values and 0% NA</code></pre>
+<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-25-1.png" width="672"></div>
 <p>Alternatively, we can estimate the frequency of a specific token by song.</p>
-<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="week-2-tokenization-and-word-frequency.html#cb80-1" tabindex="-1"></a>lyrics_totals <span class="ot">&lt;-</span> sample_lyrics <span class="sc">%&gt;%</span></span>
-<span id="cb80-2"><a href="week-2-tokenization-and-word-frequency.html#cb80-2" tabindex="-1"></a>  <span class="co"># take the column lyrics_clean and divide it by words</span></span>
-<span id="cb80-3"><a href="week-2-tokenization-and-word-frequency.html#cb80-3" tabindex="-1"></a>  <span class="co"># this uses a similar tokenizer to quanteda</span></span>
-<span id="cb80-4"><a href="week-2-tokenization-and-word-frequency.html#cb80-4" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(word, lyrics_clean) <span class="sc">%&gt;%</span></span>
-<span id="cb80-5"><a href="week-2-tokenization-and-word-frequency.html#cb80-5" tabindex="-1"></a>  <span class="fu">group_by</span>(song) <span class="sc">%&gt;%</span></span>
-<span id="cb80-6"><a href="week-2-tokenization-and-word-frequency.html#cb80-6" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">total_tk_song =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
-<span id="cb80-7"><a href="week-2-tokenization-and-word-frequency.html#cb80-7" tabindex="-1"></a>  <span class="fu">distinct</span>(song,<span class="at">.keep_all=</span>T) </span></code></pre></div>
+<div class="sourceCode" id="cb80"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">lyrics_totals</span> <span class="op">&lt;-</span> <span class="va">sample_lyrics</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="co"># take the column lyrics_clean and divide it by words</span></span>
+<span>  <span class="co"># this uses a similar tokenizer to quanteda</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/tidytext/man/unnest_tokens.html">unnest_tokens</a></span><span class="op">(</span><span class="va">word</span>, <span class="va">lyrics_clean</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">song</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>total_tk_song <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">distinct</span><span class="op">(</span><span class="va">song</span>,.keep_all<span class="op">=</span><span class="cn">T</span><span class="op">)</span> </span></code></pre></div>
 <pre><code>## group_by: one grouping variable (song)</code></pre>
-<pre><code>## mutate (grouped): new variable &#39;total_tk_song&#39; (integer) with 20 unique values and 0% NA</code></pre>
+<pre><code>## mutate (grouped): new variable 'total_tk_song' (integer) with 20 unique values and 0% NA</code></pre>
 <pre><code>## distinct (grouped): removed 8,958 rows (&gt;99%), 21 rows remaining</code></pre>
-<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="week-2-tokenization-and-word-frequency.html#cb84-1" tabindex="-1"></a><span class="co"># let&#39;s look for &quot;like&quot;</span></span>
-<span id="cb84-2"><a href="week-2-tokenization-and-word-frequency.html#cb84-2" tabindex="-1"></a>lyrics_like <span class="ot">&lt;-</span> sample_lyrics <span class="sc">%&gt;%</span></span>
-<span id="cb84-3"><a href="week-2-tokenization-and-word-frequency.html#cb84-3" tabindex="-1"></a>  <span class="co"># take the column lyrics_clean and divide it by words</span></span>
-<span id="cb84-4"><a href="week-2-tokenization-and-word-frequency.html#cb84-4" tabindex="-1"></a>  <span class="co"># this uses a similar tokenizer to quanteda</span></span>
-<span id="cb84-5"><a href="week-2-tokenization-and-word-frequency.html#cb84-5" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(word, lyrics_clean) <span class="sc">%&gt;%</span></span>
-<span id="cb84-6"><a href="week-2-tokenization-and-word-frequency.html#cb84-6" tabindex="-1"></a>  <span class="fu">filter</span>(word<span class="sc">==</span><span class="st">&quot;like&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb84-7"><a href="week-2-tokenization-and-word-frequency.html#cb84-7" tabindex="-1"></a>  <span class="fu">group_by</span>(song) <span class="sc">%&gt;%</span></span>
-<span id="cb84-8"><a href="week-2-tokenization-and-word-frequency.html#cb84-8" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">total_like_song =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
-<span id="cb84-9"><a href="week-2-tokenization-and-word-frequency.html#cb84-9" tabindex="-1"></a>  <span class="fu">distinct</span>(song,total_like_song) </span></code></pre></div>
+<div class="sourceCode" id="cb84"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># let's look for "like"</span></span>
+<span><span class="va">lyrics_like</span> <span class="op">&lt;-</span> <span class="va">sample_lyrics</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="co"># take the column lyrics_clean and divide it by words</span></span>
+<span>  <span class="co"># this uses a similar tokenizer to quanteda</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/tidytext/man/unnest_tokens.html">unnest_tokens</a></span><span class="op">(</span><span class="va">word</span>, <span class="va">lyrics_clean</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">filter</span><span class="op">(</span><span class="va">word</span><span class="op">==</span><span class="st">"like"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">song</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>total_like_song <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">distinct</span><span class="op">(</span><span class="va">song</span>,<span class="va">total_like_song</span><span class="op">)</span> </span></code></pre></div>
 <pre><code>## filter: removed 8,934 rows (99%), 45 rows remaining</code></pre>
 <pre><code>## group_by: one grouping variable (song)</code></pre>
-<pre><code>## mutate (grouped): new variable &#39;total_like_song&#39; (integer) with 7 unique values and 0% NA</code></pre>
+<pre><code>## mutate (grouped): new variable 'total_like_song' (integer) with 7 unique values and 0% NA</code></pre>
 <pre><code>## distinct (grouped): removed 33 rows (73%), 12 rows remaining</code></pre>
 <p>We can now join these two data frames together with the <code>left_join()</code> function and join by the “song” column. We can then pipe the joined data into a plot.</p>
-<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="week-2-tokenization-and-word-frequency.html#cb89-1" tabindex="-1"></a>lyrics_totals <span class="sc">%&gt;%</span></span>
-<span id="cb89-2"><a href="week-2-tokenization-and-word-frequency.html#cb89-2" tabindex="-1"></a>  <span class="fu">left_join</span>(lyrics_like, <span class="at">by =</span> <span class="st">&quot;song&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb89-3"><a href="week-2-tokenization-and-word-frequency.html#cb89-3" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb89-4"><a href="week-2-tokenization-and-word-frequency.html#cb89-4" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">like_prop =</span> total_like_song<span class="sc">/</span>total_tk_song) <span class="sc">%&gt;%</span></span>
-<span id="cb89-5"><a href="week-2-tokenization-and-word-frequency.html#cb89-5" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>song,<span class="at">y=</span>like_prop,<span class="at">fill=</span>artist,<span class="at">color=</span>artist)) <span class="sc">+</span></span>
-<span id="cb89-6"><a href="week-2-tokenization-and-word-frequency.html#cb89-6" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">alpha=</span>.<span class="dv">8</span>) <span class="sc">+</span></span>
-<span id="cb89-7"><a href="week-2-tokenization-and-word-frequency.html#cb89-7" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">wes_palette</span>(<span class="st">&quot;Royal2&quot;</span>)) <span class="sc">+</span></span>
-<span id="cb89-8"><a href="week-2-tokenization-and-word-frequency.html#cb89-8" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">wes_palette</span>(<span class="st">&quot;Royal2&quot;</span>)) <span class="sc">+</span></span>
-<span id="cb89-9"><a href="week-2-tokenization-and-word-frequency.html#cb89-9" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>artist, <span class="at">scales =</span> <span class="st">&quot;free_x&quot;</span>, <span class="at">nrow =</span> <span class="dv">1</span>) <span class="sc">+</span> </span>
-<span id="cb89-10"><a href="week-2-tokenization-and-word-frequency.html#cb89-10" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb89-11"><a href="week-2-tokenization-and-word-frequency.html#cb89-11" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">&quot;none&quot;</span>,</span>
-<span id="cb89-12"><a href="week-2-tokenization-and-word-frequency.html#cb89-12" tabindex="-1"></a>        <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">size =</span> <span class="dv">5</span>,<span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">hjust=</span><span class="dv">1</span>)) <span class="sc">+</span></span>
-<span id="cb89-13"><a href="week-2-tokenization-and-word-frequency.html#cb89-13" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Prop. of </span><span class="sc">\&#39;</span><span class="st">Like</span><span class="sc">\&#39;</span><span class="st">&quot;</span>, <span class="at">color =</span> <span class="st">&quot;&quot;</span>, <span class="at">fill =</span> <span class="st">&quot;&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb89"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">lyrics_totals</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">left_join</span><span class="op">(</span><span class="va">lyrics_like</span>, by <span class="op">=</span> <span class="st">"song"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">ungroup</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>like_prop <span class="op">=</span> <span class="va">total_like_song</span><span class="op">/</span><span class="va">total_tk_song</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">song</span>,y<span class="op">=</span><span class="va">like_prop</span>,fill<span class="op">=</span><span class="va">artist</span>,color<span class="op">=</span><span class="va">artist</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_col</a></span><span class="op">(</span>alpha<span class="op">=</span><span class="fl">.8</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_color_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/wesanderson/man/wes_palette.html">wes_palette</a></span><span class="op">(</span><span class="st">"Royal2"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/wesanderson/man/wes_palette.html">wes_palette</a></span><span class="op">(</span><span class="st">"Royal2"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">artist</span>, scales <span class="op">=</span> <span class="st">"free_x"</span>, nrow <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"none"</span>,</span>
+<span>        axis.text.x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">90</span>, size <span class="op">=</span> <span class="fl">5</span>,vjust <span class="op">=</span> <span class="fl">0.5</span>, hjust<span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x<span class="op">=</span><span class="st">""</span>, y <span class="op">=</span> <span class="st">"Prop. of \'Like\'"</span>, color <span class="op">=</span> <span class="st">""</span>, fill <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## left_join: added one column (total_like_song)</code></pre>
 <pre><code>##            &gt; rows only in x    9</code></pre>
 <pre><code>##            &gt; rows only in y  ( 0)</code></pre>
@@ -388,42 +401,47 @@
 <pre><code>##            &gt;                 ====</code></pre>
 <pre><code>##            &gt; rows total       21</code></pre>
 <pre><code>## ungroup: no grouping variables</code></pre>
-<pre><code>## mutate: new variable &#39;like_prop&#39; (double) with 13 unique values and 43% NA</code></pre>
-<p><img src="main_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
+<pre><code>## mutate: new variable 'like_prop' (double) with 13 unique values and 43% NA</code></pre>
+<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-28-1.png" width="672"></div>
 </div>
 <div id="final-words-1" class="section level2" number="2.6">
-<h2><span class="header-section-number">2.6</span> Final Words</h2>
+<h2>
+<span class="header-section-number">2.6</span> Final Words<a class="anchor" aria-label="anchor" href="#final-words-1"><i class="fas fa-link"></i></a>
+</h2>
 <p>As will be often the case, we won’t be able to cover every single feature that the different packages have to offer, or how some objects that we create look like, or what else we can do with them. My advise is that you go home and explore the code in detail. Try applying the code to a different corpus and come next class with questions (or just show off what you were able to do).</p>
 
 </div>
 </div>
-<div class="footnotes">
-<hr />
-<ol start="3">
-<li id="fn3"><p>This is not always the case. Sometimes, we can use this characters to change our unit of analysis. For example, is we want our unit of analysis to be the paragraph, rather than the whole text, then these markers can aid when separating the text.<a href="week-2-tokenization-and-word-frequency.html#fnref3" class="footnote-back">↩︎</a></p></li>
-</ol>
-</div>
-  </main>
 
-  <div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
-    <nav id="toc" data-toggle="toc" aria-label="On this page">
-      <h2>On this page</h2>
-      <div id="book-on-this-page"></div>
+  <div class="chapter-nav">
+<div class="prev"><a href="week-1-a-primer-on-using-text-as-data.html"><span class="header-section-number">1</span> Week 1: A Primer on Using Text as Data</a></div>
+<div class="next"><a href="week-3-dictionary-based-approaches.html"><span class="header-section-number">3</span> Week 3: Dictionary-Based Approaches</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#week-2-tokenization-and-word-frequency"><span class="header-section-number">2</span> Week 2: Tokenization and Word Frequency</a></li>
+<li><a class="nav-link" href="#slides-1">Slides</a></li>
+<li><a class="nav-link" href="#setup-1"><span class="header-section-number">2.1</span> Setup</a></li>
+<li><a class="nav-link" href="#get-data-1"><span class="header-section-number">2.2</span> Get Data:</a></li>
+<li><a class="nav-link" href="#cleaning-the-text"><span class="header-section-number">2.3</span> Cleaning the Text</a></li>
+<li><a class="nav-link" href="#tokenization"><span class="header-section-number">2.4</span> Tokenization</a></li>
+<li><a class="nav-link" href="#word-frequency-across-artist"><span class="header-section-number">2.5</span> Word Frequency Across Artist</a></li>
+<li><a class="nav-link" href="#final-words-1"><span class="header-section-number">2.6</span> Final Words</a></li>
+</ul>
 
       <div class="book-extra">
         <ul class="list-unstyled">
-          <li><a id="book-source" href="#">View source <i class="fab fa-github"></i></a></li>
-          <li><a id="book-edit" href="#">Edit this page <i class="fab fa-github"></i></a></li>
+<li><a id="book-source" href="https://github.com/svallejovera/cpa_uwo/blob/master/02-week2.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/svallejovera/cpa_uwo/edit/master/02-week2.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
         </ul>
-      </div>
+</div>
     </nav>
-  </div>
+</div>
 
 </div>
 </div> <!-- .container -->
 
-<footer class="bg-primary text-light mt-5">
-  <div class="container"><div class="row">
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
     <p>"<strong>PS9594A: Computational Text Analysis</strong>" was written by Dr. Sebastián Vallejo Vera | Western University. It was last built on 2024-01-26.</p>
@@ -434,11 +452,7 @@
   </div>
 
 </div></div>
-</footer>
-
-
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
@@ -450,8 +464,7 @@
     script.src = src;
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
-</script>
-<script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
 for (let popover of popovers) {
   const div = document.createElement('div');
   div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
@@ -469,5 +482,4 @@ for (let popover of popovers) {
 }
 </script>
 </body>
-
 </html>

@@ -1,56 +1,32 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-  <title>Chapter 3 Week 3: Dictionary-Based Approaches | PS9594A: Computational Text Analysis</title>
-
-    <meta name="author" content="Dr. Sebastián Vallejo Vera | Western University" />
-  
-   <meta name="description" content="Code, exercises, and slides for PS9594A: Computational Text Analysis" />
-   <meta name="generator" content="placeholder" />
-  <meta property="og:title" content="Chapter 3 Week 3: Dictionary-Based Approaches | PS9594A: Computational Text Analysis" />
-  <meta property="og:type" content="book" />
-  
-  
-  <meta property="og:description" content="Code, exercises, and slides for PS9594A: Computational Text Analysis" />
-
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 3 Week 3: Dictionary-Based Approaches | PS9594A: Computational Text Analysis" />
-  
-  <meta name="twitter:description" content="Code, exercises, and slides for PS9594A: Computational Text Analysis" />
-  
-  <!-- JS -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script>
-  <script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script>
-    <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet" />
-    <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script>
-    <script src="libs/bs3compat-0.5.0/transition.js"></script>
-    <script src="libs/bs3compat-0.5.0/tabs.js"></script>
-    <script src="libs/bs3compat-0.5.0/bs3compat.js"></script>
-    <link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet" />
-    <script src="libs/bs4_book-1.0.0/bs4_book.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script>
-
-  <!-- CSS -->
-  <style type="text/css">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 3 Week 3: Dictionary-Based Approaches | PS9594A: Computational Text Analysis</title>
+<meta name="author" content="Dr. Sebastián Vallejo Vera | Western University">
+<meta name="description" content="Slides 4 Dictionary-Based Approaches (link or in Perusall)  3.1 Setup As always, we first load the packages that we’ll be using: library(tidyverse) # for wrangling data library(tidylog) # to know...">
+<meta name="generator" content="bookdown 0.37 with bs4_book()">
+<meta property="og:title" content="Chapter 3 Week 3: Dictionary-Based Approaches | PS9594A: Computational Text Analysis">
+<meta property="og:type" content="book">
+<meta property="og:description" content="Slides 4 Dictionary-Based Approaches (link or in Perusall)  3.1 Setup As always, we first load the packages that we’ll be using: library(tidyverse) # for wrangling data library(tidylog) # to know...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 3 Week 3: Dictionary-Based Approaches | PS9594A: Computational Text Analysis">
+<meta name="twitter:description" content="Slides 4 Dictionary-Based Approaches (link or in Perusall)  3.1 Setup As always, we first load the packages that we’ll be using: library(tidyverse) # for wrangling data library(tidylog) # to know...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.0/transition.js"></script><script src="libs/bs3compat-0.5.0/tabs.js"></script><script src="libs/bs3compat-0.5.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
   </style>
-    
 </head>
-
 <body data-spy="scroll" data-target="#toc">
 
 <div class="container-fluid">
 <div class="row">
-  <header class="col-sm-12 col-lg-3 sidebar sidebar-book">
-    <a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
 
     <div class="d-flex align-items-start justify-content-between">
       <h1>
@@ -62,46 +38,60 @@
     <div id="main-nav" class="collapse-lg">
       <form role="search">
         <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
-      </form>
+</form>
 
-      <nav aria-label="Table of contents">
-        <h2>Table of contents</h2>
-        <div id="book-toc"></div>
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">“Computational Text Analysis”</a></li>
+<li><a class="" href="week-1-a-primer-on-using-text-as-data.html"><span class="header-section-number">1</span> Week 1: A Primer on Using Text as Data</a></li>
+<li><a class="" href="week-2-tokenization-and-word-frequency.html"><span class="header-section-number">2</span> Week 2: Tokenization and Word Frequency</a></li>
+<li><a class="active" href="week-3-dictionary-based-approaches.html"><span class="header-section-number">3</span> Week 3: Dictionary-Based Approaches</a></li>
+<li><a class="" href="week-4-complexity-and-similarity.html"><span class="header-section-number">4</span> Week 4: Complexity and Similarity</a></li>
+<li><a class="" href="week-5-scaling-techniques-and-topic-modeling.html"><span class="header-section-number">5</span> Week 5: Scaling Techniques and Topic Modeling</a></li>
+<li><a class="" href="week-6-word-embeddings.html"><span class="header-section-number">6</span> Week 6: Word Embeddings</a></li>
+<li><a class="" href="references.html">References</a></li>
+</ul>
 
         <div class="book-extra">
-          <p><a id="book-repo" href="#">View book source <i class="fab fa-github"></i></a></li></p>
+          <p><a id="book-repo" href="https://github.com/svallejovera/cpa_uwo">View book source <i class="fab fa-github"></i></a></p>
         </div>
       </nav>
-    </div>
-  </header>
-
-  <main class="col-sm-12 col-md-9 col-lg-7" id="content">
-<div id="week-3-dictionary-based-approaches" class="section level1" number="3">
-<h1><span class="header-section-number">Chapter 3</span> Week 3: Dictionary-Based Approaches</h1>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="week-3-dictionary-based-approaches" class="section level1" number="3">
+<h1>
+<span class="header-section-number">3</span> Week 3: Dictionary-Based Approaches<a class="anchor" aria-label="anchor" href="#week-3-dictionary-based-approaches"><i class="fas fa-link"></i></a>
+</h1>
 <div id="slides-2" class="section level2 unnumbered">
-<h2>Slides</h2>
+<h2>Slides<a class="anchor" aria-label="anchor" href="#slides-2"><i class="fas fa-link"></i></a>
+</h2>
 <ul>
 <li>4 Dictionary-Based Approaches (<a href="https://github.com/svallejovera/cpa_uwo/blob/main/slides/4%20Dictionary%20Based%20Approaches.pptx">link</a> or in Perusall)</li>
 </ul>
 </div>
 <div id="setup-2" class="section level2" number="3.1">
-<h2><span class="header-section-number">3.1</span> Setup</h2>
+<h2>
+<span class="header-section-number">3.1</span> Setup<a class="anchor" aria-label="anchor" href="#setup-2"><i class="fas fa-link"></i></a>
+</h2>
 <p>As always, we first load the packages that we’ll be using:</p>
-<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="week-3-dictionary-based-approaches.html#cb98-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># for wrangling data</span></span>
-<span id="cb98-2"><a href="week-3-dictionary-based-approaches.html#cb98-2" tabindex="-1"></a><span class="fu">library</span>(tidylog) <span class="co"># to know what we are wrangling</span></span>
-<span id="cb98-3"><a href="week-3-dictionary-based-approaches.html#cb98-3" tabindex="-1"></a><span class="fu">library</span>(tidytext) <span class="co"># for &#39;tidy&#39; manipulation of text data</span></span>
-<span id="cb98-4"><a href="week-3-dictionary-based-approaches.html#cb98-4" tabindex="-1"></a><span class="fu">library</span>(textdata) <span class="co"># text datasets</span></span>
-<span id="cb98-5"><a href="week-3-dictionary-based-approaches.html#cb98-5" tabindex="-1"></a><span class="fu">library</span>(quanteda) <span class="co"># tokenization power house</span></span>
-<span id="cb98-6"><a href="week-3-dictionary-based-approaches.html#cb98-6" tabindex="-1"></a><span class="fu">library</span>(quanteda.textstats)</span>
-<span id="cb98-7"><a href="week-3-dictionary-based-approaches.html#cb98-7" tabindex="-1"></a><span class="fu">library</span>(quanteda.dictionaries)</span>
-<span id="cb98-8"><a href="week-3-dictionary-based-approaches.html#cb98-8" tabindex="-1"></a><span class="fu">library</span>(wesanderson) <span class="co"># to prettify</span></span>
-<span id="cb98-9"><a href="week-3-dictionary-based-approaches.html#cb98-9" tabindex="-1"></a><span class="fu">library</span>(knitr) <span class="co"># for displaying data in html format (relevant for formatting this worksheet mainly)</span></span></code></pre></div>
+<div class="sourceCode" id="cb98"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span> <span class="co"># for wrangling data</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/elbersb/tidylog/">tidylog</a></span><span class="op">)</span> <span class="co"># to know what we are wrangling</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/juliasilge/tidytext">tidytext</a></span><span class="op">)</span> <span class="co"># for 'tidy' manipulation of text data</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/EmilHvitfeldt/textdata">textdata</a></span><span class="op">)</span> <span class="co"># text datasets</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://quanteda.io">quanteda</a></span><span class="op">)</span> <span class="co"># tokenization power house</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://quanteda.io">quanteda.textstats</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">quanteda.dictionaries</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/karthik/wesanderson">wesanderson</a></span><span class="op">)</span> <span class="co"># to prettify</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://yihui.org/knitr/">knitr</a></span><span class="op">)</span> <span class="co"># for displaying data in html format (relevant for formatting this worksheet mainly)</span></span></code></pre></div>
 </div>
 <div id="get-data-2" class="section level2" number="3.2">
-<h2><span class="header-section-number">3.2</span> Get Data:</h2>
+<h2>
+<span class="header-section-number">3.2</span> Get Data:<a class="anchor" aria-label="anchor" href="#get-data-2"><i class="fas fa-link"></i></a>
+</h2>
 <p>For this example, we will be using data from <em>Ventura et al. (2021) - Connective effervescence and streaming chat during political debates</em>.</p>
-<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="week-3-dictionary-based-approaches.html#cb99-1" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;data/ventura_etal_df.Rdata&quot;</span>)</span>
-<span id="cb99-2"><a href="week-3-dictionary-based-approaches.html#cb99-2" tabindex="-1"></a><span class="fu">head</span>(ventura_etal_df)</span></code></pre></div>
+<div class="sourceCode" id="cb99"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/load.html">load</a></span><span class="op">(</span><span class="st">"data/ventura_etal_df.Rdata"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">ventura_etal_df</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##   text_id
 ## 1       1
 ## 2       2
@@ -110,7 +100,7 @@
 ## 5       5
 ## 6       6
 ##                                                                                                                                                                                                                                       comments
-## 1 MORE:\n The coronavirus pandemic&#39;s impact on the race will be on display as the\n two candidates won&#39;t partake in a handshake, customary at the top of \nsuch events. The size of the audience will also be limited. https://abcn.ws/3kVyl16
+## 1 MORE:\n The coronavirus pandemic's impact on the race will be on display as the\n two candidates won't partake in a handshake, customary at the top of \nsuch events. The size of the audience will also be limited. https://abcn.ws/3kVyl16
 ## 2                                                                                                                                                           God please bless all Trump supporters. They need it for they know not what they do
 ## 3                                                                                                                               Trump  is  a  living  disaster!    What  an embarrassment  to  all  human  beings!    The  man  is  dangerous!
 ## 4                                                                                                                                                   This debate is why other counties laugh at us. School yard class president debate at best.
@@ -125,24 +115,28 @@
 ## 6         Nica Merchant   171 abc_first_debate_manual</code></pre>
 </div>
 <div id="tokenization-etc." class="section level2" number="3.3">
-<h2><span class="header-section-number">3.3</span> Tokenization etc.</h2>
-<p>The comments are mostly clean, but you can check (on your own) if they require more cleaning. In the previous code, I showed you how to lower, remove stopwords, etc., using quanteda. We can also do this using tidytext <a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a>:</p>
-<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="week-3-dictionary-based-approaches.html#cb101-1" tabindex="-1"></a>tidy_ventura <span class="ot">&lt;-</span> ventura_etal_df <span class="sc">%&gt;%</span> </span>
-<span id="cb101-2"><a href="week-3-dictionary-based-approaches.html#cb101-2" tabindex="-1"></a>  <span class="co"># to lower:</span></span>
-<span id="cb101-3"><a href="week-3-dictionary-based-approaches.html#cb101-3" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">comments =</span> <span class="fu">tolower</span>(comments)) <span class="sc">%&gt;%</span></span>
-<span id="cb101-4"><a href="week-3-dictionary-based-approaches.html#cb101-4" tabindex="-1"></a>  <span class="co"># tokenize</span></span>
-<span id="cb101-5"><a href="week-3-dictionary-based-approaches.html#cb101-5" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(word, comments) <span class="sc">%&gt;%</span></span>
-<span id="cb101-6"><a href="week-3-dictionary-based-approaches.html#cb101-6" tabindex="-1"></a>  <span class="co"># keep only words (check regex)</span></span>
-<span id="cb101-7"><a href="week-3-dictionary-based-approaches.html#cb101-7" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(word, <span class="st">&quot;[a-z]&quot;</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb101-8"><a href="week-3-dictionary-based-approaches.html#cb101-8" tabindex="-1"></a>  <span class="co"># remove stop words</span></span>
-<span id="cb101-9"><a href="week-3-dictionary-based-approaches.html#cb101-9" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>word <span class="sc">%in%</span> stop_words<span class="sc">$</span>word)</span></code></pre></div>
-<pre><code>## mutate: changed 29,261 values (99%) of &#39;comments&#39; (0 new NA)</code></pre>
+<h2>
+<span class="header-section-number">3.3</span> Tokenization etc.<a class="anchor" aria-label="anchor" href="#tokenization-etc."><i class="fas fa-link"></i></a>
+</h2>
+<p>The comments are mostly clean, but you can check (on your own) if they require more cleaning. In the previous code, I showed you how to lower, remove stopwords, etc., using quanteda. We can also do this using tidytext <a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;This code is adapted from Christopher Barrie’s course on &lt;a href="https://cjbarrie.github.io/CTA-ED/exercise-2-dictionary-based-methods.html"&gt;Computational Text Analysis&lt;/a&gt;.&lt;/p&gt;'><sup>4</sup></a>:</p>
+<div class="sourceCode" id="cb101"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tidy_ventura</span> <span class="op">&lt;-</span> <span class="va">ventura_etal_df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="co"># to lower:</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>comments <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html">tolower</a></span><span class="op">(</span><span class="va">comments</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="co"># tokenize</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/tidytext/man/unnest_tokens.html">unnest_tokens</a></span><span class="op">(</span><span class="va">word</span>, <span class="va">comments</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="co"># keep only words (check regex)</span></span>
+<span>  <span class="fu">filter</span><span class="op">(</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="va">word</span>, <span class="st">"[a-z]"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="co"># remove stop words</span></span>
+<span>  <span class="fu">filter</span><span class="op">(</span><span class="op">!</span><span class="va">word</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="va">stop_words</span><span class="op">$</span><span class="va">word</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## mutate: changed 29,261 values (99%) of 'comments' (0 new NA)</code></pre>
 <pre><code>## filter: removed 3,374 rows (1%), 494,341 rows remaining</code></pre>
 <pre><code>## filter: removed 296,793 rows (60%), 197,548 rows remaining</code></pre>
-<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="week-3-dictionary-based-approaches.html#cb105-1" tabindex="-1"></a><span class="fu">head</span>(tidy_ventura, <span class="dv">20</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb105"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">tidy_ventura</span>, <span class="fl">20</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    text_id         id likes                  debate        word
 ## 1        1   ABC News   100 abc_first_debate_manual coronavirus
-## 2        1   ABC News   100 abc_first_debate_manual  pandemic&#39;s
+## 2        1   ABC News   100 abc_first_debate_manual  pandemic's
 ## 3        1   ABC News   100 abc_first_debate_manual      impact
 ## 4        1   ABC News   100 abc_first_debate_manual        race
 ## 5        1   ABC News   100 abc_first_debate_manual     display
@@ -163,27 +157,31 @@
 ## 20       2 Anita Hill    61 abc_first_debate_manual       trump</code></pre>
 </div>
 <div id="keywords" class="section level2" number="3.4">
-<h2><span class="header-section-number">3.4</span> Keywords</h2>
+<h2>
+<span class="header-section-number">3.4</span> Keywords<a class="anchor" aria-label="anchor" href="#keywords"><i class="fas fa-link"></i></a>
+</h2>
 <p>We can detect the occurrence of the words <strong>trump</strong> and <strong>biden</strong> in each comment (<code>text_id</code>).</p>
-<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="week-3-dictionary-based-approaches.html#cb107-1" tabindex="-1"></a>trump_biden <span class="ot">&lt;-</span> tidy_ventura <span class="sc">%&gt;%</span></span>
-<span id="cb107-2"><a href="week-3-dictionary-based-approaches.html#cb107-2" tabindex="-1"></a>  <span class="co"># create a dummy</span></span>
-<span id="cb107-3"><a href="week-3-dictionary-based-approaches.html#cb107-3" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">trump_token =</span> <span class="fu">ifelse</span>(word<span class="sc">==</span><span class="st">&quot;trump&quot;</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
-<span id="cb107-4"><a href="week-3-dictionary-based-approaches.html#cb107-4" tabindex="-1"></a>         <span class="at">biden_token =</span> <span class="fu">ifelse</span>(word<span class="sc">==</span><span class="st">&quot;biden&quot;</span>, <span class="dv">1</span>, <span class="dv">0</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb107-5"><a href="week-3-dictionary-based-approaches.html#cb107-5" tabindex="-1"></a>  <span class="co"># see which comments have the word trump / biden</span></span>
-<span id="cb107-6"><a href="week-3-dictionary-based-approaches.html#cb107-6" tabindex="-1"></a>  <span class="fu">group_by</span>(text_id) <span class="sc">%&gt;%</span></span>
-<span id="cb107-7"><a href="week-3-dictionary-based-approaches.html#cb107-7" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">trump_cmmnt =</span> <span class="fu">ifelse</span>(<span class="fu">sum</span>(trump_token)<span class="sc">&gt;</span><span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
-<span id="cb107-8"><a href="week-3-dictionary-based-approaches.html#cb107-8" tabindex="-1"></a>         <span class="at">biden_cmmnt =</span> <span class="fu">ifelse</span>(<span class="fu">sum</span>(biden_token)<span class="sc">&gt;</span><span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb107-9"><a href="week-3-dictionary-based-approaches.html#cb107-9" tabindex="-1"></a>  <span class="co"># reduce to our unit of analysis (comment) </span></span>
-<span id="cb107-10"><a href="week-3-dictionary-based-approaches.html#cb107-10" tabindex="-1"></a>  <span class="fu">distinct</span>(text_id, <span class="at">.keep_all =</span> T) <span class="sc">%&gt;%</span></span>
-<span id="cb107-11"><a href="week-3-dictionary-based-approaches.html#cb107-11" tabindex="-1"></a>  <span class="fu">select</span>(text_id,trump_cmmnt,biden_cmmnt,likes,debate)</span></code></pre></div>
-<pre><code>## mutate: new variable &#39;trump_token&#39; (double) with 2 unique values and 0% NA</code></pre>
-<pre><code>##         new variable &#39;biden_token&#39; (double) with 2 unique values and 0% NA</code></pre>
+<div class="sourceCode" id="cb107"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">trump_biden</span> <span class="op">&lt;-</span> <span class="va">tidy_ventura</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="co"># create a dummy</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>trump_token <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">word</span><span class="op">==</span><span class="st">"trump"</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span>,</span>
+<span>         biden_token <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">word</span><span class="op">==</span><span class="st">"biden"</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="co"># see which comments have the word trump / biden</span></span>
+<span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">text_id</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>trump_cmmnt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">trump_token</span><span class="op">)</span><span class="op">&gt;</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span>,</span>
+<span>         biden_cmmnt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">biden_token</span><span class="op">)</span><span class="op">&gt;</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="co"># reduce to our unit of analysis (comment) </span></span>
+<span>  <span class="fu">distinct</span><span class="op">(</span><span class="va">text_id</span>, .keep_all <span class="op">=</span> <span class="cn">T</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="va">text_id</span>,<span class="va">trump_cmmnt</span>,<span class="va">biden_cmmnt</span>,<span class="va">likes</span>,<span class="va">debate</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## mutate: new variable 'trump_token' (double) with 2 unique values and 0% NA</code></pre>
+<pre><code>##         new variable 'biden_token' (double) with 2 unique values and 0% NA</code></pre>
 <pre><code>## group_by: one grouping variable (text_id)</code></pre>
-<pre><code>## mutate (grouped): new variable &#39;trump_cmmnt&#39; (double) with 2 unique values and 0% NA</code></pre>
-<pre><code>##                   new variable &#39;biden_cmmnt&#39; (double) with 2 unique values and 0% NA</code></pre>
+<pre><code>## mutate (grouped): new variable 'trump_cmmnt' (double) with 2 unique values and 0% NA</code></pre>
+<pre><code>##                   new variable 'biden_cmmnt' (double) with 2 unique values and 0% NA</code></pre>
 <pre><code>## distinct (grouped): removed 168,013 rows (85%), 29,535 rows remaining</code></pre>
 <pre><code>## select: dropped 4 variables (id, word, trump_token, biden_token)</code></pre>
-<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="week-3-dictionary-based-approaches.html#cb115-1" tabindex="-1"></a><span class="fu">head</span>(trump_biden, <span class="dv">20</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb115"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">trump_biden</span>, <span class="fl">20</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## # A tibble: 20 × 5
 ## # Groups:   text_id [20]
 ##    text_id trump_cmmnt biden_cmmnt likes debate                 
@@ -209,77 +207,80 @@
 ## 19      19           0           0    34 abc_first_debate_manual
 ## 20      20           1           0    37 abc_first_debate_manual</code></pre>
 <p>Rather than replicating the results from Figure 3 in Ventura et al. (2021), we will estimate the median number of likes a comment mentioning Trump, Biden, Both, and None get:</p>
-<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="week-3-dictionary-based-approaches.html#cb117-1" tabindex="-1"></a>trump_biden <span class="sc">%&gt;%</span></span>
-<span id="cb117-2"><a href="week-3-dictionary-based-approaches.html#cb117-2" tabindex="-1"></a>  <span class="co"># Create categories</span></span>
-<span id="cb117-3"><a href="week-3-dictionary-based-approaches.html#cb117-3" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">mentions_cat =</span> <span class="fu">ifelse</span>(trump_cmmnt<span class="sc">==</span><span class="dv">0</span> <span class="sc">&amp;</span> biden_cmmnt<span class="sc">==</span><span class="dv">0</span>, <span class="st">&quot;1. None&quot;</span>, <span class="cn">NA</span>),</span>
-<span id="cb117-4"><a href="week-3-dictionary-based-approaches.html#cb117-4" tabindex="-1"></a>         <span class="at">mentions_cat =</span> <span class="fu">ifelse</span>(trump_cmmnt<span class="sc">==</span><span class="dv">1</span> <span class="sc">&amp;</span> biden_cmmnt<span class="sc">==</span><span class="dv">0</span>, <span class="st">&quot;2. Trump&quot;</span>, mentions_cat),</span>
-<span id="cb117-5"><a href="week-3-dictionary-based-approaches.html#cb117-5" tabindex="-1"></a>         <span class="at">mentions_cat =</span> <span class="fu">ifelse</span>(trump_cmmnt<span class="sc">==</span><span class="dv">0</span> <span class="sc">&amp;</span> biden_cmmnt<span class="sc">==</span><span class="dv">1</span>, <span class="st">&quot;3. Biden&quot;</span>, mentions_cat),</span>
-<span id="cb117-6"><a href="week-3-dictionary-based-approaches.html#cb117-6" tabindex="-1"></a>         <span class="at">mentions_cat =</span> <span class="fu">ifelse</span>(trump_cmmnt<span class="sc">==</span><span class="dv">1</span> <span class="sc">&amp;</span> biden_cmmnt<span class="sc">==</span><span class="dv">1</span>, <span class="st">&quot;4. Both&quot;</span>, mentions_cat)) <span class="sc">%&gt;%</span></span>
-<span id="cb117-7"><a href="week-3-dictionary-based-approaches.html#cb117-7" tabindex="-1"></a>  <span class="fu">group_by</span>(mentions_cat) <span class="sc">%&gt;%</span></span>
-<span id="cb117-8"><a href="week-3-dictionary-based-approaches.html#cb117-8" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">likes_mean =</span> <span class="fu">median</span>(likes, <span class="at">na.rm =</span> T)) <span class="sc">%&gt;%</span></span>
-<span id="cb117-9"><a href="week-3-dictionary-based-approaches.html#cb117-9" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb117-10"><a href="week-3-dictionary-based-approaches.html#cb117-10" tabindex="-1"></a>  <span class="co"># Remove the ones people like too much</span></span>
-<span id="cb117-11"><a href="week-3-dictionary-based-approaches.html#cb117-11" tabindex="-1"></a>  <span class="fu">filter</span>(likes <span class="sc">&lt;</span> <span class="dv">26</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb117-12"><a href="week-3-dictionary-based-approaches.html#cb117-12" tabindex="-1"></a>  <span class="co"># Plot</span></span>
-<span id="cb117-13"><a href="week-3-dictionary-based-approaches.html#cb117-13" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>likes,<span class="at">fill =</span> mentions_cat, <span class="at">color =</span> mentions_cat)) <span class="sc">+</span></span>
-<span id="cb117-14"><a href="week-3-dictionary-based-approaches.html#cb117-14" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">alpha =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
-<span id="cb117-15"><a href="week-3-dictionary-based-approaches.html#cb117-15" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">wes_palette</span>(<span class="st">&quot;BottleRocket2&quot;</span>)) <span class="sc">+</span></span>
-<span id="cb117-16"><a href="week-3-dictionary-based-approaches.html#cb117-16" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">wes_palette</span>(<span class="st">&quot;BottleRocket2&quot;</span>)) <span class="sc">+</span></span>
-<span id="cb117-17"><a href="week-3-dictionary-based-approaches.html#cb117-17" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>mentions_cat, <span class="at">ncol =</span> <span class="dv">1</span>) <span class="sc">+</span> </span>
-<span id="cb117-18"><a href="week-3-dictionary-based-approaches.html#cb117-18" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb117-19"><a href="week-3-dictionary-based-approaches.html#cb117-19" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept =</span> likes_mean, <span class="at">color =</span> mentions_cat), <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>)<span class="sc">+</span></span>
-<span id="cb117-20"><a href="week-3-dictionary-based-approaches.html#cb117-20" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">&quot;none&quot;</span>) <span class="sc">+</span></span>
-<span id="cb117-21"><a href="week-3-dictionary-based-approaches.html#cb117-21" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Density&quot;</span>, <span class="at">color =</span> <span class="st">&quot;&quot;</span>, <span class="at">fill =</span> <span class="st">&quot;&quot;</span>,</span>
-<span id="cb117-22"><a href="week-3-dictionary-based-approaches.html#cb117-22" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">&quot;Note: Median likes in dashed lines.&quot;</span>)</span></code></pre></div>
-<pre><code>## mutate (grouped): new variable &#39;mentions_cat&#39; (character) with 4 unique values and 0% NA</code></pre>
+<div class="sourceCode" id="cb117"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">trump_biden</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="co"># Create categories</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>mentions_cat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">trump_cmmnt</span><span class="op">==</span><span class="fl">0</span> <span class="op">&amp;</span> <span class="va">biden_cmmnt</span><span class="op">==</span><span class="fl">0</span>, <span class="st">"1. None"</span>, <span class="cn">NA</span><span class="op">)</span>,</span>
+<span>         mentions_cat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">trump_cmmnt</span><span class="op">==</span><span class="fl">1</span> <span class="op">&amp;</span> <span class="va">biden_cmmnt</span><span class="op">==</span><span class="fl">0</span>, <span class="st">"2. Trump"</span>, <span class="va">mentions_cat</span><span class="op">)</span>,</span>
+<span>         mentions_cat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">trump_cmmnt</span><span class="op">==</span><span class="fl">0</span> <span class="op">&amp;</span> <span class="va">biden_cmmnt</span><span class="op">==</span><span class="fl">1</span>, <span class="st">"3. Biden"</span>, <span class="va">mentions_cat</span><span class="op">)</span>,</span>
+<span>         mentions_cat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">trump_cmmnt</span><span class="op">==</span><span class="fl">1</span> <span class="op">&amp;</span> <span class="va">biden_cmmnt</span><span class="op">==</span><span class="fl">1</span>, <span class="st">"4. Both"</span>, <span class="va">mentions_cat</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">mentions_cat</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>likes_mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="va">likes</span>, na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">ungroup</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="co"># Remove the ones people like too much</span></span>
+<span>  <span class="fu">filter</span><span class="op">(</span><span class="va">likes</span> <span class="op">&lt;</span> <span class="fl">26</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="co"># Plot</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">likes</span>,fill <span class="op">=</span> <span class="va">mentions_cat</span>, color <span class="op">=</span> <span class="va">mentions_cat</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_density.html">geom_density</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.3</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_color_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/wesanderson/man/wes_palette.html">wes_palette</a></span><span class="op">(</span><span class="st">"BottleRocket2"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/wesanderson/man/wes_palette.html">wes_palette</a></span><span class="op">(</span><span class="st">"BottleRocket2"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">mentions_cat</span>, ncol <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_vline</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">likes_mean</span>, color <span class="op">=</span> <span class="va">mentions_cat</span><span class="op">)</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"none"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x<span class="op">=</span><span class="st">""</span>, y <span class="op">=</span> <span class="st">"Density"</span>, color <span class="op">=</span> <span class="st">""</span>, fill <span class="op">=</span> <span class="st">""</span>,</span>
+<span>       caption <span class="op">=</span> <span class="st">"Note: Median likes in dashed lines."</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## mutate (grouped): new variable 'mentions_cat' (character) with 4 unique values and 0% NA</code></pre>
 <pre><code>## group_by: one grouping variable (mentions_cat)</code></pre>
-<pre><code>## mutate (grouped): new variable &#39;likes_mean&#39; (double) with 4 unique values and 0% NA</code></pre>
+<pre><code>## mutate (grouped): new variable 'likes_mean' (double) with 4 unique values and 0% NA</code></pre>
 <pre><code>## ungroup: no grouping variables</code></pre>
 <pre><code>## filter: removed 8,136 rows (28%), 21,399 rows remaining</code></pre>
-<p><img src="main_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
+<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-33-1.png" width="672"></div>
 <p>And we can also see if there are differences across news media:</p>
-<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="week-3-dictionary-based-approaches.html#cb123-1" tabindex="-1"></a>trump_biden <span class="sc">%&gt;%</span></span>
-<span id="cb123-2"><a href="week-3-dictionary-based-approaches.html#cb123-2" tabindex="-1"></a>  <span class="co"># Create categories</span></span>
-<span id="cb123-3"><a href="week-3-dictionary-based-approaches.html#cb123-3" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">mentions_cat =</span> <span class="fu">ifelse</span>(trump_cmmnt<span class="sc">==</span><span class="dv">0</span> <span class="sc">&amp;</span> biden_cmmnt<span class="sc">==</span><span class="dv">0</span>, <span class="st">&quot;1. None&quot;</span>, <span class="cn">NA</span>),</span>
-<span id="cb123-4"><a href="week-3-dictionary-based-approaches.html#cb123-4" tabindex="-1"></a>         <span class="at">mentions_cat =</span> <span class="fu">ifelse</span>(trump_cmmnt<span class="sc">==</span><span class="dv">1</span> <span class="sc">&amp;</span> biden_cmmnt<span class="sc">==</span><span class="dv">0</span>, <span class="st">&quot;2. Trump&quot;</span>, mentions_cat),</span>
-<span id="cb123-5"><a href="week-3-dictionary-based-approaches.html#cb123-5" tabindex="-1"></a>         <span class="at">mentions_cat =</span> <span class="fu">ifelse</span>(trump_cmmnt<span class="sc">==</span><span class="dv">0</span> <span class="sc">&amp;</span> biden_cmmnt<span class="sc">==</span><span class="dv">1</span>, <span class="st">&quot;3. Biden&quot;</span>, mentions_cat),</span>
-<span id="cb123-6"><a href="week-3-dictionary-based-approaches.html#cb123-6" tabindex="-1"></a>         <span class="at">mentions_cat =</span> <span class="fu">ifelse</span>(trump_cmmnt<span class="sc">==</span><span class="dv">1</span> <span class="sc">&amp;</span> biden_cmmnt<span class="sc">==</span><span class="dv">1</span>, <span class="st">&quot;4. Both&quot;</span>, mentions_cat),</span>
-<span id="cb123-7"><a href="week-3-dictionary-based-approaches.html#cb123-7" tabindex="-1"></a>         <span class="at">media =</span> <span class="fu">ifelse</span>(<span class="fu">str_detect</span>(debate, <span class="st">&quot;abc&quot;</span>), <span class="st">&quot;ABC&quot;</span>, <span class="cn">NA</span>),</span>
-<span id="cb123-8"><a href="week-3-dictionary-based-approaches.html#cb123-8" tabindex="-1"></a>         <span class="at">media =</span> <span class="fu">ifelse</span>(<span class="fu">str_detect</span>(debate, <span class="st">&quot;nbc&quot;</span>), <span class="st">&quot;NBC&quot;</span>, media),</span>
-<span id="cb123-9"><a href="week-3-dictionary-based-approaches.html#cb123-9" tabindex="-1"></a>         <span class="at">media =</span> <span class="fu">ifelse</span>(<span class="fu">str_detect</span>(debate, <span class="st">&quot;fox&quot;</span>), <span class="st">&quot;FOX&quot;</span>, media)) <span class="sc">%&gt;%</span></span>
-<span id="cb123-10"><a href="week-3-dictionary-based-approaches.html#cb123-10" tabindex="-1"></a>  <span class="fu">group_by</span>(mentions_cat,media) <span class="sc">%&gt;%</span></span>
-<span id="cb123-11"><a href="week-3-dictionary-based-approaches.html#cb123-11" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">median_like =</span> <span class="fu">median</span>(likes,<span class="at">na.rm =</span> T)) <span class="sc">%&gt;%</span></span>
-<span id="cb123-12"><a href="week-3-dictionary-based-approaches.html#cb123-12" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb123-13"><a href="week-3-dictionary-based-approaches.html#cb123-13" tabindex="-1"></a>  <span class="co"># Remove the ones people like too much</span></span>
-<span id="cb123-14"><a href="week-3-dictionary-based-approaches.html#cb123-14" tabindex="-1"></a>  <span class="fu">filter</span>(likes <span class="sc">&lt;</span> <span class="dv">26</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb123-15"><a href="week-3-dictionary-based-approaches.html#cb123-15" tabindex="-1"></a>  <span class="co"># Plot</span></span>
-<span id="cb123-16"><a href="week-3-dictionary-based-approaches.html#cb123-16" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>likes,<span class="at">fill =</span> mentions_cat, <span class="at">color =</span> mentions_cat)) <span class="sc">+</span></span>
-<span id="cb123-17"><a href="week-3-dictionary-based-approaches.html#cb123-17" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">alpha =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
-<span id="cb123-18"><a href="week-3-dictionary-based-approaches.html#cb123-18" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">wes_palette</span>(<span class="st">&quot;BottleRocket2&quot;</span>)) <span class="sc">+</span></span>
-<span id="cb123-19"><a href="week-3-dictionary-based-approaches.html#cb123-19" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">wes_palette</span>(<span class="st">&quot;BottleRocket2&quot;</span>)) <span class="sc">+</span></span>
-<span id="cb123-20"><a href="week-3-dictionary-based-approaches.html#cb123-20" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>media, <span class="at">ncol =</span> <span class="dv">1</span>) <span class="sc">+</span> </span>
-<span id="cb123-21"><a href="week-3-dictionary-based-approaches.html#cb123-21" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept =</span> median_like, <span class="at">color =</span> mentions_cat), <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>)<span class="sc">+</span></span>
-<span id="cb123-22"><a href="week-3-dictionary-based-approaches.html#cb123-22" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb123-23"><a href="week-3-dictionary-based-approaches.html#cb123-23" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">&quot;bottom&quot;</span>) <span class="sc">+</span></span>
-<span id="cb123-24"><a href="week-3-dictionary-based-approaches.html#cb123-24" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Density&quot;</span>, <span class="at">color =</span> <span class="st">&quot;&quot;</span>, <span class="at">fill =</span> <span class="st">&quot;&quot;</span>,</span>
-<span id="cb123-25"><a href="week-3-dictionary-based-approaches.html#cb123-25" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">&quot;Note: Median likes in dashed lines.&quot;</span>)</span></code></pre></div>
-<pre><code>## mutate (grouped): new variable &#39;mentions_cat&#39; (character) with 4 unique values and 0% NA</code></pre>
-<pre><code>##                   new variable &#39;media&#39; (character) with 3 unique values and 0% NA</code></pre>
+<div class="sourceCode" id="cb123"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">trump_biden</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="co"># Create categories</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>mentions_cat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">trump_cmmnt</span><span class="op">==</span><span class="fl">0</span> <span class="op">&amp;</span> <span class="va">biden_cmmnt</span><span class="op">==</span><span class="fl">0</span>, <span class="st">"1. None"</span>, <span class="cn">NA</span><span class="op">)</span>,</span>
+<span>         mentions_cat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">trump_cmmnt</span><span class="op">==</span><span class="fl">1</span> <span class="op">&amp;</span> <span class="va">biden_cmmnt</span><span class="op">==</span><span class="fl">0</span>, <span class="st">"2. Trump"</span>, <span class="va">mentions_cat</span><span class="op">)</span>,</span>
+<span>         mentions_cat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">trump_cmmnt</span><span class="op">==</span><span class="fl">0</span> <span class="op">&amp;</span> <span class="va">biden_cmmnt</span><span class="op">==</span><span class="fl">1</span>, <span class="st">"3. Biden"</span>, <span class="va">mentions_cat</span><span class="op">)</span>,</span>
+<span>         mentions_cat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">trump_cmmnt</span><span class="op">==</span><span class="fl">1</span> <span class="op">&amp;</span> <span class="va">biden_cmmnt</span><span class="op">==</span><span class="fl">1</span>, <span class="st">"4. Both"</span>, <span class="va">mentions_cat</span><span class="op">)</span>,</span>
+<span>         media <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="va">debate</span>, <span class="st">"abc"</span><span class="op">)</span>, <span class="st">"ABC"</span>, <span class="cn">NA</span><span class="op">)</span>,</span>
+<span>         media <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="va">debate</span>, <span class="st">"nbc"</span><span class="op">)</span>, <span class="st">"NBC"</span>, <span class="va">media</span><span class="op">)</span>,</span>
+<span>         media <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="va">debate</span>, <span class="st">"fox"</span><span class="op">)</span>, <span class="st">"FOX"</span>, <span class="va">media</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">mentions_cat</span>,<span class="va">media</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>median_like <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="va">likes</span>,na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">ungroup</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="co"># Remove the ones people like too much</span></span>
+<span>  <span class="fu">filter</span><span class="op">(</span><span class="va">likes</span> <span class="op">&lt;</span> <span class="fl">26</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="co"># Plot</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">likes</span>,fill <span class="op">=</span> <span class="va">mentions_cat</span>, color <span class="op">=</span> <span class="va">mentions_cat</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_density.html">geom_density</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.3</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_color_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/wesanderson/man/wes_palette.html">wes_palette</a></span><span class="op">(</span><span class="st">"BottleRocket2"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/wesanderson/man/wes_palette.html">wes_palette</a></span><span class="op">(</span><span class="st">"BottleRocket2"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">media</span>, ncol <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_vline</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">median_like</span>, color <span class="op">=</span> <span class="va">mentions_cat</span><span class="op">)</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"bottom"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x<span class="op">=</span><span class="st">""</span>, y <span class="op">=</span> <span class="st">"Density"</span>, color <span class="op">=</span> <span class="st">""</span>, fill <span class="op">=</span> <span class="st">""</span>,</span>
+<span>       caption <span class="op">=</span> <span class="st">"Note: Median likes in dashed lines."</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## mutate (grouped): new variable 'mentions_cat' (character) with 4 unique values and 0% NA</code></pre>
+<pre><code>##                   new variable 'media' (character) with 3 unique values and 0% NA</code></pre>
 <pre><code>## group_by: 2 grouping variables (mentions_cat, media)</code></pre>
-<pre><code>## mutate (grouped): new variable &#39;median_like&#39; (double) with 6 unique values and 0% NA</code></pre>
+<pre><code>## mutate (grouped): new variable 'median_like' (double) with 6 unique values and 0% NA</code></pre>
 <pre><code>## ungroup: no grouping variables</code></pre>
 <pre><code>## filter: removed 8,136 rows (28%), 21,399 rows remaining</code></pre>
-<p><img src="main_files/figure-html/unnamed-chunk-34-1.png" width="672" /></p>
+<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-34-1.png" width="672"></div>
 <p>Similar to Young and Soroka (2012), we can also explore our keywords of interest in context. This is a good way to validate our proposed measure (e.g., Is mentioning <em>trump</em> a reflection of interest? Of relevance?).</p>
-<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="week-3-dictionary-based-approaches.html#cb130-1" tabindex="-1"></a>corpus_ventura <span class="ot">&lt;-</span> <span class="fu">corpus</span>(ventura_etal_df,</span>
-<span id="cb130-2"><a href="week-3-dictionary-based-approaches.html#cb130-2" tabindex="-1"></a>                     <span class="at">text_field =</span> <span class="st">&quot;comments&quot;</span>,</span>
-<span id="cb130-3"><a href="week-3-dictionary-based-approaches.html#cb130-3" tabindex="-1"></a>                     <span class="at">unique_docnames =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb130-4"><a href="week-3-dictionary-based-approaches.html#cb130-4" tabindex="-1"></a></span>
-<span id="cb130-5"><a href="week-3-dictionary-based-approaches.html#cb130-5" tabindex="-1"></a>toks_ventura <span class="ot">&lt;-</span> <span class="fu">tokens</span>(corpus_ventura)</span>
-<span id="cb130-6"><a href="week-3-dictionary-based-approaches.html#cb130-6" tabindex="-1"></a>kw_trump <span class="ot">&lt;-</span> <span class="fu">kwic</span>(toks_ventura, <span class="at">pattern =</span> <span class="st">&quot;Trump&quot;</span>)</span>
-<span id="cb130-7"><a href="week-3-dictionary-based-approaches.html#cb130-7" tabindex="-1"></a></span>
-<span id="cb130-8"><a href="week-3-dictionary-based-approaches.html#cb130-8" tabindex="-1"></a><span class="do">## The number determines the size of the window: how many tokens before and after</span></span>
-<span id="cb130-9"><a href="week-3-dictionary-based-approaches.html#cb130-9" tabindex="-1"></a><span class="fu">head</span>(kw_trump, <span class="dv">20</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb130"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">corpus_ventura</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://quanteda.io/reference/corpus.html">corpus</a></span><span class="op">(</span><span class="va">ventura_etal_df</span>,</span>
+<span>                     text_field <span class="op">=</span> <span class="st">"comments"</span>,</span>
+<span>                     unique_docnames <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">toks_ventura</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://quanteda.io/reference/tokens.html">tokens</a></span><span class="op">(</span><span class="va">corpus_ventura</span><span class="op">)</span></span>
+<span><span class="va">kw_trump</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://quanteda.io/reference/kwic.html">kwic</a></span><span class="op">(</span><span class="va">toks_ventura</span>, pattern <span class="op">=</span> <span class="st">"Trump"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## The number determines the size of the window: how many tokens before and after</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">kw_trump</span>, <span class="fl">20</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## Keyword-in-context with 20 matches.                                                 
 ##    [text2, 5]      God please bless all | Trump |
 ##    [text3, 1]                           | Trump |
@@ -312,7 +313,7 @@
 ##  ! He is the best               
 ##  doesn’t have a plan for        
 ##  worse president EVER 😡 thank  
-##  doesn&#39;t know the meaning of    
+##  doesn't know the meaning of    
 ##  such a hateful person he       
 ##  would shut his trap for        
 ##  IS NOT smarter than a          
@@ -323,8 +324,9 @@
 ##  is so broke that is            
 ##  is literally making this debate</code></pre>
 <p>We can also look for more than one word at the same time:</p>
-<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="week-3-dictionary-based-approaches.html#cb132-1" tabindex="-1"></a>kw_best <span class="ot">&lt;-</span> <span class="fu">kwic</span>(toks_ventura, <span class="at">pattern =</span> <span class="fu">c</span>(<span class="st">&quot;best&quot;</span>,<span class="st">&quot;worst&quot;</span>))</span>
-<span id="cb132-2"><a href="week-3-dictionary-based-approaches.html#cb132-2" tabindex="-1"></a><span class="fu">head</span>(kw_best, <span class="dv">20</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb132"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">kw_best</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://quanteda.io/reference/kwic.html">kwic</a></span><span class="op">(</span><span class="va">toks_ventura</span>, pattern <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"best"</span>,<span class="st">"worst"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">kw_best</span>, <span class="fl">20</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## Keyword-in-context with 20 matches.                                                       
 ##    [text4, 17] yard class president debate at | best  |
 ##    [text10, 1]                                | Worst |
@@ -358,7 +360,7 @@
 ##  president America ever had!        
 ##  PRESIDENT OF THE WORLD.            
 ##  president ever!!!                  
-##  President ever Crybabies don&#39;t like
+##  President ever Crybabies don't like
 ##  president ever                     
 ##  president in our time ever         
 ##  choice but I will choose           
@@ -368,15 +370,16 @@
 ##  , WORST PRESIDENT!!                
 ##  PRESIDENT!!!</code></pre>
 <p>Alternatively, we can see what are the most common words that happen together. These are called collocations (which is a similar concept to n-grams). We want to see the most common names mentioned (first and last name).</p>
-<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="week-3-dictionary-based-approaches.html#cb134-1" tabindex="-1"></a>toks_ventura <span class="ot">&lt;-</span> <span class="fu">tokens</span>(corpus_ventura, <span class="at">remove_punct =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb134-2"><a href="week-3-dictionary-based-approaches.html#cb134-2" tabindex="-1"></a>col_ventura <span class="ot">&lt;-</span> <span class="fu">tokens_select</span>(toks_ventura, </span>
-<span id="cb134-3"><a href="week-3-dictionary-based-approaches.html#cb134-3" tabindex="-1"></a>                                <span class="co"># Keep only tokens that start with a capital letter</span></span>
-<span id="cb134-4"><a href="week-3-dictionary-based-approaches.html#cb134-4" tabindex="-1"></a>                                <span class="at">pattern =</span> <span class="st">&quot;^[A-Z]&quot;</span>, </span>
-<span id="cb134-5"><a href="week-3-dictionary-based-approaches.html#cb134-5" tabindex="-1"></a>                                <span class="at">valuetype =</span> <span class="st">&quot;regex&quot;</span>, </span>
-<span id="cb134-6"><a href="week-3-dictionary-based-approaches.html#cb134-6" tabindex="-1"></a>                                <span class="at">case_insensitive =</span> <span class="cn">FALSE</span>, </span>
-<span id="cb134-7"><a href="week-3-dictionary-based-approaches.html#cb134-7" tabindex="-1"></a>                                <span class="at">padding =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb134-8"><a href="week-3-dictionary-based-approaches.html#cb134-8" tabindex="-1"></a>                  <span class="fu">textstat_collocations</span>(<span class="at">min_count =</span> <span class="dv">20</span>) <span class="co"># Minimum number of collocations to be taken into account.</span></span>
-<span id="cb134-9"><a href="week-3-dictionary-based-approaches.html#cb134-9" tabindex="-1"></a><span class="fu">head</span>(col_ventura, <span class="dv">20</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb134"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">toks_ventura</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://quanteda.io/reference/tokens.html">tokens</a></span><span class="op">(</span><span class="va">corpus_ventura</span>, remove_punct <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">col_ventura</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://quanteda.io/reference/tokens_select.html">tokens_select</a></span><span class="op">(</span><span class="va">toks_ventura</span>, </span>
+<span>                                <span class="co"># Keep only tokens that start with a capital letter</span></span>
+<span>                                pattern <span class="op">=</span> <span class="st">"^[A-Z]"</span>, </span>
+<span>                                valuetype <span class="op">=</span> <span class="st">"regex"</span>, </span>
+<span>                                case_insensitive <span class="op">=</span> <span class="cn">FALSE</span>, </span>
+<span>                                padding <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>                  <span class="fu"><a href="https://quanteda.io/reference/textstat_collocations.html">textstat_collocations</a></span><span class="op">(</span>min_count <span class="op">=</span> <span class="fl">20</span><span class="op">)</span> <span class="co"># Minimum number of collocations to be taken into account.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">col_ventura</span>, <span class="fl">20</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##          collocation count count_nested length    lambda         z
 ## 1      chris wallace  1693            0      2  6.753757 128.18781
 ## 2    president trump   831            0      2  3.752001  84.18127
@@ -400,11 +403,12 @@
 ## 20            IS NOT    34            0      2  5.512521  28.74916</code></pre>
 <p>(The <span class="math inline">\(\lambda\)</span> score is something like the likelihood of, for example, <em>chris</em> and <em>wallace</em> happening one next to the other. For a complete explanation, you can <a href="http://web.science.mq.edu.au/~mjohnson/papers/2001/dpb-colloc01.pdf">read this paper</a>.)</p>
 <p>We can also discover collocations longer than two words. In the example below we identify collocations consisting of three words.</p>
-<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="week-3-dictionary-based-approaches.html#cb136-1" tabindex="-1"></a>col_ventura <span class="ot">&lt;-</span> <span class="fu">tokens_select</span>(toks_ventura, </span>
-<span id="cb136-2"><a href="week-3-dictionary-based-approaches.html#cb136-2" tabindex="-1"></a>                                <span class="at">case_insensitive =</span> <span class="cn">FALSE</span>, </span>
-<span id="cb136-3"><a href="week-3-dictionary-based-approaches.html#cb136-3" tabindex="-1"></a>                                <span class="at">padding =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb136-4"><a href="week-3-dictionary-based-approaches.html#cb136-4" tabindex="-1"></a>              <span class="fu">textstat_collocations</span>(<span class="at">min_count =</span> <span class="dv">100</span>, <span class="at">size =</span> <span class="dv">3</span>)</span>
-<span id="cb136-5"><a href="week-3-dictionary-based-approaches.html#cb136-5" tabindex="-1"></a><span class="fu">head</span>(col_ventura, <span class="dv">20</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb136"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">col_ventura</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://quanteda.io/reference/tokens_select.html">tokens_select</a></span><span class="op">(</span><span class="va">toks_ventura</span>, </span>
+<span>                                case_insensitive <span class="op">=</span> <span class="cn">FALSE</span>, </span>
+<span>                                padding <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>              <span class="fu"><a href="https://quanteda.io/reference/textstat_collocations.html">textstat_collocations</a></span><span class="op">(</span>min_count <span class="op">=</span> <span class="fl">100</span>, size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">col_ventura</span>, <span class="fl">20</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##            collocation count count_nested length      lambda            z
 ## 1          know how to   115            0      3 3.098900337 11.327580933
 ## 2  the american people   220            0      3 2.601543689 10.158047857
@@ -428,15 +432,21 @@
 ## 20          biden is a   164            0      3 0.001198663  0.009724797</code></pre>
 </div>
 <div id="dictionary-approaches" class="section level2" number="3.5">
-<h2><span class="header-section-number">3.5</span> Dictionary Approaches</h2>
+<h2>
+<span class="header-section-number">3.5</span> Dictionary Approaches<a class="anchor" aria-label="anchor" href="#dictionary-approaches"><i class="fas fa-link"></i></a>
+</h2>
 <p>We can extend the previous analysis by using dictionaries. You can create you own, you can use previously validates dictionaries, or you can use previously validates dictionaries that are already included with <code>tidytext</code> or <code>quanteda</code> (for sentiment analysis).</p>
 <div id="sentiment-analysis" class="section level3" number="3.5.1">
-<h3><span class="header-section-number">3.5.1</span> Sentiment Analysis</h3>
+<h3>
+<span class="header-section-number">3.5.1</span> Sentiment Analysis<a class="anchor" aria-label="anchor" href="#sentiment-analysis"><i class="fas fa-link"></i></a>
+</h3>
 <p>Let’s look at some pre-loaded sentiment dictionaries in <code>tidytext</code>:</p>
 <ul>
-<li><code>AFFIN</code>: measures sentiment with a numeric score between -5 and 5, and were validated in <a href="http://www2.imm.dtu.dk/pubdb/edoc/imm6006.pdf">this paper</a>.</li>
+<li>
+<code>AFFIN</code>: measures sentiment with a numeric score between -5 and 5, and were validated in <a href="http://www2.imm.dtu.dk/pubdb/edoc/imm6006.pdf">this paper</a>.</li>
 </ul>
-<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="week-3-dictionary-based-approaches.html#cb138-1" tabindex="-1"></a><span class="fu">get_sentiments</span>(<span class="st">&quot;afinn&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb138"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/tidytext/man/get_sentiments.html">get_sentiments</a></span><span class="op">(</span><span class="st">"afinn"</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## # A tibble: 2,477 × 2
 ##    word       value
 ##    &lt;chr&gt;      &lt;dbl&gt;
@@ -452,9 +462,11 @@
 ## 10 abhors        -3
 ## # ℹ 2,467 more rows</code></pre>
 <ul>
-<li><code>bing</code>: sentiment words found in online forums. More information <a href="https://www.cs.uic.edu/~liub/FBS/sentiment-analysis.html">here</a>.</li>
+<li>
+<code>bing</code>: sentiment words found in online forums. More information <a href="https://www.cs.uic.edu/~liub/FBS/sentiment-analysis.html">here</a>.</li>
 </ul>
-<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="week-3-dictionary-based-approaches.html#cb140-1" tabindex="-1"></a><span class="fu">get_sentiments</span>(<span class="st">&quot;bing&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb140"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/tidytext/man/get_sentiments.html">get_sentiments</a></span><span class="op">(</span><span class="st">"bing"</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## # A tibble: 6,786 × 2
 ##    word        sentiment
 ##    &lt;chr&gt;       &lt;chr&gt;    
@@ -470,9 +482,11 @@
 ## 10 aborts      negative 
 ## # ℹ 6,776 more rows</code></pre>
 <ul>
-<li><code>nrc</code>: underpaid workers from Amazon mechanical Turk coded the emotional valence of a long list of terms, which were validated in <a href="https://arxiv.org/pdf/1308.6297.pdf">this paper</a>.</li>
+<li>
+<code>nrc</code>: underpaid workers from Amazon mechanical Turk coded the emotional valence of a long list of terms, which were validated in <a href="https://arxiv.org/pdf/1308.6297.pdf">this paper</a>.</li>
 </ul>
-<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="week-3-dictionary-based-approaches.html#cb142-1" tabindex="-1"></a><span class="fu">get_sentiments</span>(<span class="st">&quot;nrc&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb142"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/tidytext/man/get_sentiments.html">get_sentiments</a></span><span class="op">(</span><span class="st">"nrc"</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## # A tibble: 13,872 × 2
 ##    word        sentiment
 ##    &lt;chr&gt;       &lt;chr&gt;    
@@ -489,19 +503,22 @@
 ## # ℹ 13,862 more rows</code></pre>
 <p>Each dictionary classifies and quantifies words in a different way. Let’s use the <code>nrc</code> sentiment dictionary to analyze our comments dataset. <code>nrc</code> classifies words as whether having <em>positive</em> or <em>negative</em> sentiment.</p>
 <p>Each dictionary classifies and quantifies words in a different way. Let’s use the <code>nrc</code> sentiment dictionary to analyze our comments dataset. <code>nrc</code> classifies words as whether reflecting:</p>
-<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="week-3-dictionary-based-approaches.html#cb144-1" tabindex="-1"></a>nrc <span class="ot">&lt;-</span> <span class="fu">get_sentiments</span>(<span class="st">&quot;nrc&quot;</span>) </span>
-<span id="cb144-2"><a href="week-3-dictionary-based-approaches.html#cb144-2" tabindex="-1"></a><span class="fu">table</span>(nrc<span class="sc">$</span>sentiment)</span></code></pre></div>
+<div class="sourceCode" id="cb144"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">nrc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tidytext/man/get_sentiments.html">get_sentiments</a></span><span class="op">(</span><span class="st">"nrc"</span><span class="op">)</span> </span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">nrc</span><span class="op">$</span><span class="va">sentiment</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## 
 ##        anger anticipation      disgust         fear          joy     negative 
 ##         1245          837         1056         1474          687         3316 
 ##     positive      sadness     surprise        trust 
 ##         2308         1187          532         1230</code></pre>
 <p>We will focus solely on <em>positive</em> or <em>negative</em> sentiment:</p>
-<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="week-3-dictionary-based-approaches.html#cb146-1" tabindex="-1"></a>nrc_pos_neg <span class="ot">&lt;-</span> <span class="fu">get_sentiments</span>(<span class="st">&quot;nrc&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb146-2"><a href="week-3-dictionary-based-approaches.html#cb146-2" tabindex="-1"></a>  <span class="fu">filter</span>(sentiment <span class="sc">==</span> <span class="st">&quot;positive&quot;</span> <span class="sc">|</span> sentiment <span class="sc">==</span> <span class="st">&quot;negative&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb146"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">nrc_pos_neg</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tidytext/man/get_sentiments.html">get_sentiments</a></span><span class="op">(</span><span class="st">"nrc"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">filter</span><span class="op">(</span><span class="va">sentiment</span> <span class="op">==</span> <span class="st">"positive"</span> <span class="op">|</span> <span class="va">sentiment</span> <span class="op">==</span> <span class="st">"negative"</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## filter: removed 8,248 rows (59%), 5,624 rows remaining</code></pre>
-<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="week-3-dictionary-based-approaches.html#cb148-1" tabindex="-1"></a>ventura_pos_neg <span class="ot">&lt;-</span> tidy_ventura <span class="sc">%&gt;%</span></span>
-<span id="cb148-2"><a href="week-3-dictionary-based-approaches.html#cb148-2" tabindex="-1"></a>  <span class="fu">left_join</span>(nrc_pos_neg)</span></code></pre></div>
+<div class="sourceCode" id="cb148"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ventura_pos_neg</span> <span class="op">&lt;-</span> <span class="va">tidy_ventura</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">left_join</span><span class="op">(</span><span class="va">nrc_pos_neg</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## Joining with `by = join_by(word)`</code></pre>
 <pre><code>## left_join: added one column (sentiment)</code></pre>
 <pre><code>##            &gt; rows only in x   147,204</code></pre>
@@ -510,9 +527,10 @@
 <pre><code>##            &gt;                 =========</code></pre>
 <pre><code>##            &gt; rows total       199,263</code></pre>
 <p>Let’s check the top <em>positive</em> words and the top <em>negative</em> words:</p>
-<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="week-3-dictionary-based-approaches.html#cb156-1" tabindex="-1"></a>ventura_pos_neg <span class="sc">%&gt;%</span></span>
-<span id="cb156-2"><a href="week-3-dictionary-based-approaches.html#cb156-2" tabindex="-1"></a>  <span class="fu">group_by</span>(sentiment) <span class="sc">%&gt;%</span></span>
-<span id="cb156-3"><a href="week-3-dictionary-based-approaches.html#cb156-3" tabindex="-1"></a>  <span class="fu">count</span>(word, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb156"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ventura_pos_neg</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">sentiment</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">count</span><span class="op">(</span><span class="va">word</span>, sort <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## group_by: one grouping variable (sentiment)</code></pre>
 <pre><code>## count: now 14,242 rows and 3 columns, one group variable remaining (sentiment)</code></pre>
 <pre><code>## # A tibble: 14,242 × 3
@@ -532,31 +550,33 @@
 ## # ℹ 14,232 more rows</code></pre>
 <p>Some make sense: ‘love’ is <em>positive</em>, ‘bully’ is <em>negative</em>. Some, not so much: ‘talk’ is positive? ‘joke’ is negative? Some are out of context: A ‘vice’ is negative, but THE ‘vice’-president is not (especially since presidente is considered ‘positive’, which… really?). And then ‘vote’ is both positive and negative which… what? Let’s turn a blind eye for now (but, once again, go back to Grimmer et al. Ch. 15 for best practices).</p>
 <p>Are people watching different news media using different language? Let’s see what the data tells us. As always, check the unit of analysis of your dataset. In this case, each observation is a word, but we have the grouping variable of the comment (<code>text_id</code>), so we can count how many <em>positive</em> and <em>negative</em> words per comment. We will calculate a net sentiment score by subtracting the number of negative words from positive word (in each comment).</p>
-<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="week-3-dictionary-based-approaches.html#cb160-1" tabindex="-1"></a>comment_pos_neg <span class="ot">&lt;-</span> ventura_pos_neg <span class="sc">%&gt;%</span></span>
-<span id="cb160-2"><a href="week-3-dictionary-based-approaches.html#cb160-2" tabindex="-1"></a>  <span class="co"># Create dummies of pos and neg for counting</span></span>
-<span id="cb160-3"><a href="week-3-dictionary-based-approaches.html#cb160-3" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pos_dum =</span> <span class="fu">ifelse</span>(sentiment <span class="sc">==</span> <span class="st">&quot;positive&quot;</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
-<span id="cb160-4"><a href="week-3-dictionary-based-approaches.html#cb160-4" tabindex="-1"></a>         <span class="at">neg_dum =</span> <span class="fu">ifelse</span>(sentiment <span class="sc">==</span> <span class="st">&quot;negative&quot;</span>, <span class="dv">1</span>, <span class="dv">0</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb160-5"><a href="week-3-dictionary-based-approaches.html#cb160-5" tabindex="-1"></a>  <span class="co"># Estimate total number of tokens per comment, pos , and negs</span></span>
-<span id="cb160-6"><a href="week-3-dictionary-based-approaches.html#cb160-6" tabindex="-1"></a>  <span class="fu">group_by</span>(text_id) <span class="sc">%&gt;%</span></span>
-<span id="cb160-7"><a href="week-3-dictionary-based-approaches.html#cb160-7" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">total_words =</span> <span class="fu">n</span>(),</span>
-<span id="cb160-8"><a href="week-3-dictionary-based-approaches.html#cb160-8" tabindex="-1"></a>         <span class="at">total_pos =</span> <span class="fu">sum</span>(pos_dum, <span class="at">na.rm =</span> T),</span>
-<span id="cb160-9"><a href="week-3-dictionary-based-approaches.html#cb160-9" tabindex="-1"></a>         <span class="at">total_neg =</span> <span class="fu">sum</span>(neg_dum, <span class="at">na.rm =</span> T)) <span class="sc">%&gt;%</span></span>
-<span id="cb160-10"><a href="week-3-dictionary-based-approaches.html#cb160-10" tabindex="-1"></a>  <span class="co"># These values are aggregated at the text_id level so we can eliminate repeated text_id</span></span>
-<span id="cb160-11"><a href="week-3-dictionary-based-approaches.html#cb160-11" tabindex="-1"></a>  <span class="fu">distinct</span>(text_id,<span class="at">.keep_all=</span><span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb160-12"><a href="week-3-dictionary-based-approaches.html#cb160-12" tabindex="-1"></a>  <span class="co"># Now we estimate the net sentiment score. You can change this and get a different way to measure the ratio of positive to negative</span></span>
-<span id="cb160-13"><a href="week-3-dictionary-based-approaches.html#cb160-13" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">net_sent =</span> total_pos <span class="sc">-</span> total_neg) <span class="sc">%&gt;%</span></span>
-<span id="cb160-14"><a href="week-3-dictionary-based-approaches.html#cb160-14" tabindex="-1"></a>  <span class="fu">ungroup</span>() </span></code></pre></div>
-<pre><code>## mutate: new variable &#39;pos_dum&#39; (double) with 3 unique values and 74% NA</code></pre>
-<pre><code>##         new variable &#39;neg_dum&#39; (double) with 3 unique values and 74% NA</code></pre>
+<div class="sourceCode" id="cb160"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">comment_pos_neg</span> <span class="op">&lt;-</span> <span class="va">ventura_pos_neg</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="co"># Create dummies of pos and neg for counting</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>pos_dum <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">sentiment</span> <span class="op">==</span> <span class="st">"positive"</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span>,</span>
+<span>         neg_dum <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">sentiment</span> <span class="op">==</span> <span class="st">"negative"</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="co"># Estimate total number of tokens per comment, pos , and negs</span></span>
+<span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">text_id</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>total_words <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>         total_pos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">pos_dum</span>, na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>,</span>
+<span>         total_neg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">neg_dum</span>, na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="co"># These values are aggregated at the text_id level so we can eliminate repeated text_id</span></span>
+<span>  <span class="fu">distinct</span><span class="op">(</span><span class="va">text_id</span>,.keep_all<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="co"># Now we estimate the net sentiment score. You can change this and get a different way to measure the ratio of positive to negative</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>net_sent <span class="op">=</span> <span class="va">total_pos</span> <span class="op">-</span> <span class="va">total_neg</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">ungroup</span><span class="op">(</span><span class="op">)</span> </span></code></pre></div>
+<pre><code>## mutate: new variable 'pos_dum' (double) with 3 unique values and 74% NA</code></pre>
+<pre><code>##         new variable 'neg_dum' (double) with 3 unique values and 74% NA</code></pre>
 <pre><code>## group_by: one grouping variable (text_id)</code></pre>
-<pre><code>## mutate (grouped): new variable &#39;total_words&#39; (integer) with 25 unique values and 0% NA</code></pre>
-<pre><code>##                   new variable &#39;total_pos&#39; (double) with 14 unique values and 0% NA</code></pre>
-<pre><code>##                   new variable &#39;total_neg&#39; (double) with 10 unique values and 0% NA</code></pre>
+<pre><code>## mutate (grouped): new variable 'total_words' (integer) with 25 unique values and 0% NA</code></pre>
+<pre><code>##                   new variable 'total_pos' (double) with 14 unique values and 0% NA</code></pre>
+<pre><code>##                   new variable 'total_neg' (double) with 10 unique values and 0% NA</code></pre>
 <pre><code>## distinct (grouped): removed 169,728 rows (85%), 29,535 rows remaining</code></pre>
-<pre><code>## mutate (grouped): new variable &#39;net_sent&#39; (double) with 21 unique values and 0% NA</code></pre>
+<pre><code>## mutate (grouped): new variable 'net_sent' (double) with 21 unique values and 0% NA</code></pre>
 <pre><code>## ungroup: no grouping variables</code></pre>
-<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="week-3-dictionary-based-approaches.html#cb170-1" tabindex="-1"></a><span class="co"># Note that the `word` and `sentiment` columns are meaningless now</span></span>
-<span id="cb170-2"><a href="week-3-dictionary-based-approaches.html#cb170-2" tabindex="-1"></a><span class="fu">head</span>(comment_pos_neg, <span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb170"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Note that the `word` and `sentiment` columns are meaningless now</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">comment_pos_neg</span>, <span class="fl">10</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## # A tibble: 10 × 12
 ##    text_id id           likes debate word  sentiment pos_dum neg_dum total_words
 ##      &lt;int&gt; &lt;chr&gt;        &lt;int&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;       &lt;dbl&gt;   &lt;dbl&gt;       &lt;int&gt;
@@ -572,42 +592,46 @@
 ## 10      10 Dana Spencer    36 abc_f… worst &lt;NA&gt;           NA      NA          15
 ## # ℹ 3 more variables: total_pos &lt;dbl&gt;, total_neg &lt;dbl&gt;, net_sent &lt;dbl&gt;</code></pre>
 <p>Ok, now we can plot the differences:</p>
-<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb172-1"><a href="week-3-dictionary-based-approaches.html#cb172-1" tabindex="-1"></a>comment_pos_neg <span class="sc">%&gt;%</span></span>
-<span id="cb172-2"><a href="week-3-dictionary-based-approaches.html#cb172-2" tabindex="-1"></a>    <span class="co"># Create categories</span></span>
-<span id="cb172-3"><a href="week-3-dictionary-based-approaches.html#cb172-3" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">media =</span> <span class="fu">ifelse</span>(<span class="fu">str_detect</span>(debate, <span class="st">&quot;abc&quot;</span>), <span class="st">&quot;ABC&quot;</span>, <span class="cn">NA</span>),</span>
-<span id="cb172-4"><a href="week-3-dictionary-based-approaches.html#cb172-4" tabindex="-1"></a>         <span class="at">media =</span> <span class="fu">ifelse</span>(<span class="fu">str_detect</span>(debate, <span class="st">&quot;nbc&quot;</span>), <span class="st">&quot;NBC&quot;</span>, media),</span>
-<span id="cb172-5"><a href="week-3-dictionary-based-approaches.html#cb172-5" tabindex="-1"></a>         <span class="at">media =</span> <span class="fu">ifelse</span>(<span class="fu">str_detect</span>(debate, <span class="st">&quot;fox&quot;</span>), <span class="st">&quot;FOX&quot;</span>, media)) <span class="sc">%&gt;%</span></span>
-<span id="cb172-6"><a href="week-3-dictionary-based-approaches.html#cb172-6" tabindex="-1"></a>  <span class="fu">group_by</span>(media) <span class="sc">%&gt;%</span></span>
-<span id="cb172-7"><a href="week-3-dictionary-based-approaches.html#cb172-7" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">median_sent =</span> <span class="fu">mean</span>(net_sent)) <span class="sc">%&gt;%</span></span>
-<span id="cb172-8"><a href="week-3-dictionary-based-approaches.html#cb172-8" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>net_sent,<span class="at">color=</span>media,<span class="at">fill=</span>media)) <span class="sc">+</span></span>
-<span id="cb172-9"><a href="week-3-dictionary-based-approaches.html#cb172-9" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">alpha =</span> <span class="fl">0.4</span>,</span>
-<span id="cb172-10"><a href="week-3-dictionary-based-approaches.html#cb172-10" tabindex="-1"></a>                 <span class="at">binwidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb172-11"><a href="week-3-dictionary-based-approaches.html#cb172-11" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">wes_palette</span>(<span class="st">&quot;BottleRocket2&quot;</span>)) <span class="sc">+</span></span>
-<span id="cb172-12"><a href="week-3-dictionary-based-approaches.html#cb172-12" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">wes_palette</span>(<span class="st">&quot;BottleRocket2&quot;</span>)) <span class="sc">+</span></span>
-<span id="cb172-13"><a href="week-3-dictionary-based-approaches.html#cb172-13" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>media, <span class="at">ncol =</span> <span class="dv">1</span>) <span class="sc">+</span> </span>
-<span id="cb172-14"><a href="week-3-dictionary-based-approaches.html#cb172-14" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept =</span> median_sent, <span class="at">color =</span> media), <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>)<span class="sc">+</span></span>
-<span id="cb172-15"><a href="week-3-dictionary-based-approaches.html#cb172-15" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb172-16"><a href="week-3-dictionary-based-approaches.html#cb172-16" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">&quot;bottom&quot;</span>) <span class="sc">+</span></span>
-<span id="cb172-17"><a href="week-3-dictionary-based-approaches.html#cb172-17" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">5</span>,<span class="dv">5</span>)) <span class="sc">+</span></span>
-<span id="cb172-18"><a href="week-3-dictionary-based-approaches.html#cb172-18" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Count&quot;</span>, <span class="at">color =</span> <span class="st">&quot;&quot;</span>, <span class="at">fill =</span> <span class="st">&quot;&quot;</span>,</span>
-<span id="cb172-19"><a href="week-3-dictionary-based-approaches.html#cb172-19" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">&quot;Note: Mean net sentiment in dashed lines.&quot;</span>)</span></code></pre></div>
-<pre><code>## mutate: new variable &#39;media&#39; (character) with 3 unique values and 0% NA</code></pre>
+<div class="sourceCode" id="cb172"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">comment_pos_neg</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="co"># Create categories</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>media <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="va">debate</span>, <span class="st">"abc"</span><span class="op">)</span>, <span class="st">"ABC"</span>, <span class="cn">NA</span><span class="op">)</span>,</span>
+<span>         media <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="va">debate</span>, <span class="st">"nbc"</span><span class="op">)</span>, <span class="st">"NBC"</span>, <span class="va">media</span><span class="op">)</span>,</span>
+<span>         media <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="va">debate</span>, <span class="st">"fox"</span><span class="op">)</span>, <span class="st">"FOX"</span>, <span class="va">media</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">media</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>median_sent <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">net_sent</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">net_sent</span>,color<span class="op">=</span><span class="va">media</span>,fill<span class="op">=</span><span class="va">media</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.4</span>,</span>
+<span>                 binwidth <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_color_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/wesanderson/man/wes_palette.html">wes_palette</a></span><span class="op">(</span><span class="st">"BottleRocket2"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/wesanderson/man/wes_palette.html">wes_palette</a></span><span class="op">(</span><span class="st">"BottleRocket2"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">media</span>, ncol <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_vline</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">median_sent</span>, color <span class="op">=</span> <span class="va">media</span><span class="op">)</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"bottom"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_cartesian.html">coord_cartesian</a></span><span class="op">(</span>xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">5</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x<span class="op">=</span><span class="st">""</span>, y <span class="op">=</span> <span class="st">"Count"</span>, color <span class="op">=</span> <span class="st">""</span>, fill <span class="op">=</span> <span class="st">""</span>,</span>
+<span>       caption <span class="op">=</span> <span class="st">"Note: Mean net sentiment in dashed lines."</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## mutate: new variable 'media' (character) with 3 unique values and 0% NA</code></pre>
 <pre><code>## group_by: one grouping variable (media)</code></pre>
-<pre><code>## mutate (grouped): new variable &#39;median_sent&#39; (double) with 3 unique values and 0% NA</code></pre>
-<p><img src="main_files/figure-html/unnamed-chunk-46-1.png" width="672" /></p>
+<pre><code>## mutate (grouped): new variable 'median_sent' (double) with 3 unique values and 0% NA</code></pre>
+<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-46-1.png" width="672"></div>
 </div>
 <div id="domain-specific-dictionaries" class="section level3" number="3.5.2">
-<h3><span class="header-section-number">3.5.2</span> Domain-Specific Dictionaries</h3>
+<h3>
+<span class="header-section-number">3.5.2</span> Domain-Specific Dictionaries<a class="anchor" aria-label="anchor" href="#domain-specific-dictionaries"><i class="fas fa-link"></i></a>
+</h3>
 <p>Sentiment dictionaries are common. But you can make a dictionary of whatever concept you are interested in. After all, as long as you can create a lexicon (and validate it), then you can conduct an analysis similar to the one we just carried out. This time, rather than using an off-the-shelf (sentiment) dictionary, we will create our own. Let’s try a dictionary for two topics: the economy and migration.</p>
 <p>As long as the dictionary has the same shape as our <code>nrc_pos_neg</code> object, we can follow the same process that we followed for the sentiment dictionaries.</p>
-<div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb176-1"><a href="week-3-dictionary-based-approaches.html#cb176-1" tabindex="-1"></a><span class="co"># First, we define the economy and migration as a concept, and then find words that signal that concept:</span></span>
-<span id="cb176-2"><a href="week-3-dictionary-based-approaches.html#cb176-2" tabindex="-1"></a>economy <span class="ot">&lt;-</span> <span class="fu">cbind.data.frame</span>(<span class="fu">c</span>(<span class="st">&quot;economy&quot;</span>,<span class="st">&quot;taxes&quot;</span>,<span class="st">&quot;inflation&quot;</span>,<span class="st">&quot;debt&quot;</span>,<span class="st">&quot;employment&quot;</span>,<span class="st">&quot;jobs&quot;</span>),<span class="st">&quot;economy&quot;</span>)</span>
-<span id="cb176-3"><a href="week-3-dictionary-based-approaches.html#cb176-3" tabindex="-1"></a><span class="fu">colnames</span>(economy) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;word&quot;</span>,<span class="st">&quot;topic&quot;</span>)</span>
-<span id="cb176-4"><a href="week-3-dictionary-based-approaches.html#cb176-4" tabindex="-1"></a>migration <span class="ot">&lt;-</span> <span class="fu">cbind.data.frame</span>(<span class="fu">c</span>(<span class="st">&quot;immigrants&quot;</span>,<span class="st">&quot;border&quot;</span>,<span class="st">&quot;wall&quot;</span>,<span class="st">&quot;alien&quot;</span>,<span class="st">&quot;migrant&quot;</span>,<span class="st">&quot;visa&quot;</span>,<span class="st">&quot;daca&quot;</span>,<span class="st">&quot;dreamer&quot;</span>),<span class="st">&quot;migration&quot;</span>) </span>
-<span id="cb176-5"><a href="week-3-dictionary-based-approaches.html#cb176-5" tabindex="-1"></a><span class="fu">colnames</span>(migration) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;word&quot;</span>,<span class="st">&quot;topic&quot;</span>)</span>
-<span id="cb176-6"><a href="week-3-dictionary-based-approaches.html#cb176-6" tabindex="-1"></a></span>
-<span id="cb176-7"><a href="week-3-dictionary-based-approaches.html#cb176-7" tabindex="-1"></a>dict <span class="ot">&lt;-</span> <span class="fu">rbind.data.frame</span>(economy,migration)</span>
-<span id="cb176-8"><a href="week-3-dictionary-based-approaches.html#cb176-8" tabindex="-1"></a>dict</span></code></pre></div>
+<div class="sourceCode" id="cb176"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># First, we define the economy and migration as a concept, and then find words that signal that concept:</span></span>
+<span><span class="va">economy</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind.data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"economy"</span>,<span class="st">"taxes"</span>,<span class="st">"inflation"</span>,<span class="st">"debt"</span>,<span class="st">"employment"</span>,<span class="st">"jobs"</span><span class="op">)</span>,<span class="st">"economy"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">economy</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"word"</span>,<span class="st">"topic"</span><span class="op">)</span></span>
+<span><span class="va">migration</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind.data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"immigrants"</span>,<span class="st">"border"</span>,<span class="st">"wall"</span>,<span class="st">"alien"</span>,<span class="st">"migrant"</span>,<span class="st">"visa"</span>,<span class="st">"daca"</span>,<span class="st">"dreamer"</span><span class="op">)</span>,<span class="st">"migration"</span><span class="op">)</span> </span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">migration</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"word"</span>,<span class="st">"topic"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">dict</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind.data.frame</a></span><span class="op">(</span><span class="va">economy</span>,<span class="va">migration</span><span class="op">)</span></span>
+<span><span class="va">dict</span></span></code></pre></div>
 <pre><code>##          word     topic
 ## 1     economy   economy
 ## 2       taxes   economy
@@ -624,8 +648,9 @@
 ## 13       daca migration
 ## 14    dreamer migration</code></pre>
 <p>Let’s see if we find some of these words in our comments:</p>
-<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="week-3-dictionary-based-approaches.html#cb178-1" tabindex="-1"></a>ventura_topic <span class="ot">&lt;-</span> tidy_ventura <span class="sc">%&gt;%</span></span>
-<span id="cb178-2"><a href="week-3-dictionary-based-approaches.html#cb178-2" tabindex="-1"></a>  <span class="fu">left_join</span>(dict)</span></code></pre></div>
+<div class="sourceCode" id="cb178"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ventura_topic</span> <span class="op">&lt;-</span> <span class="va">tidy_ventura</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">left_join</span><span class="op">(</span><span class="va">dict</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## Joining with `by = join_by(word)`
 ## left_join: added one column (topic)
 ## &gt; rows only in x 196,175
@@ -633,10 +658,11 @@
 ## &gt; matched rows 1,373
 ## &gt; =========
 ## &gt; rows total 197,548</code></pre>
-<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb180-1"><a href="week-3-dictionary-based-approaches.html#cb180-1" tabindex="-1"></a>ventura_topic <span class="sc">%&gt;%</span></span>
-<span id="cb180-2"><a href="week-3-dictionary-based-approaches.html#cb180-2" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(topic)) <span class="sc">%&gt;%</span></span>
-<span id="cb180-3"><a href="week-3-dictionary-based-approaches.html#cb180-3" tabindex="-1"></a>  <span class="fu">group_by</span>(topic) <span class="sc">%&gt;%</span></span>
-<span id="cb180-4"><a href="week-3-dictionary-based-approaches.html#cb180-4" tabindex="-1"></a>  <span class="fu">count</span>(word, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb180"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ventura_topic</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">filter</span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">topic</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">topic</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">count</span><span class="op">(</span><span class="va">word</span>, sort <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## filter: removed 196,175 rows (99%), 1,373 rows remaining
 ## group_by: one grouping variable (topic)
 ## count: now 11 rows and 3 columns, one group variable remaining (topic)</code></pre>
@@ -657,18 +683,19 @@
 ## 11 migration visa           1</code></pre>
 <p>Not that many. Note that we did not stem or lemmatized our corpus, so in order to get ‘job’ <em>and</em> ‘jobs’ we must have both in our dictionary. That means that the same pre-processing step that we carry our in our corpus, we must also carry our in our dictionary.</p>
 <p>If you are a bit more versed in R language, you will notice that dictionaries are actually lists. <code>quanteda</code> understand dictionaries as lists so we can actually build them as such and use its function <code>likcalike()</code> to find words in text. The added benefit is that we can use <a href="https://linuxhint.com/bash_globbing_tutorial/">glob</a> to find variations of the same word (e.g., <code>job*</code> will match ‘job’ and ‘jobs’ and ‘jobless’).</p>
-<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb183-1"><a href="week-3-dictionary-based-approaches.html#cb183-1" tabindex="-1"></a>dict <span class="ot">&lt;-</span> <span class="fu">dictionary</span>(<span class="fu">list</span>(<span class="at">economy =</span> <span class="fu">c</span>(<span class="st">&quot;econom*&quot;</span>,<span class="st">&quot;tax*&quot;</span>,<span class="st">&quot;inflation&quot;</span>,<span class="st">&quot;debt*&quot;</span>,<span class="st">&quot;employ*&quot;</span>,<span class="st">&quot;job*&quot;</span>),</span>
-<span id="cb183-2"><a href="week-3-dictionary-based-approaches.html#cb183-2" tabindex="-1"></a>                        <span class="at">immigration =</span> <span class="fu">c</span>(<span class="st">&quot;immigrant*&quot;</span>,<span class="st">&quot;border&quot;</span>,<span class="st">&quot;wall&quot;</span>,<span class="st">&quot;alien&quot;</span>,<span class="st">&quot;migrant*&quot;</span>,<span class="st">&quot;visa*&quot;</span>,<span class="st">&quot;daca&quot;</span>,<span class="st">&quot;dreamer*&quot;</span>))) </span>
-<span id="cb183-3"><a href="week-3-dictionary-based-approaches.html#cb183-3" tabindex="-1"></a></span>
-<span id="cb183-4"><a href="week-3-dictionary-based-approaches.html#cb183-4" tabindex="-1"></a><span class="co"># liwcalike lowercases input text</span></span>
-<span id="cb183-5"><a href="week-3-dictionary-based-approaches.html#cb183-5" tabindex="-1"></a>ventura_topics <span class="ot">&lt;-</span> <span class="fu">liwcalike</span>(ventura_etal_df<span class="sc">$</span>comments,</span>
-<span id="cb183-6"><a href="week-3-dictionary-based-approaches.html#cb183-6" tabindex="-1"></a>                               <span class="at">dictionary =</span> dict)</span>
-<span id="cb183-7"><a href="week-3-dictionary-based-approaches.html#cb183-7" tabindex="-1"></a></span>
-<span id="cb183-8"><a href="week-3-dictionary-based-approaches.html#cb183-8" tabindex="-1"></a><span class="co"># liwcalike keeps the order so we can cbind them directly</span></span>
-<span id="cb183-9"><a href="week-3-dictionary-based-approaches.html#cb183-9" tabindex="-1"></a>topics <span class="ot">&lt;-</span> <span class="fu">cbind.data.frame</span>(ventura_etal_df,ventura_topics) </span>
-<span id="cb183-10"><a href="week-3-dictionary-based-approaches.html#cb183-10" tabindex="-1"></a></span>
-<span id="cb183-11"><a href="week-3-dictionary-based-approaches.html#cb183-11" tabindex="-1"></a><span class="co"># Look only at the comments that mention the economy and immigration</span></span>
-<span id="cb183-12"><a href="week-3-dictionary-based-approaches.html#cb183-12" tabindex="-1"></a><span class="fu">head</span>(topics[topics<span class="sc">$</span>economy<span class="sc">&gt;</span><span class="dv">0</span> <span class="sc">&amp;</span> topics<span class="sc">$</span>immigration<span class="sc">&gt;</span><span class="dv">0</span>,])</span></code></pre></div>
+<div class="sourceCode" id="cb183"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dict</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://quanteda.io/reference/dictionary.html">dictionary</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>economy <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"econom*"</span>,<span class="st">"tax*"</span>,<span class="st">"inflation"</span>,<span class="st">"debt*"</span>,<span class="st">"employ*"</span>,<span class="st">"job*"</span><span class="op">)</span>,</span>
+<span>                        immigration <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"immigrant*"</span>,<span class="st">"border"</span>,<span class="st">"wall"</span>,<span class="st">"alien"</span>,<span class="st">"migrant*"</span>,<span class="st">"visa*"</span>,<span class="st">"daca"</span>,<span class="st">"dreamer*"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> </span>
+<span></span>
+<span><span class="co"># liwcalike lowercases input text</span></span>
+<span><span class="va">ventura_topics</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/quanteda.dictionaries/man/liwcalike.html">liwcalike</a></span><span class="op">(</span><span class="va">ventura_etal_df</span><span class="op">$</span><span class="va">comments</span>,</span>
+<span>                               dictionary <span class="op">=</span> <span class="va">dict</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># liwcalike keeps the order so we can cbind them directly</span></span>
+<span><span class="va">topics</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind.data.frame</a></span><span class="op">(</span><span class="va">ventura_etal_df</span>,<span class="va">ventura_topics</span><span class="op">)</span> </span>
+<span></span>
+<span><span class="co"># Look only at the comments that mention the economy and immigration</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">topics</span><span class="op">[</span><span class="va">topics</span><span class="op">$</span><span class="va">economy</span><span class="op">&gt;</span><span class="fl">0</span> <span class="op">&amp;</span> <span class="va">topics</span><span class="op">$</span><span class="va">immigration</span><span class="op">&gt;</span><span class="fl">0</span>,<span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##       text_id
 ## 4998     4999
 ## 6475     6477
@@ -679,7 +706,7 @@
 ##                                                                                                                                              comments
 ## 4998                           Trump is going to create jobs to finish that wall,  hows that working for ya?  I don’t see Mexico paying for it either
 ## 6475                           Trump is trash illegal immigrants pay more taxes than this man and you guys support this broke failure con billionaire
-## 8098                                  $750.00 in taxes in two years?????   BUT HE&#39;S ALL OVER THE PLACE INSULTING IMMIGRANTS WHO PAID MORE IN TAXES!!!
+## 8098                                  $750.00 in taxes in two years?????   BUT HE'S ALL OVER THE PLACE INSULTING IMMIGRANTS WHO PAID MORE IN TAXES!!!
 ## 12331    Ask\n Biden how much he will raise taxes to pay for all the things he says he\n is going to provide everyone - including illegal immigrants!
 ## 14345 Trump has been living the life and does not care for the hard working American...His taxes are not the only rip off...Investigate Wall Money...
 ## 19889                                                               Vote trump out. He needs to pay taxes too ... immigrants pay more than that thief
@@ -706,27 +733,32 @@
 ## 19889     0  0.00   0.00  0.0  0.00    0.00       0  21.05</code></pre>
 <p>The output provides some interesting information. First, <code>economy</code> and <code>immigration</code> gives us the <em>percentage</em> of words in the text that are about the economy or immigration. In general, we would not expect too many words in a sentence to mention, for example, ‘jobs’ to argue that the sentences talks about the economy. So, any number above 0% can be counted as mentioning the economy (unless you have some theoretical grounds where 3% of words mentioning the economy &gt; 2% of words mentioning the economy). For the rest of variables:</p>
 <ul>
-<li><code>WPS</code>: Words per sentence.</li>
-<li><code>WC</code>: Word count.</li>
-<li><code>Sixltr</code>: Six-letter words (%).</li>
-<li><code>Dic</code>: % of words in the dictionary.</li>
-<li><code>Allpunct</code>: % of all punctuation marks.</li>
-<li><code>Period</code> to <code>OtherP</code>: % of specific punctuation marks.</li>
+<li>
+<code>WPS</code>: Words per sentence.</li>
+<li>
+<code>WC</code>: Word count.</li>
+<li>
+<code>Sixltr</code>: Six-letter words (%).</li>
+<li>
+<code>Dic</code>: % of words in the dictionary.</li>
+<li>
+<code>Allpunct</code>: % of all punctuation marks.</li>
+<li>
+<code>Period</code> to <code>OtherP</code>: % of specific punctuation marks.</li>
 </ul>
 <p>With the information obtained, we can find which users were focused more on what topic:</p>
-<pre><code>## mutate: new variable &#39;media&#39; (character) with 3 unique values and 0% NA</code></pre>
-<pre><code>##         new variable &#39;economy_dum&#39; (double) with 2 unique values and 0% NA</code></pre>
-<pre><code>##         new variable &#39;immigration_dum&#39; (double) with 2 unique values and 0% NA</code></pre>
+<pre><code>## mutate: new variable 'media' (character) with 3 unique values and 0% NA</code></pre>
+<pre><code>##         new variable 'economy_dum' (double) with 2 unique values and 0% NA</code></pre>
+<pre><code>##         new variable 'immigration_dum' (double) with 2 unique values and 0% NA</code></pre>
 <pre><code>## group_by: one grouping variable (media)</code></pre>
-<pre><code>## mutate (grouped): new variable &#39;pct_econ&#39; (double) with 3 unique values and 0% NA</code></pre>
-<pre><code>##                   new variable &#39;pct_migr&#39; (double) with 3 unique values and 0% NA</code></pre>
+<pre><code>## mutate (grouped): new variable 'pct_econ' (double) with 3 unique values and 0% NA</code></pre>
+<pre><code>##                   new variable 'pct_migr' (double) with 3 unique values and 0% NA</code></pre>
 <pre><code>## distinct (grouped): removed 29,544 rows (&gt;99%), 3 rows remaining</code></pre>
-<table>
+<div class="inline-table"><table class="table table-sm">
 <caption>
 <span id="tab:unnamed-chunk-50">Table 3.1: </span>% of mentions by topic and media outlet.
 </caption>
-<thead>
-<tr>
+<thead><tr>
 <th style="text-align:left;">
 media
 </th>
@@ -736,8 +768,7 @@ pct_econ
 <th style="text-align:right;">
 pct_migr
 </th>
-</tr>
-</thead>
+</tr></thead>
 <tbody>
 <tr>
 <td style="text-align:left;">
@@ -773,15 +804,18 @@ NBC
 </td>
 </tr>
 </tbody>
-</table>
+</table></div>
 </div>
 <div id="using-pre-built-dictionaries" class="section level3" number="3.5.3">
-<h3><span class="header-section-number">3.5.3</span> Using Pre-Built Dictionaries</h3>
+<h3>
+<span class="header-section-number">3.5.3</span> Using Pre-Built Dictionaries<a class="anchor" aria-label="anchor" href="#using-pre-built-dictionaries"><i class="fas fa-link"></i></a>
+</h3>
 <p>So far we have seen how to apply pre-loaded dictionaries (e.g., sentiment) and our own dictionaries. What if you have a pre-built dictionary that you want to apply to your corpus? As long as the pre-built dictionary has the correct shape, we can use the techniques we have applied so far. This also means that you will need to do some data-wrangling as pre-built dictionaries will come in different shapes.</p>
 <p>Let’s use the NRC Affect Intensity Lexicon (created by the same people who made the pre-loaded <code>nrc</code> sentiment dictionary). The NRC Affect Intensity Lexicon measure the intensity of an emotion in a scale of 0 (low) to 1 (high). For example, ‘defiance’ has an anger intensity of 0.51 and ‘hate’ an anger intensity of 0.83.</p>
-<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="week-3-dictionary-based-approaches.html#cb192-1" tabindex="-1"></a>intense_lex <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="at">file =</span> <span class="st">&quot;data/NRC-AffectIntensity-Lexicon.txt&quot;</span>, <span class="at">fill =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb192-2"><a href="week-3-dictionary-based-approaches.html#cb192-2" tabindex="-1"></a>                          <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb192-3"><a href="week-3-dictionary-based-approaches.html#cb192-3" tabindex="-1"></a><span class="fu">head</span>(intense_lex)</span></code></pre></div>
+<div class="sourceCode" id="cb192"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">intense_lex</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.table</a></span><span class="op">(</span>file <span class="op">=</span> <span class="st">"data/NRC-AffectIntensity-Lexicon.txt"</span>, fill <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>                          header <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">intense_lex</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##         term score AffectDimension
 ## 1   outraged 0.964           anger
 ## 2  brutality 0.959           anger
@@ -790,17 +824,19 @@ NBC
 ## 5  terrorize 0.939           anger
 ## 6 infuriated 0.938           anger</code></pre>
 <p>This is more than a dictionary, and the best use of it to include the intensity of each word to obtain more variation in our analysis of the text (e.g., rather than showing anger-no anger, we can analyze a degree of anger). We will use the <code>tidytext</code> approach to analyze the degrees of ‘joy’ in our corpus.</p>
-<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="week-3-dictionary-based-approaches.html#cb194-1" tabindex="-1"></a>joy_lex <span class="ot">&lt;-</span> intense_lex <span class="sc">%&gt;%</span></span>
-<span id="cb194-2"><a href="week-3-dictionary-based-approaches.html#cb194-2" tabindex="-1"></a>  <span class="fu">filter</span>(AffectDimension<span class="sc">==</span><span class="st">&quot;joy&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb194-3"><a href="week-3-dictionary-based-approaches.html#cb194-3" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">word=</span>term) <span class="sc">%&gt;%</span></span>
-<span id="cb194-4"><a href="week-3-dictionary-based-approaches.html#cb194-4" tabindex="-1"></a>  <span class="fu">select</span>(word,AffectDimension,score)</span></code></pre></div>
+<div class="sourceCode" id="cb194"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">joy_lex</span> <span class="op">&lt;-</span> <span class="va">intense_lex</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">filter</span><span class="op">(</span><span class="va">AffectDimension</span><span class="op">==</span><span class="st">"joy"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>word<span class="op">=</span><span class="va">term</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="va">word</span>,<span class="va">AffectDimension</span>,<span class="va">score</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## filter: removed 4,546 rows (78%), 1,268 rows remaining</code></pre>
-<pre><code>## mutate: new variable &#39;word&#39; (character) with 1,268 unique values and 0% NA</code></pre>
+<pre><code>## mutate: new variable 'word' (character) with 1,268 unique values and 0% NA</code></pre>
 <pre><code>## select: dropped one variable (term)</code></pre>
-<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="week-3-dictionary-based-approaches.html#cb198-1" tabindex="-1"></a>ventura_joy <span class="ot">&lt;-</span> tidy_ventura <span class="sc">%&gt;%</span></span>
-<span id="cb198-2"><a href="week-3-dictionary-based-approaches.html#cb198-2" tabindex="-1"></a>  <span class="fu">left_join</span>(joy_lex) <span class="sc">%&gt;%</span></span>
-<span id="cb198-3"><a href="week-3-dictionary-based-approaches.html#cb198-3" tabindex="-1"></a>  <span class="do">## Most of the comments have no joy words so we will change these NAs to 0 but this is an ad-hoc decision. This decision must be theoretically motivated and justified</span></span>
-<span id="cb198-4"><a href="week-3-dictionary-based-approaches.html#cb198-4" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">score =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(score),<span class="dv">0</span>,score))</span></code></pre></div>
+<div class="sourceCode" id="cb198"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ventura_joy</span> <span class="op">&lt;-</span> <span class="va">tidy_ventura</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">left_join</span><span class="op">(</span><span class="va">joy_lex</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="co">## Most of the comments have no joy words so we will change these NAs to 0 but this is an ad-hoc decision. This decision must be theoretically motivated and justified</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>score <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">score</span><span class="op">)</span>,<span class="fl">0</span>,<span class="va">score</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## Joining with `by = join_by(word)`</code></pre>
 <pre><code>## left_join: added 2 columns (AffectDimension, score)</code></pre>
 <pre><code>##            &gt; rows only in x   184,943</code></pre>
@@ -808,8 +844,9 @@ NBC
 <pre><code>##            &gt; matched rows      12,605</code></pre>
 <pre><code>##            &gt;                 =========</code></pre>
 <pre><code>##            &gt; rows total       197,548</code></pre>
-<pre><code>## mutate: changed 184,943 values (94%) of &#39;score&#39; (184943 fewer NA)</code></pre>
-<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb207-1"><a href="week-3-dictionary-based-approaches.html#cb207-1" tabindex="-1"></a><span class="fu">head</span>(ventura_joy[ventura_joy<span class="sc">$</span>score<span class="sc">&gt;</span><span class="dv">0</span>,])</span></code></pre></div>
+<pre><code>## mutate: changed 184,943 values (94%) of 'score' (184943 fewer NA)</code></pre>
+<div class="sourceCode" id="cb207"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">ventura_joy</span><span class="op">[</span><span class="va">ventura_joy</span><span class="op">$</span><span class="va">score</span><span class="op">&gt;</span><span class="fl">0</span>,<span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    text_id           id likes                  debate       word
 ## 18       2   Anita Hill    61 abc_first_debate_manual        god
 ## 19       2   Anita Hill    61 abc_first_debate_manual      bless
@@ -825,61 +862,64 @@ NBC
 ## 64             joy 0.375
 ## 65             joy 0.438</code></pre>
 <p>Now, we can see the relationship between <code>likes</code> and <code>joy</code>:</p>
-<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb209-1"><a href="week-3-dictionary-based-approaches.html#cb209-1" tabindex="-1"></a><span class="fu">library</span>(MASS) <span class="co"># To add the negative binomial fitted line</span></span></code></pre></div>
+<div class="sourceCode" id="cb209"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://www.stats.ox.ac.uk/pub/MASS4/">MASS</a></span><span class="op">)</span> <span class="co"># To add the negative binomial fitted line</span></span></code></pre></div>
 <pre><code>## 
-## Attaching package: &#39;MASS&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:tidylog&#39;:
+## Attaching package: 'MASS'</code></pre>
+<pre><code>## The following object is masked from 'package:tidylog':
 ## 
 ##     select</code></pre>
-<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+<pre><code>## The following object is masked from 'package:dplyr':
 ## 
 ##     select</code></pre>
-<div class="sourceCode" id="cb213"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb213-1"><a href="week-3-dictionary-based-approaches.html#cb213-1" tabindex="-1"></a>ventura_joy <span class="sc">%&gt;%</span></span>
-<span id="cb213-2"><a href="week-3-dictionary-based-approaches.html#cb213-2" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">media =</span> <span class="fu">ifelse</span>(<span class="fu">str_detect</span>(debate, <span class="st">&quot;abc&quot;</span>), <span class="st">&quot;ABC&quot;</span>, <span class="cn">NA</span>),</span>
-<span id="cb213-3"><a href="week-3-dictionary-based-approaches.html#cb213-3" tabindex="-1"></a>         <span class="at">media =</span> <span class="fu">ifelse</span>(<span class="fu">str_detect</span>(debate, <span class="st">&quot;nbc&quot;</span>), <span class="st">&quot;NBC&quot;</span>, media),</span>
-<span id="cb213-4"><a href="week-3-dictionary-based-approaches.html#cb213-4" tabindex="-1"></a>         <span class="at">media =</span> <span class="fu">ifelse</span>(<span class="fu">str_detect</span>(debate, <span class="st">&quot;fox&quot;</span>), <span class="st">&quot;FOX&quot;</span>, media)) <span class="sc">%&gt;%</span></span>
-<span id="cb213-5"><a href="week-3-dictionary-based-approaches.html#cb213-5" tabindex="-1"></a>  <span class="co"># Calculate mean joy in each comment</span></span>
-<span id="cb213-6"><a href="week-3-dictionary-based-approaches.html#cb213-6" tabindex="-1"></a>  <span class="fu">group_by</span>(text_id) <span class="sc">%&gt;%</span></span>
-<span id="cb213-7"><a href="week-3-dictionary-based-approaches.html#cb213-7" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">mean_joy =</span> <span class="fu">mean</span>(score)) <span class="sc">%&gt;%</span></span>
-<span id="cb213-8"><a href="week-3-dictionary-based-approaches.html#cb213-8" tabindex="-1"></a>  <span class="fu">distinct</span>(text_id,mean_joy,likes,media) <span class="sc">%&gt;%</span></span>
-<span id="cb213-9"><a href="week-3-dictionary-based-approaches.html#cb213-9" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb213-10"><a href="week-3-dictionary-based-approaches.html#cb213-10" tabindex="-1"></a>  <span class="co"># Let&#39;s only look at comments that had SOME joy in them</span></span>
-<span id="cb213-11"><a href="week-3-dictionary-based-approaches.html#cb213-11" tabindex="-1"></a>  <span class="fu">filter</span>(mean_joy <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb213-12"><a href="week-3-dictionary-based-approaches.html#cb213-12" tabindex="-1"></a>  <span class="co"># Remove the ones people like too much</span></span>
-<span id="cb213-13"><a href="week-3-dictionary-based-approaches.html#cb213-13" tabindex="-1"></a>  <span class="fu">filter</span>(likes <span class="sc">&lt;</span> <span class="dv">26</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb213-14"><a href="week-3-dictionary-based-approaches.html#cb213-14" tabindex="-1"></a>  <span class="co"># Plot</span></span>
-<span id="cb213-15"><a href="week-3-dictionary-based-approaches.html#cb213-15" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>mean_joy,<span class="at">y=</span>likes,<span class="at">color=</span>media,<span class="at">fill=</span>media)) <span class="sc">+</span></span>
-<span id="cb213-16"><a href="week-3-dictionary-based-approaches.html#cb213-16" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
-<span id="cb213-17"><a href="week-3-dictionary-based-approaches.html#cb213-17" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;glm.nb&quot;</span>) <span class="sc">+</span></span>
-<span id="cb213-18"><a href="week-3-dictionary-based-approaches.html#cb213-18" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">wes_palette</span>(<span class="st">&quot;BottleRocket2&quot;</span>)) <span class="sc">+</span></span>
-<span id="cb213-19"><a href="week-3-dictionary-based-approaches.html#cb213-19" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">wes_palette</span>(<span class="st">&quot;BottleRocket2&quot;</span>)) <span class="sc">+</span></span>
-<span id="cb213-20"><a href="week-3-dictionary-based-approaches.html#cb213-20" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>media, <span class="at">ncol =</span> <span class="dv">1</span>) <span class="sc">+</span> </span>
-<span id="cb213-21"><a href="week-3-dictionary-based-approaches.html#cb213-21" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb213-22"><a href="week-3-dictionary-based-approaches.html#cb213-22" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">&quot;none&quot;</span>) <span class="sc">+</span></span>
-<span id="cb213-23"><a href="week-3-dictionary-based-approaches.html#cb213-23" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Mean Joy&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Likes&quot;</span>, <span class="at">color =</span> <span class="st">&quot;&quot;</span>, <span class="at">fill =</span> <span class="st">&quot;&quot;</span>)</span></code></pre></div>
-<pre><code>## mutate: new variable &#39;media&#39; (character) with 3 unique values and 0% NA</code></pre>
+<div class="sourceCode" id="cb213"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ventura_joy</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>media <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="va">debate</span>, <span class="st">"abc"</span><span class="op">)</span>, <span class="st">"ABC"</span>, <span class="cn">NA</span><span class="op">)</span>,</span>
+<span>         media <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="va">debate</span>, <span class="st">"nbc"</span><span class="op">)</span>, <span class="st">"NBC"</span>, <span class="va">media</span><span class="op">)</span>,</span>
+<span>         media <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="va">debate</span>, <span class="st">"fox"</span><span class="op">)</span>, <span class="st">"FOX"</span>, <span class="va">media</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="co"># Calculate mean joy in each comment</span></span>
+<span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">text_id</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>mean_joy <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">score</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">distinct</span><span class="op">(</span><span class="va">text_id</span>,<span class="va">mean_joy</span>,<span class="va">likes</span>,<span class="va">media</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">ungroup</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="co"># Let's only look at comments that had SOME joy in them</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">mean_joy</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="co"># Remove the ones people like too much</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">likes</span> <span class="op">&lt;</span> <span class="fl">26</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="co"># Plot</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">mean_joy</span>,y<span class="op">=</span><span class="va">likes</span>,color<span class="op">=</span><span class="va">media</span>,fill<span class="op">=</span><span class="va">media</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.3</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html">geom_smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"glm.nb"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_color_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/wesanderson/man/wes_palette.html">wes_palette</a></span><span class="op">(</span><span class="st">"BottleRocket2"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/wesanderson/man/wes_palette.html">wes_palette</a></span><span class="op">(</span><span class="st">"BottleRocket2"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">media</span>, ncol <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"none"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x<span class="op">=</span><span class="st">"Mean Joy"</span>, y <span class="op">=</span> <span class="st">"Likes"</span>, color <span class="op">=</span> <span class="st">""</span>, fill <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## mutate: new variable 'media' (character) with 3 unique values and 0% NA</code></pre>
 <pre><code>## group_by: one grouping variable (text_id)</code></pre>
-<pre><code>## mutate (grouped): new variable &#39;mean_joy&#39; (double) with 3,118 unique values and 0% NA</code></pre>
+<pre><code>## mutate (grouped): new variable 'mean_joy' (double) with 3,118 unique values and 0% NA</code></pre>
 <pre><code>## distinct (grouped): removed 168,013 rows (85%), 29,535 rows remaining</code></pre>
 <pre><code>## ungroup: no grouping variables</code></pre>
 <pre><code>## filter: removed 20,355 rows (69%), 9,180 rows remaining</code></pre>
 <pre><code>## filter: removed 2,518 rows (27%), 6,662 rows remaining</code></pre>
-<pre><code>## `geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
-<p><img src="main_files/figure-html/unnamed-chunk-53-1.png" width="672" /></p>
+<pre><code>## `geom_smooth()` using formula = 'y ~ x'</code></pre>
+<div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-53-1.png" width="672"></div>
 <p>Finally, for the sake of showing the process, I will write the code to load the dictionary using <code>quanteda</code>, but note that this approach loses all the intensity information.</p>
-<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb222-1"><a href="week-3-dictionary-based-approaches.html#cb222-1" tabindex="-1"></a>affect_dict <span class="ot">&lt;-</span> <span class="fu">dictionary</span>(<span class="fu">list</span>(<span class="at">anger =</span> intense_lex<span class="sc">$</span>term[intense_lex<span class="sc">$</span>AffectDimension<span class="sc">==</span><span class="st">&quot;anger&quot;</span>],</span>
-<span id="cb222-2"><a href="week-3-dictionary-based-approaches.html#cb222-2" tabindex="-1"></a>                        <span class="at">fear =</span> intense_lex<span class="sc">$</span>term[intense_lex<span class="sc">$</span>AffectDimension<span class="sc">==</span><span class="st">&quot;fear&quot;</span>],</span>
-<span id="cb222-3"><a href="week-3-dictionary-based-approaches.html#cb222-3" tabindex="-1"></a>                        <span class="at">joy =</span> intense_lex<span class="sc">$</span>term[intense_lex<span class="sc">$</span>AffectDimension<span class="sc">==</span><span class="st">&quot;joy&quot;</span>],</span>
-<span id="cb222-4"><a href="week-3-dictionary-based-approaches.html#cb222-4" tabindex="-1"></a>                        <span class="at">sadness =</span> intense_lex<span class="sc">$</span>term[intense_lex<span class="sc">$</span>AffectDimension<span class="sc">==</span><span class="st">&quot;sadness&quot;</span>])) </span>
-<span id="cb222-5"><a href="week-3-dictionary-based-approaches.html#cb222-5" tabindex="-1"></a></span>
-<span id="cb222-6"><a href="week-3-dictionary-based-approaches.html#cb222-6" tabindex="-1"></a>ventura_affect <span class="ot">&lt;-</span> <span class="fu">liwcalike</span>(ventura_etal_df<span class="sc">$</span>comments,</span>
-<span id="cb222-7"><a href="week-3-dictionary-based-approaches.html#cb222-7" tabindex="-1"></a>                               <span class="at">dictionary =</span> affect_dict)</span>
-<span id="cb222-8"><a href="week-3-dictionary-based-approaches.html#cb222-8" tabindex="-1"></a></span>
-<span id="cb222-9"><a href="week-3-dictionary-based-approaches.html#cb222-9" tabindex="-1"></a><span class="co"># liwcalike keeps the order so we can cbind them directly</span></span>
-<span id="cb222-10"><a href="week-3-dictionary-based-approaches.html#cb222-10" tabindex="-1"></a>affect <span class="ot">&lt;-</span> <span class="fu">cbind.data.frame</span>(ventura_etal_df,ventura_affect) </span>
-<span id="cb222-11"><a href="week-3-dictionary-based-approaches.html#cb222-11" tabindex="-1"></a></span>
-<span id="cb222-12"><a href="week-3-dictionary-based-approaches.html#cb222-12" tabindex="-1"></a><span class="co"># Look only at the comments that have anger and fear</span></span>
-<span id="cb222-13"><a href="week-3-dictionary-based-approaches.html#cb222-13" tabindex="-1"></a><span class="fu">head</span>(affect[affect<span class="sc">$</span>anger<span class="sc">&gt;</span><span class="dv">0</span> <span class="sc">&amp;</span> affect<span class="sc">$</span>fear<span class="sc">&gt;</span><span class="dv">0</span>,])</span></code></pre></div>
+<div class="sourceCode" id="cb222"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">affect_dict</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://quanteda.io/reference/dictionary.html">dictionary</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>anger <span class="op">=</span> <span class="va">intense_lex</span><span class="op">$</span><span class="va">term</span><span class="op">[</span><span class="va">intense_lex</span><span class="op">$</span><span class="va">AffectDimension</span><span class="op">==</span><span class="st">"anger"</span><span class="op">]</span>,</span>
+<span>                        fear <span class="op">=</span> <span class="va">intense_lex</span><span class="op">$</span><span class="va">term</span><span class="op">[</span><span class="va">intense_lex</span><span class="op">$</span><span class="va">AffectDimension</span><span class="op">==</span><span class="st">"fear"</span><span class="op">]</span>,</span>
+<span>                        joy <span class="op">=</span> <span class="va">intense_lex</span><span class="op">$</span><span class="va">term</span><span class="op">[</span><span class="va">intense_lex</span><span class="op">$</span><span class="va">AffectDimension</span><span class="op">==</span><span class="st">"joy"</span><span class="op">]</span>,</span>
+<span>                        sadness <span class="op">=</span> <span class="va">intense_lex</span><span class="op">$</span><span class="va">term</span><span class="op">[</span><span class="va">intense_lex</span><span class="op">$</span><span class="va">AffectDimension</span><span class="op">==</span><span class="st">"sadness"</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> </span>
+<span></span>
+<span><span class="va">ventura_affect</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/quanteda.dictionaries/man/liwcalike.html">liwcalike</a></span><span class="op">(</span><span class="va">ventura_etal_df</span><span class="op">$</span><span class="va">comments</span>,</span>
+<span>                               dictionary <span class="op">=</span> <span class="va">affect_dict</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># liwcalike keeps the order so we can cbind them directly</span></span>
+<span><span class="va">affect</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind.data.frame</a></span><span class="op">(</span><span class="va">ventura_etal_df</span>,<span class="va">ventura_affect</span><span class="op">)</span> </span>
+<span></span>
+<span><span class="co"># Look only at the comments that have anger and fear</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">affect</span><span class="op">[</span><span class="va">affect</span><span class="op">$</span><span class="va">anger</span><span class="op">&gt;</span><span class="fl">0</span> <span class="op">&amp;</span> <span class="va">affect</span><span class="op">$</span><span class="va">fear</span><span class="op">&gt;</span><span class="fl">0</span>,<span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    text_id
 ## 3        3
 ## 7        7
@@ -918,7 +958,9 @@ NBC
 </div>
 </div>
 <div id="homework" class="section level2" number="3.6">
-<h2><span class="header-section-number">3.6</span> Homework</h2>
+<h2>
+<span class="header-section-number">3.6</span> Homework<a class="anchor" aria-label="anchor" href="#homework"><i class="fas fa-link"></i></a>
+</h2>
 <ol style="list-style-type: decimal">
 <li>Replicate the results from the left-most column of Figure 3 in Ventura et al. (2021)</li>
 <li>Look at the keywords in context for <em>Biden</em> in the <code>ventura_etal_df</code> dataset, and compare the results with the same data, but pre-processed (i.e., lower-case, remove stopwords, etc.). Which provides more information about the context in which <em>Biden</em> appears in the comments?</li>
@@ -927,36 +969,44 @@ NBC
 <li>Using <code>bing</code>, compare the sentiment of comments mentioning <em>trump</em> and comments mentioning <em>biden</em> using different metrics (e.g., Young and Soroka 2012, Martins and Baumard 2020, Ventura et al. 2021).</li>
 <li>Create your own domain-specific dictionary and apply it to the <code>ventura_etal_df</code> dataset. Show the limitation of your dictionary (e.g., false positives) and comment on how much of a problem this would be if you wanted to conduct an analysis of this corpus.</li>
 </ol>
+</div>
+</div>
 
-</div>
-</div>
-<div class="footnotes">
-<hr />
-<ol start="4">
-<li id="fn4"><p>This code is adapted from Christopher Barrie’s course on <a href="https://cjbarrie.github.io/CTA-ED/exercise-2-dictionary-based-methods.html">Computational Text Analysis</a>.<a href="week-3-dictionary-based-approaches.html#fnref4" class="footnote-back">↩︎</a></p></li>
-</ol>
-</div>
-  </main>
-
-  <div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
-    <nav id="toc" data-toggle="toc" aria-label="On this page">
-      <h2>On this page</h2>
-      <div id="book-on-this-page"></div>
+  <div class="chapter-nav">
+<div class="prev"><a href="week-2-tokenization-and-word-frequency.html"><span class="header-section-number">2</span> Week 2: Tokenization and Word Frequency</a></div>
+<div class="next"><a href="week-4-complexity-and-similarity.html"><span class="header-section-number">4</span> Week 4: Complexity and Similarity</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#week-3-dictionary-based-approaches"><span class="header-section-number">3</span> Week 3: Dictionary-Based Approaches</a></li>
+<li><a class="nav-link" href="#slides-2">Slides</a></li>
+<li><a class="nav-link" href="#setup-2"><span class="header-section-number">3.1</span> Setup</a></li>
+<li><a class="nav-link" href="#get-data-2"><span class="header-section-number">3.2</span> Get Data:</a></li>
+<li><a class="nav-link" href="#tokenization-etc."><span class="header-section-number">3.3</span> Tokenization etc.</a></li>
+<li><a class="nav-link" href="#keywords"><span class="header-section-number">3.4</span> Keywords</a></li>
+<li>
+<a class="nav-link" href="#dictionary-approaches"><span class="header-section-number">3.5</span> Dictionary Approaches</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#sentiment-analysis"><span class="header-section-number">3.5.1</span> Sentiment Analysis</a></li>
+<li><a class="nav-link" href="#domain-specific-dictionaries"><span class="header-section-number">3.5.2</span> Domain-Specific Dictionaries</a></li>
+<li><a class="nav-link" href="#using-pre-built-dictionaries"><span class="header-section-number">3.5.3</span> Using Pre-Built Dictionaries</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#homework"><span class="header-section-number">3.6</span> Homework</a></li>
+</ul>
 
       <div class="book-extra">
         <ul class="list-unstyled">
-          <li><a id="book-source" href="#">View source <i class="fab fa-github"></i></a></li>
-          <li><a id="book-edit" href="#">Edit this page <i class="fab fa-github"></i></a></li>
+<li><a id="book-source" href="https://github.com/svallejovera/cpa_uwo/blob/master/03-week3.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/svallejovera/cpa_uwo/edit/master/03-week3.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
         </ul>
-      </div>
+</div>
     </nav>
-  </div>
+</div>
 
 </div>
 </div> <!-- .container -->
 
-<footer class="bg-primary text-light mt-5">
-  <div class="container"><div class="row">
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
     <p>"<strong>PS9594A: Computational Text Analysis</strong>" was written by Dr. Sebastián Vallejo Vera | Western University. It was last built on 2024-01-26.</p>
@@ -967,11 +1017,7 @@ NBC
   </div>
 
 </div></div>
-</footer>
-
-
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
@@ -983,8 +1029,7 @@ NBC
     script.src = src;
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
-</script>
-<script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
 for (let popover of popovers) {
   const div = document.createElement('div');
   div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
@@ -1002,5 +1047,4 @@ for (let popover of popovers) {
 }
 </script>
 </body>
-
 </html>
