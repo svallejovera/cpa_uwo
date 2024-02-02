@@ -1,0 +1,240 @@
+# Week 7: Getting Data
+
+## Slides{.unnumbered}
+
+- 8 Getting Data ([link](https://github.com/svallejovera/cpa_uwo/blob/main/slides/8%20Getting%20Data.pptx) or in Perusall) 
+
+## Setup
+
+As always, we first load the packages that we'll be using:
+
+```{r, warning = F, message = F}
+library(tidyverse) # for wrangling data
+library(tidylog) # to know what we are wrangling
+library(tidytext) # for 'tidy' manipulation of text data
+library(pdftools) # loading pdfs
+library(rvest) # to scrape the webs
+library(httr) # for them pesky sites
+```
+
+## Loading PDFs and OCR 
+
+You might find yourself with a whole bunch of PDFs in your computer that you want to analyze. Some PDFs can be directly uploaded as text. Some PDFs, specially those that come from scans, are actually a set of images that need to be turned into text. For the latter, you first will need to extract text from images using Optical Character Recognition (OCR). The `pdftools` package conveniently includes, both a tool to load pdfs, and an OCR function. Here is how to do both:
+
+```{r eval=FALSE}
+## Loading a pdf document (text):
+
+### 1. Set your working directory
+setwd(directory) 
+
+### 2. Load all the paths to your pdfs in that directory
+pdfs <- list.files(pattern="pdf$", full.names=TRUE) 
+
+### 3. Run a loop that extracts pdfs one by one
+pdfs_df <- NULL # Your df to load pdfs
+
+for(i in 1:length(pdfs)){
+  # The pdf_text will give you a string for each page so I cam collapsing all of
+  # these together. You might not want to do this.
+  temp_txt <- paste(pdf_text(pdfs[i]),collapse = " ")
+  pdfs_df <- rbind.data.frame(pdfs_df,temp_txt)
+  
+  # If you have many pdfs you might want to save every so often... it would suck
+  # if after one hour loading these you get an error and have to start over
+  # from scratch
+  save(pdfs_df,file = "pdfs_df_temp.Rdata")
+}
+
+### 4. Go ahead and clean your text or just save the final version:
+colnames(pdfs_df) <- "text"
+save(pdfs_df,file = "pdfs_df_final.Rdata")
+```
+
+
+```{r eval=FALSE}
+## Loading a pdf document (image):
+
+### 1. Set your working directory
+setwd(directory) 
+
+### 2. Load all the paths to your pdfs in that directory
+pdfs <- list.files(pattern="pdf$", full.names=TRUE) 
+
+### 3. Run a loop that extracts pdfs one by one
+pdfs_df <- NULL # Your df to load pdfs
+
+for(i in 1:length(pdfs)){
+  # You need to specify the language of the text for the pdf_ocr_text function.
+  temp_txt <- paste(pdf_ocr_text(pdfs[i],language = "spa",),collapse = " ")
+  pdfs_df <- rbind.data.frame(pdfs_df,temp_txt)
+  
+  # If you have many pdfs you might want to save every so often... it would suck
+  # if after one hour loading these you get an error and have to start over
+  # from scratch
+  save(pdfs_df,file = "pdfs_df_temp.Rdata")
+}
+
+### 4. Go ahead and clean your text or just save the final version:
+colnames(pdfs_df) <- "text"
+save(pdfs_df,file = "pdfs_df_final.Rdata")
+```
+
+## Scrapping the Webs
+
+Each site is unique. But, often, pages within each site have a consistent design. Let's say we wanted to download some data from Wikipedia (note that there is an [API](https://cran.r-project.org/web/packages/WikipediR/WikipediR.pdf) to access Wikipedia data... always look first for the API). Wikipedia entries have all the same format: https://en.wikipedia.org/wiki/[entry name]. So, if I want to access the Wikipedia page for legendary jazz violinist Regina Carter, I would go to https://en.wikipedia.org/wiki/Regina_Carter. Maybe we want to download information about every Canadian Prime Minister. We can get a list from Wikipedia. To do this, we go their site and look for the object with the information (I will show how this looks in class, and how to get the name of the object):
+
+```{r}
+## Get the link
+link_list <- "https://en.wikipedia.org/wiki/List_of_prime_ministers_of_Canada"
+
+## I am copying the html elements from page:
+webpage_pms<-read_html(link_list) ## This is all the information in the page!!!
+
+## I only want the names of the PM. Because it is wikipedia, I can also extract 
+## the links to each PM's site from this. But let's go step by step:
+names_pms <- webpage_pms %>% 
+  # Getting the column with the required info
+  html_elements("b a") %>%
+  # Getting the text from that column
+  html_text2() 
+
+# There usually is some cleaning to do:
+names_pms <- names_pms[c(1:28)] # DONE!
+
+## Using a similar approach we can extract links to those pages:
+links_pms <- webpage_pms %>% 
+  # Getting the column with the required info
+  html_elements("b a") %>%
+  # Getting the links from that column
+  html_attr("href")
+
+# There usually is some cleaning to do:
+links_pms <- links_pms[c(1:28)] # DONE!
+
+pms_df <- cbind.data.frame(names_pms,links_pms)
+head(pms_df)
+```
+
+Perfect! Now we can "navigate" to each site and download the relevant information. Let's get only the summary paragraphs from each biography and build our corpus with that information. The process is similar to the one we just did, keeping in mind that we already have the links for each PM:
+
+```{r}
+# We will do another loop
+bio_pms <- NULL # to store the info
+
+for(i in 1:length(pms_df$links_pms)){
+  # Get the link
+  link_temp <- paste0("https://en.wikipedia.org",pms_df$links_pms[i])
+  
+  # Get the info from the page
+  webpage_temp <- read_html(link_temp) 
+  
+  # Get the content of the page
+  summ_temp <- webpage_temp %>% 
+    # Getting the column with the required info
+    html_elements(".mw-headline , p") %>%
+    # Getting the text from that column
+    html_text2() 
+  
+  
+  # As always, some cleaning...
+  summ_temp <- paste(summ_temp,collapse = " ")
+  summ_temp <- str_remove(summ_temp,"Early years.*")
+  
+  bio_pms <- rbind.data.frame(bio_pms,summ_temp)
+}
+
+colnames(bio_pms) <- "bios"
+pms_df$bios <- bio_pms$bios
+head(pms_df)
+```
+
+Pretty cool. But maybe you have found a page with documents that you want, and you need to download these documents (in bulk). Here is how to do it (I will give you code to download all the resolutions adopted by the UN Security Council in 2023... I do not run it it does work):
+
+```{r}
+## Get the page info
+webpage_unsc<-read_html("https://www.un.org/securitycouncil/content/resolutions-adopted-security-council-2023") 
+
+## I will keep all the metadata from the resolutions
+
+## Name
+res_name <- webpage_unsc %>% 
+  # Getting the column with the required info
+  html_elements("td:nth-child(1)") %>%
+  # Getting the text from that column
+  html_text2() 
+
+## Date
+res_date <- webpage_unsc %>% 
+  # Getting the column with the required info
+  html_elements("td:nth-child(2)") %>%
+  # Getting the text from that column
+  html_text2() 
+
+## Description
+res_descr <- webpage_unsc %>% 
+  # Getting the column with the required info
+  html_elements("td~ td+ td") %>%
+  # Getting the text from that column
+  html_text2() 
+
+## If you click the name you get the pdf, that means that the link is there. 
+## Let's extract the link as well:
+res_link <- webpage_unsc %>% 
+  # Getting the column with the required info
+  html_elements("td:nth-child(1) a") %>%
+  # Getting the text from that column
+  html_attr("href")
+
+## We can combine all to make a dataframe. This will be useful in the future when I am loading 
+## my pdfs:
+unsc_res_df <- cbind.data.frame(res_name,res_date,res_descr,res_link)
+head(unsc_res_df)
+```
+
+(This is how I use the links to download the pdfs, but DO NOT RUN the whole loop... i will only run the first iteration as an example):
+
+```{r}
+# for(i in 1:length(unsc_res_df$res_link)){
+  ## it seems straightforward but there is a redirect 
+  ## in that link (actually 2) DAMN YOU UN!!
+  
+  ## But there is always a workaround:
+  ### I will get information about where the link is redirecting me using GET from
+  ### the httr library:
+
+  # First redirect
+  redirect_1 <- GET(url = unsc_res_df$res_link[1]) # Change the 1 to i to run the loop
+  content(redirect_1) # We want that URL!!
+  link_rd2 <- content(redirect_1, as = "text")
+  link_rd2 <- str_extract(link_rd2,"URL.*")
+  link_rd2 <- str_remove(link_rd2,"[^html]*$") # Regex and stackoverflow to the rescue
+  link_rd2 <- str_remove(link_rd2,"URL=")
+  link_rd2 <- paste0("https://daccess-ods.un.org",link_rd2) # By looking at the website
+  link_rd2 # Done
+  
+  # Second redirct
+  redirect_2 <- GET(url = link_rd2) # Change the 1 to i to run the loop
+  content(redirect_2) # We want that URL!!
+  link_rd3 <- content(redirect_2, as = "text")
+  link_rd3 <- str_extract(link_rd3,"URL.*")
+  link_rd3 <- str_remove(link_rd3,"[^OpenElement]*$") # Regex and stackoverflow to the rescue
+  link_rd3 <- str_remove(link_rd3,"URL=")
+  link_rd3 # Done
+  
+  # Finally... we can download the file:
+  download.file(url = link_rd3, destfile = paste0(str_replace_all(unsc_res_df$res_name[1],"/"," "),".pdf"),
+              method='auto', mode = "wb") # Replace 1 with i for loop
+#}
+
+```
+
+... and every other site is worse... 
+
+## Other tools
+
+Another VERY POWERFULL tool for data scrapping is `RSelenium`. `RSelenium` allows you to use the [Selenium 2.0 WebDriver](https://www.selenium.dev/documentation/), an umbrella project for a range of tools and libraries that enable and support the automation of web browsers. Imagine navigating a website, but from R. Pretty cool, and useful if you have Java-based websites or websites that were simply not designed to be scrapped. Using `RSelenium` is not easy (not that hard though), so if you ever run to into pesky websites, let me know and I can share some code with you (the installation is not that easy... requires setting up a virtual browser, etc.)
+
+## Exercise (Optional)
+
+You never know when you are going to need to download some data from the interwebs. Maybe you already need to get some data from the web. Go out and try getting it. I am happy to help (it is a frustrating process, so I am happy to help with that, too). 
+

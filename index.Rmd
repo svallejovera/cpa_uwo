@@ -34,6 +34,7 @@ For the first part of this course (Weeks 1 - 5), we will be mainly using R. For 
 - gutenbergr (to download texts from [Project Gutenberg](https://www.gutenberg.org/))
 - wesanderson (to make things pretty)
 - stm (to run Structural Topic Models)
+- pdftools (to load pdfs)
 
 ## Datasets
 
@@ -43,6 +44,8 @@ Throughout the class, we will be using a number of sample datasets. Access to th
 - Data from Project Gutenberg: `gutenbergr`
 - Open-ended question from the 2021 Canadian Election Study survey: [Link to replication material](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/XBZHKC)
 - Open-ended questions from ANES surveys: [Link to ANES homepage](https://electionstudies.org/)
+- The Linked Parliamentary Data Project: [Link to LiPaD](https://www.lipad.ca/)
+- The Manifesto Project: [Link to The Manifesto Project](https://manifesto-project.wzb.eu/)
 
 ## Acknowledgments 
 
