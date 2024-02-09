@@ -50,6 +50,7 @@
 <li><a class="" href="week-5-scaling-techniques-and-topic-modeling.html"><span class="header-section-number">5</span> Week 5: Scaling Techniques and Topic Modeling</a></li>
 <li><a class="" href="week-6-word-embeddings.html"><span class="header-section-number">6</span> Week 6: Word Embeddings</a></li>
 <li><a class="" href="week-7-getting-data.html"><span class="header-section-number">7</span> Week 7: Getting Data</a></li>
+<li><a class="" href="week-8-supervised-learning-i.html"><span class="header-section-number">8</span> Week 8: Supervised Learning I</a></li>
 </ul>
 
         <div class="book-extra">
@@ -271,8 +272,8 @@ year during his productive,” and that one of these characteristics was the len
 <pre><code>## mutate (grouped): new variable 'word_length' (integer) with 16 unique values and 0% NA</code></pre>
 <pre><code>##                   new variable 'median_word_length' (double) with one unique value and 0% NA</code></pre>
 <pre><code>## group_by: 2 grouping variables (word_length, title)</code></pre>
-<pre><code>## mutate (grouped): new variable 'total_word_length' (integer) with 53 unique values and 0% NA</code></pre>
-<pre><code>## distinct (grouped): removed 39,940 rows (&gt;99%), 60 rows remaining</code></pre>
+<pre><code>## mutate (grouped): new variable 'total_word_length' (integer) with 54 unique values and 0% NA</code></pre>
+<pre><code>## distinct (grouped): removed 39,939 rows (&gt;99%), 61 rows remaining</code></pre>
 <pre><code>## select: dropped 2 variables (gutenberg_id, word)</code></pre>
 <div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-8-1.png" width="672"></div>
 <p>Would you look at that. Mendenhall was into something: an author has a mark in terms of word length distribution. For Wilde, there is no observable change across time (each play was published in different years). But, what happens when we compare Wilde’s mark with Shakespeare’s? Let’s choose four plays (at random) by Shakespeare: A Midsummer Night’s Dream, The Merchant of Venice, Much Ado about Nothing, and The Tempest.</p>
@@ -353,8 +354,8 @@ year during his productive,” and that one of these characteristics was the len
 <pre><code>## mutate (grouped): new variable 'word_length' (integer) with 17 unique values and 0% NA</code></pre>
 <pre><code>##                   new variable 'median_word_length' (double) with one unique value and 0% NA</code></pre>
 <pre><code>## group_by: 3 grouping variables (word_length, title, author)</code></pre>
-<pre><code>## mutate (grouped): new variable 'total_word_length' (integer) with 104 unique values and 0% NA</code></pre>
-<pre><code>## distinct (grouped): removed 79,881 rows (&gt;99%), 119 rows remaining</code></pre>
+<pre><code>## mutate (grouped): new variable 'total_word_length' (integer) with 95 unique values and 0% NA</code></pre>
+<pre><code>## distinct (grouped): removed 79,880 rows (&gt;99%), 120 rows remaining</code></pre>
 <pre><code>## select: dropped 2 variables (gutenberg_id, word)</code></pre>
 <div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-10-1.png" width="672"></div>
 <p>Are there any differences? What can we conclude from the evidence? What are the limitations of this approach? Are there alternative approaches to study what Mendenhall was getting at?</p>
@@ -408,7 +409,7 @@ year during his productive,” and that one of these characteristics was the len
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>PS9594A: Computational Text Analysis</strong>" was written by Dr. Sebastián Vallejo Vera | Western University. It was last built on 2024-02-01.</p>
+    <p>"<strong>PS9594A: Computational Text Analysis</strong>" was written by Dr. Sebastián Vallejo Vera | Western University. It was last built on 2024-02-08.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

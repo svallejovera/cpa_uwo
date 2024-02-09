@@ -193,7 +193,7 @@ head(unsc_res_df)
 
 (This is how I use the links to download the pdfs, but DO NOT RUN the whole loop... i will only run the first iteration as an example):
 
-```{r}
+```{r eval=FALSE}
 # for(i in 1:length(unsc_res_df$res_link)){
   ## it seems straightforward but there is a redirect 
   ## in that link (actually 2) DAMN YOU UN!!

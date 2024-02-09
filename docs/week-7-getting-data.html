@@ -50,6 +50,7 @@
 <li><a class="" href="week-5-scaling-techniques-and-topic-modeling.html"><span class="header-section-number">5</span> Week 5: Scaling Techniques and Topic Modeling</a></li>
 <li><a class="" href="week-6-word-embeddings.html"><span class="header-section-number">6</span> Week 6: Word Embeddings</a></li>
 <li><a class="active" href="week-7-getting-data.html"><span class="header-section-number">7</span> Week 7: Getting Data</a></li>
+<li><a class="" href="week-8-supervised-learning-i.html"><span class="header-section-number">8</span> Week 8: Supervised Learning I</a></li>
 </ul>
 
         <div class="book-extra">
@@ -299,39 +300,24 @@
 <span></span>
 <span>  <span class="co"># First redirect</span></span>
 <span>  <span class="va">redirect_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://httr.r-lib.org/reference/GET.html">GET</a></span><span class="op">(</span>url <span class="op">=</span> <span class="va">unsc_res_df</span><span class="op">$</span><span class="va">res_link</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span> <span class="co"># Change the 1 to i to run the loop</span></span>
-<span>  <span class="fu"><a href="https://httr.r-lib.org/reference/content.html">content</a></span><span class="op">(</span><span class="va">redirect_1</span><span class="op">)</span> <span class="co"># We want that URL!!</span></span></code></pre></div>
-<pre><code>## {html_document}
-## &lt;html&gt;
-## [1] &lt;head&gt;&lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8"&gt; ...
-## [2] &lt;body text="#000000"&gt;\n&lt;meta http-equiv="refresh" content="1; URL=/tmp/16 ...</code></pre>
-<div class="sourceCode" id="cb322"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span>  <span class="va">link_rd2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://httr.r-lib.org/reference/content.html">content</a></span><span class="op">(</span><span class="va">redirect_1</span>, as <span class="op">=</span> <span class="st">"text"</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://httr.r-lib.org/reference/content.html">content</a></span><span class="op">(</span><span class="va">redirect_1</span><span class="op">)</span> <span class="co"># We want that URL!!</span></span>
+<span>  <span class="va">link_rd2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://httr.r-lib.org/reference/content.html">content</a></span><span class="op">(</span><span class="va">redirect_1</span>, as <span class="op">=</span> <span class="st">"text"</span><span class="op">)</span></span>
 <span>  <span class="va">link_rd2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_extract.html">str_extract</a></span><span class="op">(</span><span class="va">link_rd2</span>,<span class="st">"URL.*"</span><span class="op">)</span></span>
 <span>  <span class="va">link_rd2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_remove.html">str_remove</a></span><span class="op">(</span><span class="va">link_rd2</span>,<span class="st">"[^html]*$"</span><span class="op">)</span> <span class="co"># Regex and stackoverflow to the rescue</span></span>
 <span>  <span class="va">link_rd2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_remove.html">str_remove</a></span><span class="op">(</span><span class="va">link_rd2</span>,<span class="st">"URL="</span><span class="op">)</span></span>
 <span>  <span class="va">link_rd2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"https://daccess-ods.un.org"</span>,<span class="va">link_rd2</span><span class="op">)</span> <span class="co"># By looking at the website</span></span>
-<span>  <span class="va">link_rd2</span> <span class="co"># Done</span></span></code></pre></div>
-<pre><code>## [1] "https://daccess-ods.un.org/tmp/1604882.47871399.html"</code></pre>
-<div class="sourceCode" id="cb324"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span>  <span class="co"># Second redirct</span></span>
+<span>  <span class="va">link_rd2</span> <span class="co"># Done</span></span>
+<span>  </span>
+<span>  <span class="co"># Second redirct</span></span>
 <span>  <span class="va">redirect_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://httr.r-lib.org/reference/GET.html">GET</a></span><span class="op">(</span>url <span class="op">=</span> <span class="va">link_rd2</span><span class="op">)</span> <span class="co"># Change the 1 to i to run the loop</span></span>
-<span>  <span class="fu"><a href="https://httr.r-lib.org/reference/content.html">content</a></span><span class="op">(</span><span class="va">redirect_2</span><span class="op">)</span> <span class="co"># We want that URL!!</span></span></code></pre></div>
-<pre><code>## No encoding supplied: defaulting to UTF-8.</code></pre>
-<pre><code>## {html_document}
-## &lt;html&gt;
-## [1] &lt;head&gt;\n&lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8 ...
-## [2] &lt;frameset rows="0,100%" framespacing="0" frameborder="0" border="0"&gt;\n&lt;fr ...</code></pre>
-<div class="sourceCode" id="cb327"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span>  <span class="va">link_rd3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://httr.r-lib.org/reference/content.html">content</a></span><span class="op">(</span><span class="va">redirect_2</span>, as <span class="op">=</span> <span class="st">"text"</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## No encoding supplied: defaulting to UTF-8.</code></pre>
-<div class="sourceCode" id="cb329"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span>  <span class="va">link_rd3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_extract.html">str_extract</a></span><span class="op">(</span><span class="va">link_rd3</span>,<span class="st">"URL.*"</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://httr.r-lib.org/reference/content.html">content</a></span><span class="op">(</span><span class="va">redirect_2</span><span class="op">)</span> <span class="co"># We want that URL!!</span></span>
+<span>  <span class="va">link_rd3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://httr.r-lib.org/reference/content.html">content</a></span><span class="op">(</span><span class="va">redirect_2</span>, as <span class="op">=</span> <span class="st">"text"</span><span class="op">)</span></span>
+<span>  <span class="va">link_rd3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_extract.html">str_extract</a></span><span class="op">(</span><span class="va">link_rd3</span>,<span class="st">"URL.*"</span><span class="op">)</span></span>
 <span>  <span class="va">link_rd3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_remove.html">str_remove</a></span><span class="op">(</span><span class="va">link_rd3</span>,<span class="st">"[^OpenElement]*$"</span><span class="op">)</span> <span class="co"># Regex and stackoverflow to the rescue</span></span>
 <span>  <span class="va">link_rd3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_remove.html">str_remove</a></span><span class="op">(</span><span class="va">link_rd3</span>,<span class="st">"URL="</span><span class="op">)</span></span>
-<span>  <span class="va">link_rd3</span> <span class="co"># Done</span></span></code></pre></div>
-<pre><code>## [1] "https://documents-dds-ny.un.org/doc/UNDOC/GEN/N23/432/62/PDF/N2343262.pdf?OpenElement"</code></pre>
-<div class="sourceCode" id="cb331"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span>  <span class="co"># Finally... we can download the file:</span></span>
+<span>  <span class="va">link_rd3</span> <span class="co"># Done</span></span>
+<span>  </span>
+<span>  <span class="co"># Finally... we can download the file:</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/download.file.html">download.file</a></span><span class="op">(</span>url <span class="op">=</span> <span class="va">link_rd3</span>, destfile <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_replace.html">str_replace_all</a></span><span class="op">(</span><span class="va">unsc_res_df</span><span class="op">$</span><span class="va">res_name</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,<span class="st">"/"</span>,<span class="st">" "</span><span class="op">)</span>,<span class="st">".pdf"</span><span class="op">)</span>,</span>
 <span>              method<span class="op">=</span><span class="st">'auto'</span>, mode <span class="op">=</span> <span class="st">"wb"</span><span class="op">)</span> <span class="co"># Replace 1 with i for loop</span></span>
 <span><span class="co">#}</span></span></code></pre></div>
@@ -351,18 +337,9 @@
 
 </div>
 </div>
-
-
-
-
-
-
-
-
-
   <div class="chapter-nav">
 <div class="prev"><a href="week-6-word-embeddings.html"><span class="header-section-number">6</span> Week 6: Word Embeddings</a></div>
-<div class="empty"></div>
+<div class="next"><a href="week-8-supervised-learning-i.html"><span class="header-section-number">8</span> Week 8: Supervised Learning I</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
@@ -390,7 +367,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>PS9594A: Computational Text Analysis</strong>" was written by Dr. Sebastián Vallejo Vera | Western University. It was last built on 2024-02-01.</p>
+    <p>"<strong>PS9594A: Computational Text Analysis</strong>" was written by Dr. Sebastián Vallejo Vera | Western University. It was last built on 2024-02-08.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
