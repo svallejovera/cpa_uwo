@@ -353,7 +353,7 @@ plot(topics_us_pres, "party", method = "difference",
 
 Same results, Republicans mention more Topic 5: Economy.
 
-## Exercise 2:
+## Homework 2:
 
 1. We had a hard time scaling our text. Why looked at some possible problems. What are possible solutions if we want to position U.S. presidents in a ideological scale using text?
 2. Use the `data/candidate-tweets.csv` data to run a STM. Decide what your covariates are going. Decide whether you will use all the data or a sample of the data. Decide if you are going to aggregate/divide in some way the text (i.e., decide your unit of analysis). Decide the number of topics you will look for (try more than one option). What can you tell me about the topics tweeted out by the 2015 U.S. primaries candidates?

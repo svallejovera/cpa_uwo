@@ -1,0 +1,36 @@
+# Week 8: Supervised Learning I
+
+## Slides{.unnumbered}
+
+- 9 SML Intro ([link](https://github.com/svallejovera/cpa_uwo/blob/main/slides/9%20SML%20Intro.pptx) or in Perusall) 
+- 10 SVM and Bi-LSTM ([link](https://github.com/svallejovera/cpa_uwo/blob/main/slides/10%20SVM%20and%20Bi-LSTM.pptx) or in Perusall) 
+
+## Setup
+
+I will not be providing code to run SVM or Bi-LSTM.  However, if you are interested in good tutorials, please check out the following links:
+
+### SVM{.unnumbered}
+
+- scikit-learn: https://scikit-learn.org/stable/modules/svm.html
+  - scikit-learn (but specifically for NLP): https://scikit-learn.org/stable/tutorial/text_analytics/working_with_text_data.html
+- Mehmet Tekman in Kaggel: https://www.kaggle.com/code/mehmetlaudatekman/text-classification-svm-explained
+
+### Bi-LSTM{.unnumbered}
+
+- Ravindu Senaratne in Medium: https://heartbeat.comet.ml/text-classification-using-bi-directional-lstm-ca0070df7a81
+- Nuzulul Khairu Nissa in Medium (compares various model but the best performing one is Bi-LSTM): https://medium.com/mlearning-ai/the-classification-of-text-messages-using-lstm-bi-lstm-and-gru-f79b207f90ad
+- Using GloVe (word embeddings) with Bi-LSTM: https://www.kaggle.com/code/akashkr/tf-keras-tutorial-bi-lstm-glove-gru-part-6
+- Using Word2Vec (word embeddings) with Bi-LSTM: https://www.kaggle.com/code/stoicstatic/twitter-sentiment-analysis-using-word2vec-bilstm 
+
+## Homework 3:
+
+In this week's lecture, we learned a framework for Supervised Machine Learning models. This framework includes creating a training set. 
+
+1. Think of a dataset (corpus) and a classification task. Ideally, both the corpus and the classification task can be used in your final paper. However, it's ok if this is done for this assignment (you will still need to get a corpus). You can choose whatever task, except for sentiment classification. 
+2. Decide the number of categories that you will be predicting. 
+3. Decide the number of observations you will code per category. 
+4. Create a codebook (draft) to guide coders who will (hypothetically) label your training set. 
+5. Label a sample of your data (N=75; decide how you will sample the data and explain your decision). Have a classmate label the same sample. Estimate [inter-coder reliability](http://www.cookbook-r.com/Statistical_analysis/Inter-rater_reliability/) and [evaluate the results](https://statisticsbyjim.com/hypothesis-testing/inter-rater-reliability/).
+6. How difficult/easy was the task? What problems did you run into? What would you change from your codebook to improve it? What other lessons did you learn from this exercise? 
+
+Note: We will be using the codebook and training set for the last assignment (and for an optional assignment).  

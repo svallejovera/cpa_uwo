@@ -428,7 +428,7 @@ affect <- cbind.data.frame(ventura_etal_df,ventura_affect)
 head(affect[affect$anger>0 & affect$fear>0,])
 ```
 
-## Homework
+## Homework 1
 
 1. Replicate the results from the left-most column of Figure 3 in Ventura et al. (2021)
 2. Look at the keywords in context for *Biden* in the `ventura_etal_df` dataset, and compare the results with the same data, but pre-processed (i.e., lower-case, remove stopwords, etc.). Which provides more information about the context in which *Biden* appears in the comments?
