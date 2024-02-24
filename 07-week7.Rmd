@@ -234,6 +234,12 @@ head(unsc_res_df)
 
 Another VERY POWERFULL tool for data scrapping is `RSelenium`. `RSelenium` allows you to use the [Selenium 2.0 WebDriver](https://www.selenium.dev/documentation/), an umbrella project for a range of tools and libraries that enable and support the automation of web browsers. Imagine navigating a website, but from R. Pretty cool, and useful if you have Java-based websites or websites that were simply not designed to be scrapped. Using `RSelenium` is not easy (not that hard though), so if you ever run to into pesky websites, let me know and I can share some code with you (the installation is not that easy... requires setting up a virtual browser, etc.)
 
+## Multimodal Data with Mexca
+
+One tool that has been developed of late (like during Reading Week of late) is [Mexca](https://github.com/mexca/mexca-workshop?tab=readme-ov-file). Mexca is an open-source Python package which aims to capture human emotion expressions from videos in a single pipeline. It is designed for extracting emotion expression features from faces, voices, and speech text in videos. 
+
+Using Mexca does require some coding knowledge in Python, but the authors provide sample code in [google colab](https://colab.research.google.com/github/mexca/mexca-workshop/blob/main/notebooks/20240214_mexca_workshop.ipynb). We will go over their example and talk about possible avenues to use Mexca in your research. In general, Mexca allows researchers to extract multimodal data from videos: image data (emotion), audio data (pitch), and text data (speech). This can be a particularly interesting avenue for those of you interested in political speech (e.g., presidential debates) or political psychology. 
+
 ## Exercise (Optional)
 
 You never know when you are going to need to download some data from the interwebs. Maybe you already need to get some data from the web. Go out and try getting it. I am happy to help (it is a frustrating process, so I am happy to help with that, too). 

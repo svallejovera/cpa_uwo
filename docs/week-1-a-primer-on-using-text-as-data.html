@@ -269,11 +269,11 @@ year during his productive,” and that one of these characteristics was the len
 <span>       caption <span class="op">=</span> <span class="st">"Note: Line type shows median word length."</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## group_by: one grouping variable (title)</code></pre>
 <pre><code>## slice_sample (grouped): removed 20,465 rows (34%), 40,000 rows remaining</code></pre>
-<pre><code>## mutate (grouped): new variable 'word_length' (integer) with 16 unique values and 0% NA</code></pre>
+<pre><code>## mutate (grouped): new variable 'word_length' (integer) with 17 unique values and 0% NA</code></pre>
 <pre><code>##                   new variable 'median_word_length' (double) with one unique value and 0% NA</code></pre>
 <pre><code>## group_by: 2 grouping variables (word_length, title)</code></pre>
-<pre><code>## mutate (grouped): new variable 'total_word_length' (integer) with 54 unique values and 0% NA</code></pre>
-<pre><code>## distinct (grouped): removed 39,939 rows (&gt;99%), 61 rows remaining</code></pre>
+<pre><code>## mutate (grouped): new variable 'total_word_length' (integer) with 56 unique values and 0% NA</code></pre>
+<pre><code>## distinct (grouped): removed 39,940 rows (&gt;99%), 60 rows remaining</code></pre>
 <pre><code>## select: dropped 2 variables (gutenberg_id, word)</code></pre>
 <div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-8-1.png" width="672"></div>
 <p>Would you look at that. Mendenhall was into something: an author has a mark in terms of word length distribution. For Wilde, there is no observable change across time (each play was published in different years). But, what happens when we compare Wilde’s mark with Shakespeare’s? Let’s choose four plays (at random) by Shakespeare: A Midsummer Night’s Dream, The Merchant of Venice, Much Ado about Nothing, and The Tempest.</p>
@@ -354,8 +354,8 @@ year during his productive,” and that one of these characteristics was the len
 <pre><code>## mutate (grouped): new variable 'word_length' (integer) with 17 unique values and 0% NA</code></pre>
 <pre><code>##                   new variable 'median_word_length' (double) with one unique value and 0% NA</code></pre>
 <pre><code>## group_by: 3 grouping variables (word_length, title, author)</code></pre>
-<pre><code>## mutate (grouped): new variable 'total_word_length' (integer) with 95 unique values and 0% NA</code></pre>
-<pre><code>## distinct (grouped): removed 79,880 rows (&gt;99%), 120 rows remaining</code></pre>
+<pre><code>## mutate (grouped): new variable 'total_word_length' (integer) with 100 unique values and 0% NA</code></pre>
+<pre><code>## distinct (grouped): removed 79,883 rows (&gt;99%), 117 rows remaining</code></pre>
 <pre><code>## select: dropped 2 variables (gutenberg_id, word)</code></pre>
 <div class="inline-figure"><img src="main_files/figure-html/unnamed-chunk-10-1.png" width="672"></div>
 <p>Are there any differences? What can we conclude from the evidence? What are the limitations of this approach? Are there alternative approaches to study what Mendenhall was getting at?</p>
@@ -409,7 +409,7 @@ year during his productive,” and that one of these characteristics was the len
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>PS9594A: Computational Text Analysis</strong>" was written by Dr. Sebastián Vallejo Vera | Western University. It was last built on 2024-02-08.</p>
+    <p>"<strong>PS9594A: Computational Text Analysis</strong>" was written by Dr. Sebastián Vallejo Vera | Western University. It was last built on 2024-02-23.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

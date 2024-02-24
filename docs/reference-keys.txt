@@ -48,6 +48,7 @@ setup-6
 loading-pdfs-and-ocr
 scrapping-the-webs
 other-tools
+multimodal-data-with-mexca
 exercise-optional-2
 week-8-supervised-learning-i
 setup-7
