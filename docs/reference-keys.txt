@@ -2,6 +2,7 @@ fig:curve
 tab:unnamed-chunk-50
 software-and-packages
 datasets
+assignments
 acknowledgments
 week-1-a-primer-on-using-text-as-data
 setup
@@ -50,6 +51,7 @@ scrapping-the-webs
 other-tools
 multimodal-data-with-mexca
 exercise-optional-2
-week-8-supervised-learning-i
+week-8-introduction-to-supervised-machine-learning
 setup-7
 homework-3
+week-9-transformers

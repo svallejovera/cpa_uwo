@@ -1,4 +1,4 @@
-# Week 8: Supervised Learning I
+# Week 8: Introduction to Supervised Machine-Learning
 
 ## Slides{.unnumbered}
 

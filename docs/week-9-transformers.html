@@ -4,16 +4,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Chapter 6 Week 6: Word Embeddings | PS9594A: Computational Text Analysis</title>
+<title>Chapter 9 Week 9: Transformers | PS9594A: Computational Text Analysis</title>
 <meta name="author" content="Dr. Sebastián Vallejo Vera | Western University">
-<meta name="description" content="Slides 7 Word Embeddings (link or in Perusall)  6.1 Setup Today we work in python. You can access the jupyter notebook here.">
+<meta name="description" content="Slides 11 Transformers (link or in Perusall)  Setup For this week, our code is solely in Python and we will be running it through Google Colab. Click here to access the Jupyter Notebook for this...">
 <meta name="generator" content="bookdown 0.37 with bs4_book()">
-<meta property="og:title" content="Chapter 6 Week 6: Word Embeddings | PS9594A: Computational Text Analysis">
+<meta property="og:title" content="Chapter 9 Week 9: Transformers | PS9594A: Computational Text Analysis">
 <meta property="og:type" content="book">
-<meta property="og:description" content="Slides 7 Word Embeddings (link or in Perusall)  6.1 Setup Today we work in python. You can access the jupyter notebook here.">
+<meta property="og:description" content="Slides 11 Transformers (link or in Perusall)  Setup For this week, our code is solely in Python and we will be running it through Google Colab. Click here to access the Jupyter Notebook for this...">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Chapter 6 Week 6: Word Embeddings | PS9594A: Computational Text Analysis">
-<meta name="twitter:description" content="Slides 7 Word Embeddings (link or in Perusall)  6.1 Setup Today we work in python. You can access the jupyter notebook here.">
+<meta name="twitter:title" content="Chapter 9 Week 9: Transformers | PS9594A: Computational Text Analysis">
+<meta name="twitter:description" content="Slides 11 Transformers (link or in Perusall)  Setup For this week, our code is solely in Python and we will be running it through Google Colab. Click here to access the Jupyter Notebook for this...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.1/transition.js"></script><script src="libs/bs3compat-0.5.1/tabs.js"></script><script src="libs/bs3compat-0.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
@@ -48,10 +48,10 @@
 <li><a class="" href="week-3-dictionary-based-approaches.html"><span class="header-section-number">3</span> Week 3: Dictionary-Based Approaches</a></li>
 <li><a class="" href="week-4-complexity-and-similarity.html"><span class="header-section-number">4</span> Week 4: Complexity and Similarity</a></li>
 <li><a class="" href="week-5-scaling-techniques-and-topic-modeling.html"><span class="header-section-number">5</span> Week 5: Scaling Techniques and Topic Modeling</a></li>
-<li><a class="active" href="week-6-word-embeddings.html"><span class="header-section-number">6</span> Week 6: Word Embeddings</a></li>
+<li><a class="" href="week-6-word-embeddings.html"><span class="header-section-number">6</span> Week 6: Word Embeddings</a></li>
 <li><a class="" href="week-7-getting-data.html"><span class="header-section-number">7</span> Week 7: Getting Data</a></li>
 <li><a class="" href="week-8-introduction-to-supervised-machine-learning.html"><span class="header-section-number">8</span> Week 8: Introduction to Supervised Machine-Learning</a></li>
-<li><a class="" href="week-9-transformers.html"><span class="header-section-number">9</span> Week 9: Transformers</a></li>
+<li><a class="active" href="week-9-transformers.html"><span class="header-section-number">9</span> Week 9: Transformers</a></li>
 </ul>
 
         <div class="book-extra">
@@ -59,40 +59,55 @@
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="week-6-word-embeddings" class="section level1" number="6">
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="week-9-transformers" class="section level1" number="9">
 <h1>
-<span class="header-section-number">6</span> Week 6: Word Embeddings<a class="anchor" aria-label="anchor" href="#week-6-word-embeddings"><i class="fas fa-link"></i></a>
+<span class="header-section-number">9</span> Week 9: Transformers<a class="anchor" aria-label="anchor" href="#week-9-transformers"><i class="fas fa-link"></i></a>
 </h1>
-<div id="slides-5" class="section level2 unnumbered">
-<h2>Slides<a class="anchor" aria-label="anchor" href="#slides-5"><i class="fas fa-link"></i></a>
+<div id="slides-8" class="section level2 unnumbered">
+<h2>Slides<a class="anchor" aria-label="anchor" href="#slides-8"><i class="fas fa-link"></i></a>
 </h2>
 <ul>
-<li>7 Word Embeddings (<a href="https://github.com/svallejovera/cpa_uwo/blob/main/slides/7%20Word%20Embeddings.pptx">link</a> or in Perusall)</li>
+<li>11 Transformers (<a href="https://github.com/svallejovera/cpa_uwo/blob/main/slides/11%20Transformers.pptx">link</a> or in Perusall)</li>
 </ul>
 </div>
-<div id="setup-5" class="section level2" number="6.1">
-<h2>
-<span class="header-section-number">6.1</span> Setup<a class="anchor" aria-label="anchor" href="#setup-5"><i class="fas fa-link"></i></a>
+<div id="setup-8" class="section level2 unnumbered">
+<h2>Setup<a class="anchor" aria-label="anchor" href="#setup-8"><i class="fas fa-link"></i></a>
 </h2>
-<p>Today we work in python. You can access the jupyter notebook <a href="https://github.com/svallejovera/cpa_uwo/blob/main/06-week6.ipynb">here</a>.</p>
+<p>For this week, our code is solely in Python and we will be running it through Google Colab. <a href="https://colab.research.google.com/drive/1rWh6JVhJ4aZmdTYZUYVYo3AOGb2TOi6b?usp=sharing">Click here</a> to access the Jupyter Notebook for this week.</p>
+<div id="google-colab" class="section level3 unnumbered">
+<h3>Google Colab<a class="anchor" aria-label="anchor" href="#google-colab"><i class="fas fa-link"></i></a>
+</h3>
+<p>Google Colab is a “is a hosted Jupyter Notebook service that requires no setup to use and provides free access to computing resources, including GPUs and TPUs” (as per the Google Colab page). This is convenient for a number of reasons. The most important one is that is gives you GPU access for <em>free</em> (there is no such thing as <em>free</em> in late-stage capitalism). GPUs (graphics processing units) are designed to accelerate computer graphics and, more importantly for us, for parallel computing. This allows for more efficient computation and faster processing time when training machine-learning models. Transformers-based models can use <em>a lot</em> of GPU memory, especially is we want to further pre-train models, or if we have particularly difficult tasks that require larger batches.</p>
 
 </div>
 </div>
+</div>
+
+
+
+
+
+
+
+
+
   <div class="chapter-nav">
-<div class="prev"><a href="week-5-scaling-techniques-and-topic-modeling.html"><span class="header-section-number">5</span> Week 5: Scaling Techniques and Topic Modeling</a></div>
-<div class="next"><a href="week-7-getting-data.html"><span class="header-section-number">7</span> Week 7: Getting Data</a></div>
+<div class="prev"><a href="week-8-introduction-to-supervised-machine-learning.html"><span class="header-section-number">8</span> Week 8: Introduction to Supervised Machine-Learning</a></div>
+<div class="empty"></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#week-6-word-embeddings"><span class="header-section-number">6</span> Week 6: Word Embeddings</a></li>
-<li><a class="nav-link" href="#slides-5">Slides</a></li>
-<li><a class="nav-link" href="#setup-5"><span class="header-section-number">6.1</span> Setup</a></li>
+<li><a class="nav-link" href="#week-9-transformers"><span class="header-section-number">9</span> Week 9: Transformers</a></li>
+<li><a class="nav-link" href="#slides-8">Slides</a></li>
+<li>
+<a class="nav-link" href="#setup-8">Setup</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#google-colab">Google Colab</a></li></ul>
+</li>
 </ul>
 
       <div class="book-extra">
         <ul class="list-unstyled">
-<li><a id="book-source" href="https://github.com/svallejovera/cpa_uwo/blob/master/06-week6.Rmd">View source <i class="fab fa-github"></i></a></li>
-          <li><a id="book-edit" href="https://github.com/svallejovera/cpa_uwo/edit/master/06-week6.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+<li><a id="book-source" href="https://github.com/svallejovera/cpa_uwo/blob/master/09-week9.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/svallejovera/cpa_uwo/edit/master/09-week9.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
         </ul>
 </div>
     </nav>

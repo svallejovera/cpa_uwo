@@ -1,0 +1,17 @@
+# Week 9: Transformers
+
+## Slides{.unnumbered}
+
+- 11 Transformers ([link](https://github.com/svallejovera/cpa_uwo/blob/main/slides/11%20Transformers.pptx) or in Perusall) 
+
+## Setup{.unnumbered}
+
+For this week, our code is solely in Python and we will be running it through Google Colab. [Click here](https://colab.research.google.com/drive/1rWh6JVhJ4aZmdTYZUYVYo3AOGb2TOi6b?usp=sharing) to access the Jupyter Notebook for this week. 
+
+### Google Colab{.unnumbered}
+
+Google Colab is a "is a hosted Jupyter Notebook service that requires no setup to use and provides free access to computing resources, including GPUs and TPUs" (as per the Google Colab page). This is convenient for a number of reasons. The most important one is that is gives you GPU access for *free* (there is no such thing as *free* in late-stage capitalism). GPUs (graphics processing units) are designed to accelerate computer graphics and, more importantly for us, for parallel computing. This allows for more efficient computation and faster processing time when training machine-learning models. Transformers-based models can use *a lot* of GPU memory, especially is we want to further pre-train models, or if we have particularly difficult tasks that require larger batches. 
+
+
+
+

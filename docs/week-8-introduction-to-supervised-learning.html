@@ -4,16 +4,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Chapter 8 Week 8: Supervised Learning I | PS9594A: Computational Text Analysis</title>
+<title>Chapter 9 Week 8: Introduction to Supervised Learning | PS9594A: Computational Text Analysis</title>
 <meta name="author" content="Dr. Sebastián Vallejo Vera | Western University">
-<meta name="description" content="Slides 9 SML Intro (link or in Perusall) 10 SVM and Bi-LSTM (link or in Perusall)  8.1 Setup I will not be providing code to run SVM or Bi-LSTM. However, if you are interested in good tutorials,...">
+<meta name="description" content="Slides 9 SML Intro (link or in Perusall) 10 SVM and Bi-LSTM (link or in Perusall)  9.1 Setup I will not be providing code to run SVM or Bi-LSTM. However, if you are interested in good tutorials,...">
 <meta name="generator" content="bookdown 0.37 with bs4_book()">
-<meta property="og:title" content="Chapter 8 Week 8: Supervised Learning I | PS9594A: Computational Text Analysis">
+<meta property="og:title" content="Chapter 9 Week 8: Introduction to Supervised Learning | PS9594A: Computational Text Analysis">
 <meta property="og:type" content="book">
-<meta property="og:description" content="Slides 9 SML Intro (link or in Perusall) 10 SVM and Bi-LSTM (link or in Perusall)  8.1 Setup I will not be providing code to run SVM or Bi-LSTM. However, if you are interested in good tutorials,...">
+<meta property="og:description" content="Slides 9 SML Intro (link or in Perusall) 10 SVM and Bi-LSTM (link or in Perusall)  9.1 Setup I will not be providing code to run SVM or Bi-LSTM. However, if you are interested in good tutorials,...">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Chapter 8 Week 8: Supervised Learning I | PS9594A: Computational Text Analysis">
-<meta name="twitter:description" content="Slides 9 SML Intro (link or in Perusall) 10 SVM and Bi-LSTM (link or in Perusall)  8.1 Setup I will not be providing code to run SVM or Bi-LSTM. However, if you are interested in good tutorials,...">
+<meta name="twitter:title" content="Chapter 9 Week 8: Introduction to Supervised Learning | PS9594A: Computational Text Analysis">
+<meta name="twitter:description" content="Slides 9 SML Intro (link or in Perusall) 10 SVM and Bi-LSTM (link or in Perusall)  9.1 Setup I will not be providing code to run SVM or Bi-LSTM. However, if you are interested in good tutorials,...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.1/transition.js"></script><script src="libs/bs3compat-0.5.1/tabs.js"></script><script src="libs/bs3compat-0.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
@@ -41,27 +41,16 @@
 </form>
 
       <nav aria-label="Table of contents"><h2>Table of contents</h2>
-        <ul class="book-toc list-unstyled">
-<li><a class="" href="index.html">“Computational Text Analysis”</a></li>
-<li><a class="" href="week-1-a-primer-on-using-text-as-data.html"><span class="header-section-number">1</span> Week 1: A Primer on Using Text as Data</a></li>
-<li><a class="" href="week-2-tokenization-and-word-frequency.html"><span class="header-section-number">2</span> Week 2: Tokenization and Word Frequency</a></li>
-<li><a class="" href="week-3-dictionary-based-approaches.html"><span class="header-section-number">3</span> Week 3: Dictionary-Based Approaches</a></li>
-<li><a class="" href="week-4-complexity-and-similarity.html"><span class="header-section-number">4</span> Week 4: Complexity and Similarity</a></li>
-<li><a class="" href="week-5-scaling-techniques-and-topic-modeling.html"><span class="header-section-number">5</span> Week 5: Scaling Techniques and Topic Modeling</a></li>
-<li><a class="" href="week-6-word-embeddings.html"><span class="header-section-number">6</span> Week 6: Word Embeddings</a></li>
-<li><a class="" href="week-7-getting-data.html"><span class="header-section-number">7</span> Week 7: Getting Data</a></li>
-<li><a class="active" href="week-8-supervised-learning-i.html"><span class="header-section-number">8</span> Week 8: Supervised Learning I</a></li>
-<li><a class="" href="week-9-transformers.html"><span class="header-section-number">9</span> Week 9: Transformers</a></li>
-</ul>
+        <ul class="book-toc list-unstyled"><li><a class="" href="index.html"><span class="header-section-number">Chapter 9</span> Week 8: Introduction to Supervised Learning</a></li></ul>
 
         <div class="book-extra">
           <p><a id="book-repo" href="https://github.com/svallejovera/cpa_uwo">View book source <i class="fab fa-github"></i></a></p>
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="week-8-supervised-learning-i" class="section level1" number="8">
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="week-8-introduction-to-supervised-learning" class="section level1" number="9">
 <h1>
-<span class="header-section-number">8</span> Week 8: Supervised Learning I<a class="anchor" aria-label="anchor" href="#week-8-supervised-learning-i"><i class="fas fa-link"></i></a>
+<span class="header-section-number">9</span> Week 8: Introduction to Supervised Learning<a class="anchor" aria-label="anchor" href="#week-8-introduction-to-supervised-learning"><i class="fas fa-link"></i></a>
 </h1>
 <div id="slides-7" class="section level2 unnumbered">
 <h2>Slides<a class="anchor" aria-label="anchor" href="#slides-7"><i class="fas fa-link"></i></a>
@@ -71,9 +60,9 @@
 <li>10 SVM and Bi-LSTM (<a href="https://github.com/svallejovera/cpa_uwo/blob/main/slides/10%20SVM%20and%20Bi-LSTM.pptx">link</a> or in Perusall)</li>
 </ul>
 </div>
-<div id="setup-7" class="section level2" number="8.1">
+<div id="setup-7" class="section level2" number="9.1">
 <h2>
-<span class="header-section-number">8.1</span> Setup<a class="anchor" aria-label="anchor" href="#setup-7"><i class="fas fa-link"></i></a>
+<span class="header-section-number">9.1</span> Setup<a class="anchor" aria-label="anchor" href="#setup-7"><i class="fas fa-link"></i></a>
 </h2>
 <p>I will not be providing code to run SVM or Bi-LSTM. However, if you are interested in good tutorials, please check out the following links:</p>
 <div id="svm" class="section level3 unnumbered">
@@ -105,9 +94,9 @@
 </ul>
 </div>
 </div>
-<div id="homework-3" class="section level2" number="8.2">
+<div id="homework-3" class="section level2" number="9.2">
 <h2>
-<span class="header-section-number">8.2</span> Homework 3:<a class="anchor" aria-label="anchor" href="#homework-3"><i class="fas fa-link"></i></a>
+<span class="header-section-number">9.2</span> Homework 3:<a class="anchor" aria-label="anchor" href="#homework-3"><i class="fas fa-link"></i></a>
 </h2>
 <p>In this week’s lecture, we learned a framework for Supervised Machine Learning models. This framework includes creating a training set.</p>
 <ol style="list-style-type: decimal">
@@ -123,26 +112,15 @@
 </div>
 </div>
   <div class="chapter-nav">
-<div class="prev"><a href="week-7-getting-data.html"><span class="header-section-number">7</span> Week 7: Getting Data</a></div>
-<div class="next"><a href="week-9-transformers.html"><span class="header-section-number">9</span> Week 9: Transformers</a></div>
+<div class="empty"></div>
+<div class="empty"></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
-      <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#week-8-supervised-learning-i"><span class="header-section-number">8</span> Week 8: Supervised Learning I</a></li>
-<li><a class="nav-link" href="#slides-7">Slides</a></li>
-<li>
-<a class="nav-link" href="#setup-7"><span class="header-section-number">8.1</span> Setup</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#svm">SVM</a></li>
-<li><a class="nav-link" href="#bi-lstm">Bi-LSTM</a></li>
-</ul>
-</li>
-<li><a class="nav-link" href="#homework-3"><span class="header-section-number">8.2</span> Homework 3:</a></li>
-</ul>
+      <div id="book-on-this-page"></div>
 
       <div class="book-extra">
         <ul class="list-unstyled">
-<li><a id="book-source" href="https://github.com/svallejovera/cpa_uwo/blob/master/08-week8.Rmd">View source <i class="fab fa-github"></i></a></li>
-          <li><a id="book-edit" href="https://github.com/svallejovera/cpa_uwo/edit/master/08-week8.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+          
         </ul>
 </div>
     </nav>
@@ -162,34 +140,6 @@
   </div>
 
 </div></div>
-</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
-  (function () {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    var src = "true";
-    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
-    if (location.protocol !== "file:")
-      if (/^https?:/.test(src))
-        src = src.replace(/^https?:/, '');
-    script.src = src;
-    document.getElementsByTagName("head")[0].appendChild(script);
-  })();
-</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
-for (let popover of popovers) {
-  const div = document.createElement('div');
-  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
-  div.innerHTML = popover.getAttribute('data-content');
-
-  var has_math = div.querySelector("span.math");
-  if (has_math) {
-    document.body.appendChild(div);
-    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
-    MathJax.Hub.Queue(function() {
-      popover.setAttribute('data-content', div.innerHTML);
-      document.body.removeChild(div);
-    })
-  }
-}
-</script>
+</footer>
 </body>
 </html>

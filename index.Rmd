@@ -47,6 +47,29 @@ Throughout the class, we will be using a number of sample datasets. Access to th
 - The Linked Parliamentary Data Project: [Link to LiPaD](https://www.lipad.ca/)
 - The Manifesto Project: [Link to The Manifesto Project](https://manifesto-project.wzb.eu/)
 
+## Assignments
+
+```{r table2, echo=FALSE, message=FALSE, warnings=FALSE, results='asis'}
+tabl <- "
+| Weeks          | Assignment?           |
+|---------------|-------------|
+| 1: A Primer on Using Text as Data      | Optional |
+| 2: Tokenization and Word Frequency      | No      |
+| 3: Dictionary-Based Approaches | Homework 1      |
+| 4: Complexity and Similarity | Optional     |
+| 5: Scaling Techniques and Topic Modeling | Homework 2 |
+| 6: Word Embeddings | No   |
+| 7: Getting Data | Optional   |
+| 8: Introduction to Supervised Machine-Learning | Homework 3 |
+| 9: Transformers | Optional |
+| 10: Do We Even Need Theory Anymore? | No |
+| 11: Llama 2, ChatGPT, and Generative Modeling | Optional |
+"
+cat(tabl) # output the table in a format good for HTML/PDF/docx conversion
+```
+
+For Homework 4, students will present to the class a summary of their final paper (Week 12). The rest of the class will provide feedback. You can find a suggested format for your presentation in [this link](https://github.com/svallejovera/cpa_uwo/blob/main/slides/Assignment%204.pdf).
+
 ## Acknowledgments 
 
 The organization of the first part of this course (Weeks 1 - 5) and the format of the assignments are borrowed from Christopher Barrie's excellent course on ["Computational Text Analysis"](https://cjbarrie.github.io/CTA-ED/), a syllabus from the prolific [Tiago Ventura](https://www.venturatiago.com/), and Grimmer, Roberts, and Stewart's excellent book, ["Text as data: A new framework for machine learning and the social sciences"](https://press.princeton.edu/books/paperback/9780691207551/text-as-data). The code used throughout the course is a patchwork of my own code, but my own code borrows heavily from the internet (but that's true for all code). I try my best to give credit to the original authors of the code (when and if possible).
