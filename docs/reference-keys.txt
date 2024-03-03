@@ -3,6 +3,7 @@ tab:unnamed-chunk-50
 software-and-packages
 datasets
 assignments
+final-paper
 acknowledgments
 week-1-a-primer-on-using-text-as-data
 setup

@@ -46,6 +46,8 @@ Throughout the class, we will be using a number of sample datasets. Access to th
 - Open-ended questions from ANES surveys: [Link to ANES homepage](https://electionstudies.org/)
 - The Linked Parliamentary Data Project: [Link to LiPaD](https://www.lipad.ca/)
 - The Manifesto Project: [Link to The Manifesto Project](https://manifesto-project.wzb.eu/)
+- [Harvard Dataverse](https://dataverse.harvard.edu/)
+- [Kaggle Datasets](https://www.kaggle.com/datasets)
 
 ## Assignments
 
@@ -69,6 +71,22 @@ cat(tabl) # output the table in a format good for HTML/PDF/docx conversion
 ```
 
 For Homework 4, students will present to the class a summary of their final paper (Week 12). The rest of the class will provide feedback. You can find a suggested format for your presentation in [this link](https://github.com/svallejovera/cpa_uwo/blob/main/slides/Assignment%204.pdf).
+
+## Final Paper
+
+The objective of this activity is for you to write a 4000-word max essay on a subject previously approved by me. Think of it as a research note for a journal (see, for example, the [Letters at APSR](https://www.cambridge.org/core/journals/american-political-science-review/information/author-instructions/preparing-your-materials)).
+
+I will provide a range of data sources to choose from, but you are welcome (encouraged) to suggest your own.
+
+The essay should include all of the following:
+
+1. a research question;
+2. at least one computational text analysis technique that we have studied;
+3. an analysis of the data source you have provided;
+4. a write up of the initial findings;
+5. an outline of potential extensions of your analysis.
+
+You will also need to provide the code you used in reproducible (markdown) format and will be assessed on both the substantive content of your essay contribution (the social science part) and your demonstrated competency in coding and text analysis (the computational part). While you will only be graded on the final submission, I encourage you to submit advances and/or come to office hours to revise your work. I am happy to provide feedback on your essay's substantive and technical aspects. If this applies to you, use this opportunity to work on sections of your thesis/dissertation/working paper that will require or can be further developed by applying computational text analysis techniques.
 
 ## Acknowledgments 
 
