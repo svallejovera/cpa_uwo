@@ -28,9 +28,9 @@ In this week's lecture, we learned a framework for Supervised Machine Learning m
 
 1. Think of a dataset (corpus) and a classification task. Ideally, both the corpus and the classification task can be used in your final paper. However, it's ok if this is done for this assignment (you will still need to get a corpus). You can choose whatever task, except for sentiment classification. 
 2. Decide the number of categories that you will be predicting. 
-3. Decide the number of observations you will code per category. 
+3. Decide the number of observations you will code per category.
 4. Create a codebook (draft) to guide coders who will (hypothetically) label your training set. 
-5. Label a sample of your data (N=75; decide how you will sample the data and explain your decision). Have a classmate label the same sample. Estimate [inter-coder reliability](http://www.cookbook-r.com/Statistical_analysis/Inter-rater_reliability/) and [evaluate the results](https://statisticsbyjim.com/hypothesis-testing/inter-rater-reliability/).
+5. Label a sample of your data (N=100; decide how you will sample the data and explain your decision). Have a classmate label the same sample (you can find the coder pairing [here]()). Estimate [inter-coder reliability](http://www.cookbook-r.com/Statistical_analysis/Inter-rater_reliability/) and [evaluate the results](https://statisticsbyjim.com/hypothesis-testing/inter-rater-reliability/).
 6. How difficult/easy was the task? What problems did you run into? What would you change from your codebook to improve it? What other lessons did you learn from this exercise? 
 
-Note: We will be using the codebook and training set for the last assignment (and for an optional assignment).  
+Note: We will be using the codebook and training set for an optional assignment (next week). It can also be the basis for your final paper.  
