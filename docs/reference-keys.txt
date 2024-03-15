@@ -56,3 +56,4 @@ week-8-introduction-to-supervised-machine-learning
 setup-7
 homework-3
 week-9-transformers
+week-11-chatgpt-and-llama-2

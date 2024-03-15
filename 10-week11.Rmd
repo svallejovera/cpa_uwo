@@ -1,0 +1,12 @@
+# Week 11: ChatGPT and LLaMa-2
+
+## Slides{.unnumbered}
+
+- 13 ChatGPT and LLaMa-2 ([link](https://github.com/svallejovera/cpa_uwo/blob/main/slides/13%ChatGPT%20and%20LLaMa2.pptx) or in Perusall) 
+
+## Setup{.unnumbered}
+
+For this week, our code is solely in Python and we will be running it through Google Colab. [Click here](https://colab.research.google.com/drive/1lWdpeA4Gs2yvOc-6buyIsIfeF0dLcv_U?usp=sharing) to access the Jupyter Notebook for this week. 
+
+
+
